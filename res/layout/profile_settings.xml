@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/profile_settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_settings"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+        <LinearLayout
+            android:id="@+id/profile_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/profile_spinner"
+                android:layout_width="234dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.68" />
+
+            <Button
+                android:id="@+id/new_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_new" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/server_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/server_title" />
+
+        <EditText
+            android:id="@+id/server_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/username_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username_title" />
+
+        <EditText
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/password_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password_title" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textPassword" />
+
+            <ToggleButton
+                android:id="@+id/remember_password_togglebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton" />
+
+        </LinearLayout>
+
+</LinearLayout>

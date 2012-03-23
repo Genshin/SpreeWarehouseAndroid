@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/warehouse_settings_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+
+        <ImageView
+            android:id="@+id/imageViewGSLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="92px"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/menu_buttons"
+            android:src="@drawable/genshin_gk64" />
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="92px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageViewSpreeLogo"
+            android:onClick="settingsClickHandler"
+            android:src="@android:drawable/ic_menu_manage" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="92px"
+            android:layout_height="92px"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageViewGSLogo"
+            android:src="@drawable/freestyle" />
+
+        <ImageView
+            android:id="@+id/imageViewSpreeLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="92px"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageView1"
+            android:src="@drawable/spree" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/login_toggleButton" >
+
+        <ListView
+            android:id="@+id/main_menu_actions_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+        </ListView>
+
+        <Button
+            android:id="@+id/scan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/scan" />
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/login_toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="ToggleButton" />
+
+    <Spinner
+        android:id="@+id/warehouse_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/login_toggleButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/login_toggleButton"
+        android:layout_toLeftOf="@+id/login_toggleButton"
+        android:layout_weight="1" />
+
+</RelativeLayout>

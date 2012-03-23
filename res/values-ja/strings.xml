@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">こんにちは</string>
+    <string name="app_name">Warehouse</string>
+    <string name="warehouse_title">Warehouse倉庫管理システム</string>
+    <string name="title">Warehouse</string>
+    <string name="products">商品</string>
+    <string name="orders">注文</string>
+    <string name="stocking">入荷</string>
+    <string name="shipping">発送</string>
+    <string name="server_address_text">サーバアドレス:</string>
+    <string name="username_text">ユーザ名:</string>
+    <string name="password_text">パスワード</string>
+    <string name="save_password_checkbox">パスワードを保存する</string>
+    <string name="select_profile_spinner">プロフィール選択</string>
+    <string name="settings">設定</string>
+    <string name="profile">プロフィール</string>
+    <string name="edit">編集</string>
+    <string name="register_new">新規</string>
+    <string-array name="settings_list_items">
+        <item name="profiles">プロフィール</item>
+        <item name="defaults">定義</item>
+        <item name="defaults">カメラ</item>
+    </string-array>
+        <string name="profile_settings">プロフィール設定</string>
+        <string name="server_title">サーバ</string>
+        <string name="username_title">ユーザ</string>
+        <string name="password_title">パスワード</string>
+        <string name="scan">コードスキャン</string>
+        <string name="picking">ピッキング</string>
+        <string name="packing">梱包</string>
+        <string name="main_menu">メインメニュー</string>
+        <string name="search">検索</string>
+        <string name="clear">クリア</string>
+        <string name="search_conditions">検索案件</string>
+        <string name="product_name">商品名</string>
+        <string name="zero">0</string>
+        <string name="sku">品番</string>
+</resources>

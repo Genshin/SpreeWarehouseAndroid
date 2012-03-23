@@ -8,16 +8,114 @@
 package org.genshin.warehouse;
 
 public final class R {
+    public static final class array {
+        public static final int settings_list_items=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int barcodesample=0x7f020000;
+        public static final int freestyle=0x7f020001;
+        public static final int genshin_gk64=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int orders=0x7f020004;
+        public static final int packing=0x7f020005;
+        public static final int picking=0x7f020006;
+        public static final int products=0x7f020007;
+        public static final int qrsample=0x7f020008;
+        public static final int scanicon=0x7f020009;
+        public static final int scanicon_sm=0x7f02000a;
+        public static final int shipping=0x7f02000b;
+        public static final int spree=0x7f02000c;
+        public static final int stocking=0x7f02000d;
+    }
+    public static final class id {
+        public static final int RelativeLayout1=0x7f06000c;
+        public static final int bottom_bar=0x7f060001;
+        public static final int imageView1=0x7f060006;
+        public static final int imageViewGSLogo=0x7f060002;
+        public static final int imageViewSpreeLogo=0x7f060005;
+        public static final int linearLayout1=0x7f060015;
+        public static final int linearLayout2=0x7f060007;
+        public static final int login_toggleButton=0x7f060008;
+        public static final int main_menu_actions_list=0x7f060009;
+        public static final int menu_buttons=0x7f060003;
+        public static final int menu_item_icon=0x7f06000d;
+        public static final int menu_item_subtext=0x7f06000f;
+        public static final int menu_item_title=0x7f06000e;
+        public static final int new_profile_button=0x7f06001e;
+        public static final int password_input=0x7f060024;
+        public static final int password_title=0x7f060023;
+        public static final int producs_menu_order_spinner=0x7f060016;
+        public static final int product_menu_list=0x7f06001a;
+        public static final int product_menu_searchbox=0x7f060014;
+        public static final int products_list_item_count=0x7f060012;
+        public static final int products_list_item_image=0x7f060010;
+        public static final int products_list_item_name=0x7f060011;
+        public static final int products_list_item_sku=0x7f060013;
+        public static final int products_menu_clear_button=0x7f060017;
+        public static final int products_menu_scan_button=0x7f060019;
+        public static final int products_menu_search_button=0x7f060018;
+        public static final int profile_section=0x7f06001c;
+        public static final int profile_settings_title=0x7f06001b;
+        public static final int profile_spinner=0x7f06001d;
+        public static final int remember_password_togglebutton=0x7f060025;
+        public static final int scan_button=0x7f06000a;
+        public static final int server_input=0x7f060020;
+        public static final int server_title=0x7f06001f;
+        public static final int settings_button=0x7f060004;
+        public static final int settings_category_list=0x7f060027;
+        public static final int settings_title=0x7f060026;
+        public static final int username_input=0x7f060022;
+        public static final int username_title=0x7f060021;
+        public static final int warehouse_select=0x7f06000b;
+        public static final int warehouse_settings_layout=0x7f060000;
     }
     public static final class layout {
         public static final int main=0x7f030000;
+        public static final int main_menu=0x7f030001;
+        public static final int main_menu_item=0x7f030002;
+        public static final int orders=0x7f030003;
+        public static final int packing=0x7f030004;
+        public static final int picking=0x7f030005;
+        public static final int product_list_item=0x7f030006;
+        public static final int products=0x7f030007;
+        public static final int profile_settings=0x7f030008;
+        public static final int shipping=0x7f030009;
+        public static final int stocking=0x7f03000a;
+        public static final int warehouse_settings=0x7f03000b;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
+        public static final int app_name=0x7f040002;
+        public static final int clear=0x7f040013;
+        public static final int edit=0x7f04000e;
         public static final int hello=0x7f040000;
+        public static final int main_menu=0x7f04001e;
+        public static final int orders=0x7f040005;
+        public static final int packing=0x7f04001d;
+        public static final int password_text=0x7f040009;
+        public static final int password_title=0x7f04001b;
+        public static final int picking=0x7f04001c;
+        public static final int product_name=0x7f040015;
+        public static final int products=0x7f040004;
+        public static final int profile=0x7f04000d;
+        public static final int profile_settings=0x7f040018;
+        public static final int register_new=0x7f04000f;
+        public static final int save_password_checkbox=0x7f04000a;
+        public static final int scan=0x7f040010;
+        public static final int search=0x7f040012;
+        public static final int search_conditions=0x7f040014;
+        public static final int select_profile_spinner=0x7f04000b;
+        public static final int server_address_text=0x7f040007;
+        public static final int server_title=0x7f040019;
+        public static final int settings=0x7f04000c;
+        public static final int shipping=0x7f040006;
+        public static final int sku=0x7f040017;
+        public static final int stocking=0x7f040011;
+        public static final int title=0x7f040001;
+        public static final int username_text=0x7f040008;
+        public static final int username_title=0x7f04001a;
+        public static final int warehouse_title=0x7f040003;
+        public static final int zero=0x7f040016;
     }
 }

@@ -18,6 +18,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".settings.WarehouseSettingsActivity"
+            android:label="@string/settings" >
+            
+        </activity>
+        <activity 
+            android:name=".products.ProductsMenuActivity"
+            android:label="@string/products" >
+            
+        </activity>
+        <activity 
+            android:name=".orders.OrdersMenuActivity"
+            android:label="@string/orders" >
+            
+        </activity>
+        <activity 
+            android:name=".stocking.StockingMenuActivity"
+            android:label="@string/stocking" >
+            
+        </activity>
+        <activity 
+            android:name=".picking.PickingMenuActivity"
+            android:label="@string/picking" >
+            
+        </activity>
+        <activity 
+            android:name=".packing.PackingMenuActivity"
+            android:label="@string/packing" >
+            
+        </activity>
+        <activity 
+            android:name=".shipping.ShippingMenuActivity"
+            android:label="@string/shipping" >
+            
+        </activity>
     </application>
 
 </manifest>

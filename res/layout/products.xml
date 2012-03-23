@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/product_menu_searchbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_conditions" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Spinner
+            android:id="@+id/producs_menu_order_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/products_menu_clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/clear" />
+
+        <Button
+            android:id="@+id/products_menu_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search" />
+
+        <ImageButton
+            android:id="@+id/products_menu_scan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/scanicon_sm" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/product_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="398dp" >
+
+    </ListView>
+
+</LinearLayout>
