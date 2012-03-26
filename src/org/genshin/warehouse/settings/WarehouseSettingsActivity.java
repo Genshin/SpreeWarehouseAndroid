@@ -20,9 +20,14 @@ public class WarehouseSettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.warehouse_settings);
 
+        final class MLI {
+        	
+        }
+        
+        //menuListItems 
+        
 		ListView menuList = (ListView) findViewById(R.id.settings_category_list);
         String[] settingsListItems = getResources().getStringArray(R.array.settings_list_items); 
-		//setContentView(menuList);
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 			android.R.layout.simple_list_item_1, android.R.id.text1, settingsListItems);
