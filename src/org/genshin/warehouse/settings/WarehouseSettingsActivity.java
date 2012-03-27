@@ -1,7 +1,7 @@
 package org.genshin.warehouse.settings;
 
+import org.genshin.gsa.SimpleMenuList;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.R.array;
 import org.genshin.warehouse.R.id;
 import org.genshin.warehouse.R.layout;
 
@@ -20,17 +20,18 @@ public class WarehouseSettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.warehouse_settings);
 
-        final class MLI {
-        	
-        }
-        
-        //menuListItems 
-        
+              
 		ListView menuList = (ListView) findViewById(R.id.settings_category_list);
-        String[] settingsListItems = getResources().getStringArray(R.array.settings_list_items); 
+        
+        SimpleMenuList menu = new SimpleMenuList(this);
+        	menu.add(R.string.profiles, ProfileSettings.class);
+        	/*menu.add(R.string.defaults, ProfileSettings.class);
+        	menu.add(R.string.camera, ProfileSettings.class);*/
+        
+        
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-			android.R.layout.simple_list_item_1, android.R.id.text1, settingsListItems);
+		/*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, android.R.id.text1, (String[] = menuItems);
 		menuList.setAdapter(adapter);
 
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -41,7 +42,7 @@ public class WarehouseSettingsActivity extends Activity {
                 String item = (String) listView.getItemAtPosition(position);
                 Toast.makeText(WarehouseSettingsActivity.this, item, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
 	}
 

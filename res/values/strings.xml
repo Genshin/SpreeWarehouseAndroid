@@ -25,5 +25,8 @@
     <string name="product_name">Product Name</string>
     <string name="zero">0</string>
     <string name="sku">SKU</string>
+    <string name="profiles">Profiles</string>
+    <string name="defaults">Defaults</string>
+    <string name="camera">Camera</string>
     
 </resources>
