@@ -21,9 +21,9 @@
     <string name="defaults">定義</string>
     <string name="camera">カメラ</string>
     <string name="profile_settings">プロフィール設定</string>
-	<string name="server_title">サーバ</string>
-	<string name="username_title">ユーザ</string>
-	<string name="password_title">パスワード</string>
+	<string name="server">サーバ</string>
+	<string name="username">ユーザ名</string>
+	<string name="password">パスワード</string>
 	<string name="scan">コードスキャン</string>
 	<string name="picking">ピッキング</string>
 	<string name="packing">梱包</string>

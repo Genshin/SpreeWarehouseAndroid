@@ -92,8 +92,8 @@ public final class R {
         public static final int main_menu=0x7f040021;
         public static final int orders=0x7f040005;
         public static final int packing=0x7f040020;
+        public static final int password=0x7f04001e;
         public static final int password_text=0x7f040009;
-        public static final int password_title=0x7f04001e;
         public static final int picking=0x7f04001f;
         public static final int product_name=0x7f040015;
         public static final int products=0x7f040004;
@@ -106,15 +106,15 @@ public final class R {
         public static final int search=0x7f040012;
         public static final int search_conditions=0x7f040014;
         public static final int select_profile_spinner=0x7f04000b;
+        public static final int server=0x7f04001c;
         public static final int server_address_text=0x7f040007;
-        public static final int server_title=0x7f04001c;
         public static final int settings=0x7f04000c;
         public static final int shipping=0x7f040006;
         public static final int sku=0x7f040017;
         public static final int stocking=0x7f040011;
         public static final int title=0x7f040001;
+        public static final int username=0x7f04001d;
         public static final int username_text=0x7f040008;
-        public static final int username_title=0x7f04001d;
         public static final int warehouse_title=0x7f040003;
         public static final int zero=0x7f040016;
     }

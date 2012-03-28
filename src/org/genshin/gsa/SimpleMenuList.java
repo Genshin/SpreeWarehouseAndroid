@@ -18,15 +18,18 @@ public class SimpleMenuList {
 		}	
 	}
 	
+	public ArrayList<_item> items;
+	
 	public SimpleMenuList(Context ctx) {
 		this.ctx = ctx;
+		items = new ArrayList<_item>();
 	}
-	
-	public ArrayList<_item> items;
 	
 	// add
 	// Adds a list item
+	// Returns: new item index
 	// リストにアイテムを追加
+	// 戻り値: 追加されたアイテムの要素数
 	public int add(String title, Class<?> cls) {
 		_item newItem = new _item(title, cls);
 		items.add(newItem);
@@ -37,5 +40,19 @@ public class SimpleMenuList {
 		_item newItem = new _item(ctx.getString(titleRstring), cls);
 		items.add(newItem);
 		return items.size() - 1;
+	}
+	
+	public String[] getTitles() {
+		String[] titles = new String[items.size()];
+		 for (int i = 0; i < items.size(); i++)
+		 {
+			 titles[i] = items.get(i).title;
+		 }
+		 
+		 return titles;
+	}
+	
+	public Class<?> getIntentContext(int num) {
+		return items.get(num).cls;
 	}
 }
