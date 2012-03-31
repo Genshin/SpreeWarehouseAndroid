@@ -23,6 +23,11 @@
             android:label="@string/settings" >
             
         </activity>
+        <activity
+            android:name=".settings.ProfileSettingsActivity"
+            android:label="@string/settings" >
+            
+        </activity>
         <activity 
             android:name=".products.ProductsMenuActivity"
             android:label="@string/products" >
