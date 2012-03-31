@@ -89,12 +89,12 @@ public final class R {
         public static final int defaults=0x7f040019;
         public static final int edit=0x7f04000e;
         public static final int hello=0x7f040000;
-        public static final int main_menu=0x7f040021;
+        public static final int main_menu=0x7f04001f;
         public static final int orders=0x7f040005;
         public static final int packing=0x7f040020;
         public static final int password=0x7f04001e;
         public static final int password_text=0x7f040009;
-        public static final int picking=0x7f04001f;
+        public static final int picking=0x7f040021;
         public static final int product_name=0x7f040015;
         public static final int products=0x7f040004;
         public static final int profile=0x7f04000d;

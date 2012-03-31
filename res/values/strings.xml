@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="hello">Hello World, WarehouseActivity!</string>
     <string name="title">Warehouse</string>
     <string name="app_name">Warehouse</string>
@@ -32,4 +31,7 @@
     <string name="server">Server</string>
     <string name="username">User Name</string>
     <string name="password">Password</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="packing">Packing</string>
+    <string name="picking">Picking</string>
 </resources>
