@@ -34,4 +34,6 @@
 	<string name="product_name">商品名</string>
 	<string name="zero">0</string>
     <string name="sku">品番</string>
+    <string name="save">保存</string>
+    <string name="delete">削除</string>
 </resources>

@@ -34,4 +34,6 @@
     <string name="main_menu">Main Menu</string>
     <string name="packing">Packing</string>
     <string name="picking">Picking</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

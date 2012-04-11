@@ -16,6 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+            <Button
+                android:id="@+id/new_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_new" />
+
             <Spinner
                 android:id="@+id/profile_spinner"
                 android:layout_width="0dp"
@@ -23,10 +29,11 @@
                 android:layout_weight="0.68" />
 
             <Button
-                android:id="@+id/new_profile_button"
+                android:id="@+id/profile_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_new" />
+                android:text="@string/delete" />
+
         </LinearLayout>
 
         <TextView
@@ -74,12 +81,12 @@
                 android:layout_weight="1"
                 android:inputType="textPassword" />
 
-            <ToggleButton
-                android:id="@+id/remember_password_togglebutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ToggleButton" />
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/profile_save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
 
 </LinearLayout>

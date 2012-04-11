@@ -40,9 +40,9 @@ public final class R {
         public static final int menu_item_icon=0x7f05000d;
         public static final int menu_item_subtext=0x7f05000f;
         public static final int menu_item_title=0x7f05000e;
-        public static final int new_profile_button=0x7f05001e;
-        public static final int password_input=0x7f050024;
-        public static final int password_title=0x7f050023;
+        public static final int new_profile_button=0x7f05001d;
+        public static final int password_input=0x7f050025;
+        public static final int password_title=0x7f050024;
         public static final int producs_menu_order_spinner=0x7f050016;
         public static final int product_menu_list=0x7f05001a;
         public static final int product_menu_searchbox=0x7f050014;
@@ -53,18 +53,19 @@ public final class R {
         public static final int products_menu_clear_button=0x7f050017;
         public static final int products_menu_scan_button=0x7f050019;
         public static final int products_menu_search_button=0x7f050018;
+        public static final int profile_delete_button=0x7f05001f;
+        public static final int profile_save_button=0x7f050026;
         public static final int profile_section=0x7f05001c;
         public static final int profile_settings_title=0x7f05001b;
-        public static final int profile_spinner=0x7f05001d;
-        public static final int remember_password_togglebutton=0x7f050025;
+        public static final int profile_spinner=0x7f05001e;
         public static final int scan_button=0x7f05000a;
-        public static final int server_input=0x7f050020;
-        public static final int server_title=0x7f05001f;
+        public static final int server_input=0x7f050021;
+        public static final int server_title=0x7f050020;
         public static final int settings_button=0x7f050004;
-        public static final int settings_category_list=0x7f050027;
-        public static final int settings_title=0x7f050026;
-        public static final int username_input=0x7f050022;
-        public static final int username_title=0x7f050021;
+        public static final int settings_category_list=0x7f050028;
+        public static final int settings_title=0x7f050027;
+        public static final int username_input=0x7f050023;
+        public static final int username_title=0x7f050022;
         public static final int warehouse_select=0x7f05000b;
         public static final int warehouse_settings_layout=0x7f050000;
     }
@@ -87,6 +88,7 @@ public final class R {
         public static final int camera=0x7f04001a;
         public static final int clear=0x7f040013;
         public static final int defaults=0x7f040019;
+        public static final int delete=0x7f040023;
         public static final int edit=0x7f04000e;
         public static final int hello=0x7f040000;
         public static final int main_menu=0x7f04001f;
@@ -101,6 +103,7 @@ public final class R {
         public static final int profile_settings=0x7f04001b;
         public static final int profiles=0x7f040018;
         public static final int register_new=0x7f04000f;
+        public static final int save=0x7f040022;
         public static final int save_password_checkbox=0x7f04000a;
         public static final int scan=0x7f040010;
         public static final int search=0x7f040012;
