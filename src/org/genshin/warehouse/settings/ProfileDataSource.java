@@ -51,6 +51,15 @@ public class ProfileDataSource {
 	public void deleteProfile(Profile profile) {
 		db.delete(ProfileDBHelper.TABLE_PROFILES, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
 	}
+	
+	public void updateProfile(Profile profile) {
+		ContentValues values = new ContentValues();
+		values.put(ProfileDBHelper.COLUMN_SERVER, profile.server);
+		values.put(ProfileDBHelper.COLUMN_USER, profile.user);
+		values.put(ProfileDBHelper.COLUMN_PASSWORD, profile.password);
+		
+		db.update(ProfileDBHelper.TABLE_PROFILES, values, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
+	}
 
 	private Profile cursorToProfile(Cursor c) {
 		Profile p = new Profile();

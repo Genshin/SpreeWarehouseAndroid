@@ -36,4 +36,5 @@
     <string name="sku">品番</string>
     <string name="save">保存</string>
     <string name="delete">削除</string>
+    <string name="test">試す</string>
 </resources>

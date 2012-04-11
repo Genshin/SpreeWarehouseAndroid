@@ -17,7 +17,7 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/new_profile_button"
+                android:id="@+id/profile_new_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/register_new" />
@@ -69,24 +69,30 @@
             android:layout_height="wrap_content"
             android:text="@string/password" />
 
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" />
+
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
-                android:id="@+id/password_input"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/profile_test_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPassword" />
+                android:text="@string/test" />
+
+            <Button
+                android:id="@+id/profile_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save" />
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/profile_save_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/save" />
 
 </LinearLayout>

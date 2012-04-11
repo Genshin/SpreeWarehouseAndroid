@@ -40,7 +40,6 @@ public final class R {
         public static final int menu_item_icon=0x7f05000d;
         public static final int menu_item_subtext=0x7f05000f;
         public static final int menu_item_title=0x7f05000e;
-        public static final int new_profile_button=0x7f05001d;
         public static final int password_input=0x7f050025;
         public static final int password_title=0x7f050024;
         public static final int producs_menu_order_spinner=0x7f050016;
@@ -54,16 +53,18 @@ public final class R {
         public static final int products_menu_scan_button=0x7f050019;
         public static final int products_menu_search_button=0x7f050018;
         public static final int profile_delete_button=0x7f05001f;
-        public static final int profile_save_button=0x7f050026;
+        public static final int profile_new_button=0x7f05001d;
+        public static final int profile_save_button=0x7f050027;
         public static final int profile_section=0x7f05001c;
         public static final int profile_settings_title=0x7f05001b;
         public static final int profile_spinner=0x7f05001e;
+        public static final int profile_test_button=0x7f050026;
         public static final int scan_button=0x7f05000a;
         public static final int server_input=0x7f050021;
         public static final int server_title=0x7f050020;
         public static final int settings_button=0x7f050004;
-        public static final int settings_category_list=0x7f050028;
-        public static final int settings_title=0x7f050027;
+        public static final int settings_category_list=0x7f050029;
+        public static final int settings_title=0x7f050028;
         public static final int username_input=0x7f050023;
         public static final int username_title=0x7f050022;
         public static final int warehouse_select=0x7f05000b;
@@ -115,6 +116,7 @@ public final class R {
         public static final int shipping=0x7f040006;
         public static final int sku=0x7f040017;
         public static final int stocking=0x7f040011;
+        public static final int test=0x7f040024;
         public static final int title=0x7f040001;
         public static final int username=0x7f04001d;
         public static final int username_text=0x7f040008;

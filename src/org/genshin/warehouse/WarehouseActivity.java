@@ -73,10 +73,6 @@ public class WarehouseActivity extends Activity {
     public void menuListClickHandler(AdapterView<?> parent, View view,
             int position)
     {
-        //ListView listView = (ListView) parent;
-        // クリックされたアイテムを取得します
-        //String item = (listView.getItemAtPosition(position)).title;
-        //Toast.makeText(WarehouseActivity.this, "pos: " + position, Toast.LENGTH_LONG).show();
         Intent menuItemIntent = new Intent(parent.getContext(), menuListItems[position].cls);
     	startActivity(menuItemIntent);
     }
