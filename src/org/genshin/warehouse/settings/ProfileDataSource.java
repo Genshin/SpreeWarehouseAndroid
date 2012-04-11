@@ -1,5 +1,8 @@
 package org.genshin.warehouse.settings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -53,6 +56,24 @@ public class ProfileDataSource {
 		Profile p = new Profile();
 		p.set(c.getLong(0)/*id*/, c.getString(1)/*server*/, c.getString(2)/*user*/, c.getString(3)/*password*/);
 		return p;
+	}
+	
+	public List<Profile> getAllProfiles() {
+		List<Profile> profiles = new ArrayList<Profile>();
+		
+		Cursor cur = db.query(ProfileDBHelper.TABLE_PROFILES, allColumns, null, null, null, null, null);
+		
+		cur.moveToFirst();
+		
+		while (!cur.isAfterLast()) {
+			Profile profile = cursorToProfile(cur);
+			profiles.add(profile);
+			cur.moveToNext();
+		}
+		cur.close();
+		
+		return profiles;
+		
 	}
 
 }
