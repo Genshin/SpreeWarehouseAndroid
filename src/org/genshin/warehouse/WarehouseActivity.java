@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.*;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
@@ -61,7 +63,9 @@ public class WarehouseActivity extends Activity {
             }
         });
         
-        
+        RESTConnector connection = new RESTConnector();
+        connection.setup("localhost", 3000, "spree@example.com", "spree123");
+        //Toast.makeText(WarehouseActivity.this, "Connection: " + connection.test(), Toast.LENGTH_LONG).show();
     }
     
     public void settingsClickHandler(View view)
