@@ -1,4 +1,4 @@
-package profiles;
+package org.genshin.warehouse.profiles;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

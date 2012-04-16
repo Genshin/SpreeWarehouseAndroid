@@ -1,4 +1,4 @@
-package profiles;
+package org.genshin.warehouse.profiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,25 +32,11 @@ public class ProfileSettingsActivity extends Activity {
     EditText password;
 	
     private void hookupInterface() {
-    	spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			public void onItemSelected(AdapterView<?> parent, View view,
-                    int position, long id) {
-                //Spinner spinner = (Spinner)parent;
-                //int item = spinner.getSelectedItemPosition();
-                selectProfile(position);
-            }
-
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub	
-			}
-		});
-        
+		profiles.attachToSpinner(spinner);
         
         deleteButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		profiles.deleteProfile(profiles.list.get(selectedProfile));
-        		loadProfiles();
+				profiles.deleteSelectedProfile();
             }
 		});
         
@@ -92,29 +78,13 @@ public class ProfileSettingsActivity extends Activity {
         initViewElements();
         hookupInterface();
 	}
-	
-	private void selectProfile(int position) {
-		//TODO create new
-        selectedProfile = position;
-        
-        //insert values into fields for view/edit
-        server.setText(profiles.list.get(position).server);
-        user.setText(profiles.list.get(position).user);
-        password.setText(profiles.list.get(position).password);
-    }
-	
+
 	private void loadProfiles() {
 		creatingNew = false;
 		
 		profiles = new Profiles(this);
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-	        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	        for (int i = 0; i < profiles.list.size(); i++) {
-	        	adapter.add(profiles.list.get(i).user + ":" + profiles.list.get(i).server);
-	        }
-	        
-	        spinner.setAdapter(adapter);
+		    
+	    spinner.setAdapter(profiles.getArrayAdapter());
 		
 		if (profiles.list.size() == 0)
 		{
@@ -123,6 +93,16 @@ public class ProfileSettingsActivity extends Activity {
 		}
 		
 		selectProfile(0);
+	
+	}
+
+	private void selectProfile(int position) {
+		profiles.selectProfile(position);
+
+        //insert values into fields for view/edit
+        server.setText(profiles.selected.server);
+        user.setText(profiles.selected.user);
+        password.setText(profiles.selected.password);
 	}
 	
 	private void setNew() {

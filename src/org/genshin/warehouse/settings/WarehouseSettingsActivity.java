@@ -4,9 +4,9 @@ import org.genshin.gsa.SimpleMenuList;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.R.id;
 import org.genshin.warehouse.R.layout;
+import org.genshin.warehouse.profiles.ProfileSettingsActivity;
 import org.genshin.warehouse.WarehouseActivity;
 
-import profiles.ProfileSettingsActivity;
 
 import android.app.Activity;
 import android.content.Intent;
