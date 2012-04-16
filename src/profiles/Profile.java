@@ -1,4 +1,4 @@
-package org.genshin.warehouse.settings;
+package profiles;
 
 public class Profile {
 	public long id;

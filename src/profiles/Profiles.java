@@ -1,4 +1,4 @@
-package org.genshin.warehouse.settings;
+package profiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-public class ProfileDataSource {
+public class Profiles {
 	private SQLiteDatabase db;
 	private ProfileDBHelper helper;
 	private String[] allColumns = {
@@ -20,21 +20,29 @@ public class ProfileDataSource {
 		ProfileDBHelper.COLUMN_KEY };
 	
 	private Context ctx;
+	
+	//All profiles
+	//全プロフィールのリスト
+	public ArrayList<Profile> list;
 
-	public ProfileDataSource(Context ctx) {
+	public Profiles(Context ctx) {
 		this.ctx = ctx;
 		helper = new ProfileDBHelper(ctx);
+		
+		getAllProfiles();
+		
 	}
 
-	public void open() throws SQLException {
+	private void openDB() throws SQLException {
 		db = helper.getWritableDatabase();
 	}
 
-	public void close() {
+	public void closeDB() {
 		helper.close();
 	}
 
 	public Profile createProfile(String server, String user, String password) {
+		openDB();
 		ContentValues values = new ContentValues();
 		values.put(ProfileDBHelper.COLUMN_SERVER, server);
 		values.put(ProfileDBHelper.COLUMN_USER, user);
@@ -44,21 +52,26 @@ public class ProfileDataSource {
 		cursor.moveToFirst();
 		Profile newProfile = cursorToProfile(cursor); 
 		cursor.close();
+		closeDB();
 		
 		return newProfile;
 	}
 
 	public void deleteProfile(Profile profile) {
+		openDB();
 		db.delete(ProfileDBHelper.TABLE_PROFILES, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
+		closeDB();
 	}
 	
 	public void updateProfile(Profile profile) {
+		openDB();
 		ContentValues values = new ContentValues();
 		values.put(ProfileDBHelper.COLUMN_SERVER, profile.server);
 		values.put(ProfileDBHelper.COLUMN_USER, profile.user);
 		values.put(ProfileDBHelper.COLUMN_PASSWORD, profile.password);
 		
 		db.update(ProfileDBHelper.TABLE_PROFILES, values, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
+		closeDB();
 	}
 
 	private Profile cursorToProfile(Cursor c) {
@@ -68,7 +81,8 @@ public class ProfileDataSource {
 	}
 	
 	public List<Profile> getAllProfiles() {
-		List<Profile> profiles = new ArrayList<Profile>();
+		openDB();
+		this.list = new ArrayList<Profile>();
 		
 		Cursor cur = db.query(ProfileDBHelper.TABLE_PROFILES, allColumns, null, null, null, null, null);
 		
@@ -76,13 +90,12 @@ public class ProfileDataSource {
 		
 		while (!cur.isAfterLast()) {
 			Profile profile = cursorToProfile(cur);
-			profiles.add(profile);
+			list.add(profile);
 			cur.moveToNext();
 		}
 		cur.close();
+		closeDB();
 		
-		return profiles;
-		
+		return list;	
 	}
-
 }

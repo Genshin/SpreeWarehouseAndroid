@@ -67,7 +67,7 @@ public final class R {
         public static final int settings_title=0x7f050028;
         public static final int username_input=0x7f050023;
         public static final int username_title=0x7f050022;
-        public static final int warehouse_select=0x7f05000b;
+        public static final int warehouse_profile_spinner=0x7f05000b;
         public static final int warehouse_settings_layout=0x7f050000;
     }
     public static final class layout {

@@ -1,5 +1,7 @@
 package org.genshin.warehouse;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.*;
@@ -20,18 +24,23 @@ import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;
 import org.genshin.warehouse.stocking.StockingMenuActivity;
 
+import profiles.Profile;
+import profiles.Profiles;
+
 public class WarehouseActivity extends Activity {
-	
+	//Interface objects
+	private Button scanButton;
+	private ListView menuList;
+	private Spinner profileSpinner;
+	private ToggleButton loginToggleButton; 
+	private Profiles profiles;
+	//Result codes from other Activities
 	enum resultCodes { scan };
 
 	MListItem[] menuListItems;
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
-        //設定ボタン	
-
+	private void createMainMenu() {
+		//Create main menu list items
 		menuListItems  = new MListItem[] { 
 				new MListItem(R.drawable.products, getString(R.string.products), "", ProductsMenuActivity.class),
 				new MListItem(R.drawable.orders, getString(R.string.orders), "", OrdersMenuActivity.class),
@@ -40,8 +49,32 @@ public class WarehouseActivity extends Activity {
 				new MListItem(R.drawable.packing, getString(R.string.packing), "", PackingMenuActivity.class),
 				new MListItem(R.drawable.shipping, getString(R.string.shipping), "", ShippingMenuActivity.class)
 			};
+	}
+	
+	private void loadProfiles() {
+		//get spinner
+		profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
+		
+		//Load profiles from the local DB and 
+		profiles = new Profiles(this);
+		
+		//put profiles in list
+		ArrayAdapter<String> profileSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        profileSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        for (int i = 0; i < profiles.list.size(); i++) {
+        	profileSpinnerAdapter.add(profiles.list.get(i).user + ":" + profiles.list.get(i).server);
+        }
         
-        Button scanButton = (Button) findViewById(R.id.scan_button);
+        //select default/previous profile
+        //TODO
+        
+        //setup listener for list spinner
+        profileSpinner.setAdapter(profileSpinnerAdapter);
+	}
+	
+	private void hookupInterface() {
+		//Scan Button
+		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
@@ -50,12 +83,11 @@ public class WarehouseActivity extends Activity {
                 startActivityForResult(intent, resultCodes.scan.ordinal());
             }
 		});
-
-        ListView menuList = (ListView) findViewById(R.id.main_menu_actions_list);
-
+        
+        //Menu List
+        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
         MListAdapter menuAdapter = new MListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
-
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
@@ -63,9 +95,33 @@ public class WarehouseActivity extends Activity {
             }
         });
         
-        RESTConnector connection = new RESTConnector();
-        connection.setup("localhost", 3000, "spree@example.com", "spree123");
-        //Toast.makeText(WarehouseActivity.this, "Connection: " + connection.test(), Toast.LENGTH_LONG).show();
+        //Profile Spinner hooked up and loaded in loadProfiles
+        loadProfiles();
+        
+        
+        
+        //Login Toggle Button
+         loginToggleButton = (ToggleButton) findViewById(R.id.login_toggleButton);
+         loginToggleButton.setTextOff("Connect");
+         loginToggleButton.setTextOn("Disconnect");
+         loginToggleButton.setChecked(false);
+        
+	}
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_menu);
+        
+        createMainMenu();
+        hookupInterface();
+        
+
+        
+        
+        /*RESTConnector connection = new RESTConnector();
+        connection.setup("test", 3000, "spree@example.com", "spree123");
+        Toast.makeText(WarehouseActivity.this, "TEST: " + connection.test(), Toast.LENGTH_LONG).show();*/
     }
     
     public void settingsClickHandler(View view)

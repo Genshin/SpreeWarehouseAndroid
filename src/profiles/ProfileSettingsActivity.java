@@ -1,4 +1,4 @@
-package org.genshin.warehouse.settings;
+package profiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ProfileSettingsActivity extends Activity {
-	private List<Profile> profiles;
 	private int selectedProfile;
-	private ProfileDataSource data;
+	private Profiles profiles;
 	private Boolean creatingNew;
 	
 	Spinner spinner;
@@ -32,7 +31,7 @@ public class ProfileSettingsActivity extends Activity {
     EditText user;
     EditText password;
 	
-    private void hookupEvents() {
+    private void hookupInterface() {
     	spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -50,7 +49,7 @@ public class ProfileSettingsActivity extends Activity {
         
         deleteButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		data.deleteProfile(profiles.get(selectedProfile));
+        		profiles.deleteProfile(profiles.list.get(selectedProfile));
         		loadProfiles();
             }
 		});
@@ -85,25 +84,13 @@ public class ProfileSettingsActivity extends Activity {
         testButton = (Button) findViewById(R.id.profile_test_button);
     }
     
-    private void initData() {
-    	data = new ProfileDataSource(this);
-        data.open();
-        
-    	
-        
-        loadProfiles();
-        
-        
-    }
-    
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_settings);
         
         initViewElements();
-        initData();    
-        hookupEvents();
+        hookupInterface();
 	}
 	
 	private void selectProfile(int position) {
@@ -111,25 +98,25 @@ public class ProfileSettingsActivity extends Activity {
         selectedProfile = position;
         
         //insert values into fields for view/edit
-        server.setText(profiles.get(position).server);
-        user.setText(profiles.get(position).user);
-        password.setText(profiles.get(position).password);
+        server.setText(profiles.list.get(position).server);
+        user.setText(profiles.list.get(position).user);
+        password.setText(profiles.list.get(position).password);
     }
 	
 	private void loadProfiles() {
 		creatingNew = false;
 		
-		profiles = data.getAllProfiles();
+		profiles = new Profiles(this);
 		
-		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
 	        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	        for (int i = 0; i < profiles.size(); i++) {
-	        	adapter.add(profiles.get(i).user + "@" + profiles.get(i).server);
+	        for (int i = 0; i < profiles.list.size(); i++) {
+	        	adapter.add(profiles.list.get(i).user + ":" + profiles.list.get(i).server);
 	        }
 	        
 	        spinner.setAdapter(adapter);
 		
-		if (profiles.size() == 0)
+		if (profiles.list.size() == 0)
 		{
 			setNew();
 			return;
@@ -149,12 +136,12 @@ public class ProfileSettingsActivity extends Activity {
 	}
 	
 	private void createProfile() {
-		data.createProfile(server.getText().toString(), user.getText().toString(), password.getText().toString());
+		profiles.createProfile(server.getText().toString(), user.getText().toString(), password.getText().toString());
 		loadProfiles();
 	}
 	
 	private void updateProfile() {
-		data.updateProfile(profiles.get(selectedProfile));
+		profiles.updateProfile(profiles.list.get(selectedProfile));
 		loadProfiles();
 	}
 }

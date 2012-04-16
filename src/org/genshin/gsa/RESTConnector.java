@@ -8,6 +8,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -20,6 +21,7 @@ import android.net.Credentials;
 import android.os.Bundle;
 
 public class RESTConnector extends Activity {
+	private Boolean initialized;
 	private DefaultHttpClient client; 
 	
 	private UsernamePasswordCredentials credentials;
@@ -31,34 +33,45 @@ public class RESTConnector extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		client = new DefaultHttpClient();
+		initialized = false;
 	}
 
 	public void setup(String baseURL, int port, String user, String password) {
 		this.baseURL = baseURL;
 		this.port = port;
+		
+		this.client = new DefaultHttpClient();
+		
 		if (user != null) {
 			this.credentials = new UsernamePasswordCredentials(user, password);
 			this.scope = new AuthScope(baseURL, port);
-			//ERROR HERE
 			client.getCredentialsProvider().setCredentials(scope, credentials);
 		}
+		
+		this.initialized = true;
 	}
 	
-	public int test() {
-		HttpGet getter = new HttpGet(this.baseURL);
+	public String test() {
+		int statusCode = 0;
+		String combinedStatus = "unsent";
+		
+		if (!initialized)
+			return "Uninitialized";
+		
 		try {
-			HttpResponse response = client.execute(getter);
+			HttpGet getter = new HttpGet(this.baseURL);
+			combinedStatus = "Attempting GET to: " + getter.getURI();
+			HttpResponse response = this.client.execute(getter);
+			combinedStatus = "Executed GET";
 			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			return statusCode;
+			statusCode = statusLine.getStatusCode();
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			combinedStatus = "ClientProtocolException: " + e.getMessage();
 		} catch (IOException e) {
-			e.printStackTrace();
+			combinedStatus = "IOException: " + e.toString();
 		}
 		
-		return 0;
+		return combinedStatus;
 	}
 	
 	private Object responseToObject(HttpResponse response, Class<?> cls) {

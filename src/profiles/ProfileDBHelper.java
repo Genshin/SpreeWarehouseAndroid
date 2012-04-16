@@ -1,4 +1,4 @@
-package org.genshin.warehouse.settings;
+package profiles;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
