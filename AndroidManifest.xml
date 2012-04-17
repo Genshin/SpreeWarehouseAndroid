@@ -27,7 +27,7 @@
             
         </activity>
         <activity
-            android:name="profiles.ProfileSettingsActivity"
+            android:name=".profiles.ProfileSettingsActivity"
             android:label="@string/settings" >
             
         </activity>

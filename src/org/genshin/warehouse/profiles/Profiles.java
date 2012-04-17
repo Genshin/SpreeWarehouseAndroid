@@ -17,7 +17,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class Profiles {
 	private SQLiteDatabase db;
@@ -73,13 +76,6 @@ public class Profiles {
 		return newProfile;
 	}
 
-	//Delete the specified profile
-	public void deleteProfile(Profile profile) {
-		openDB();
-			db.delete(ProfileDBHelper.TABLE_PROFILES, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
-		closeDB();
-	}
-	
 	//Update a profile
 	//The profile ID is held within the profile object
 	public void updateProfile(Profile profile) {
@@ -120,7 +116,7 @@ public class Profiles {
 		return list;
 	}
 
-	private void selectProfile(int position) {
+	public void selectProfile(int position) {
 		if (position < 0 || position >= list.size())
 			return; //OOB
 
@@ -128,13 +124,25 @@ public class Profiles {
 		selected = list.get(position);
     }
 
-	public void deleteSelectedProfile() {
-        		//TODO profiles.deleteProfile(profiles.list.get(selectedProfile));
+	//Delete the specified profile
+	public void deleteProfile(Profile profile) {
+		openDB();
+			db.delete(ProfileDBHelper.TABLE_PROFILES, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
+		closeDB();
 	}
 
-	public void attachToSpinner(Spinner spinner) {
-    	spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+	//Deletes profile at the specified position in "list"
+	public void deleteProfile(int position) {
+		deleteProfile(list.get(position));
+	}
 
+	//Deletes the currently selected profile
+	public void deleteSelectedProfile() {
+        deleteProfile(selected);
+	}
+
+	public Spinner attachToSpinner(Spinner spinner) {
+			AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
                 //Spinner spinner = (Spinner)parent;
@@ -145,7 +153,10 @@ public class Profiles {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub	
 			}
-		});
+		};
+		
+    	spinner.setOnItemSelectedListener(selected);
+    	return spinner;
 	}
 
 	public ArrayAdapter<String> getArrayAdapter() {

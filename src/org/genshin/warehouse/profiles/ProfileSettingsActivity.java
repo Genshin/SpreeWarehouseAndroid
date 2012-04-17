@@ -31,6 +31,7 @@ public class ProfileSettingsActivity extends Activity {
     EditText user;
     EditText password;
 	
+    //hooks up interface elements to callbacks and events
     private void hookupInterface() {
 		profiles.attachToSpinner(spinner);
         
@@ -76,6 +77,7 @@ public class ProfileSettingsActivity extends Activity {
         setContentView(R.layout.profile_settings);
         
         initViewElements();
+        profiles = new Profiles(this);
         hookupInterface();
 	}
 

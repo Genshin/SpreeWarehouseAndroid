@@ -59,17 +59,18 @@ public class WarehouseActivity extends Activity {
 		profiles = new Profiles(this);
 		
 		//put profiles in list
-		ArrayAdapter<String> profileSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+		/*ArrayAdapter<String> profileSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         profileSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (int i = 0; i < profiles.list.size(); i++) {
         	profileSpinnerAdapter.add(profiles.list.get(i).user + ":" + profiles.list.get(i).server);
-        }
+        }*/
+		profileSpinner = profiles.attachToSpinner(profileSpinner);
         
         //select default/previous profile
         //TODO
         
         //setup listener for list spinner
-        profileSpinner.setAdapter(profileSpinnerAdapter);
+        //profileSpinner.setAdapter(profileSpinnerAdapter);
 	}
 	
 	private void hookupInterface() {
