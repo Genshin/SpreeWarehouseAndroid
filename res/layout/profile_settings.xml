@@ -36,20 +36,54 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/server_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/server" />
-
-        <EditText
-            android:id="@+id/server_input"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textUri" >
+            android:layout_height="wrap_content" >
 
-            <requestFocus />
-        </EditText>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.99"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/server_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/server" />
+
+                <EditText
+                    android:id="@+id/server_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textUri" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="139dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/port_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/port" />
+
+                <EditText
+                    android:id="@+id/port_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@string/default_port" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/username_title"

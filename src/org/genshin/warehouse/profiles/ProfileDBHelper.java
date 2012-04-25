@@ -10,17 +10,19 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 	public static final String TABLE_PROFILES = "profiles";
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_SERVER = "server";
+	public static final String COLUMN_PORT = "port";
 	public static final String COLUMN_USER = "user";
 	public static final String COLUMN_PASSWORD = "password";
 	public static final String COLUMN_KEY = "key";
 	public static final String DATABASE_NAME = "warehouse.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 	
 	public static final String DATABASE_CREATE = "create table "
 			+ TABLE_PROFILES + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_SERVER + " string not null, "
-			+ COLUMN_USER + " sting not null, "
+			+ COLUMN_PORT + " integer not null, "
+			+ COLUMN_USER + " string not null, "
 			+ COLUMN_PASSWORD + " string not null, "
 			+ COLUMN_KEY + " string);";
 	

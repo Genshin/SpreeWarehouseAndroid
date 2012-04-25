@@ -28,6 +28,7 @@ public class Profiles {
 	private String[] allColumns = {
 		ProfileDBHelper.COLUMN_ID,
 		ProfileDBHelper.COLUMN_SERVER,
+		ProfileDBHelper.COLUMN_PORT,
 		ProfileDBHelper.COLUMN_USER,
 		ProfileDBHelper.COLUMN_PASSWORD,
 		ProfileDBHelper.COLUMN_KEY };
@@ -60,10 +61,11 @@ public class Profiles {
 	}
 
 	//Create a new profile
-	public Profile createProfile(String server, String user, String password) {
+	public Profile createProfile(String server, long port, String user, String password) {
 		openDB();
 			ContentValues values = new ContentValues();
 			values.put(ProfileDBHelper.COLUMN_SERVER, server);
+			values.put(ProfileDBHelper.COLUMN_PORT, port);
 			values.put(ProfileDBHelper.COLUMN_USER, user);
 			values.put(ProfileDBHelper.COLUMN_PASSWORD, password);
 			long insertID = db.insert(ProfileDBHelper.TABLE_PROFILES, null, values);
@@ -82,6 +84,7 @@ public class Profiles {
 		openDB();
 			ContentValues values = new ContentValues();
 			values.put(ProfileDBHelper.COLUMN_SERVER, profile.server);
+			values.put(ProfileDBHelper.COLUMN_PORT, profile.port);
 			values.put(ProfileDBHelper.COLUMN_USER, profile.user);
 			values.put(ProfileDBHelper.COLUMN_PASSWORD, profile.password);
 			
@@ -92,7 +95,7 @@ public class Profiles {
 	//Converts a cursor record to a Profile object
 	private Profile cursorToProfile(Cursor c) {
 		Profile p = new Profile();
-		p.set(c.getLong(0)/*id*/, c.getString(1)/*server*/, c.getString(2)/*user*/, c.getString(3)/*password*/);
+		p.set(c.getLong(0)/*id*/, c.getString(1)/*server*/, c.getLong(2) /*port*/, c.getString(3)/*user*/, c.getString(4)/*password*/);
 		return p;
 	}
 	
@@ -123,7 +126,7 @@ public class Profiles {
         selectedProfilePosition = position;
 		selected = list.get(position);
     }
-
+	
 	//Delete the specified profile
 	public void deleteProfile(Profile profile) {
 		openDB();
@@ -142,11 +145,11 @@ public class Profiles {
 	}
 
 	public Spinner attachToSpinner(Spinner spinner) {
-			AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
+		AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
+		public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
-                //Spinner spinner = (Spinner)parent;
-                //int item = spinner.getSelectedItemPosition();
+            	//Spinner spinner = (Spinner)parent;
+				//int item = spinner.getSelectedItemPosition();
                 selectProfile(position);
             }
 
@@ -155,7 +158,9 @@ public class Profiles {
 			}
 		};
 		
+		spinner.setAdapter(getArrayAdapter());
     	spinner.setOnItemSelectedListener(selected);
+  
     	return spinner;
 	}
 

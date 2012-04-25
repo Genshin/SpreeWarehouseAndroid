@@ -37,4 +37,6 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="test">Test</string>
+    <string name="port">Port</string>
+    <string name="default_port">80</string>
 </resources>

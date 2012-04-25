@@ -3,6 +3,7 @@ package org.genshin.warehouse.profiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.R;
 
 import android.app.Activity;
@@ -28,16 +29,17 @@ public class ProfileSettingsActivity extends Activity {
 	Button testButton;
 	
     EditText server;
+    EditText port;
     EditText user;
     EditText password;
 	
     //hooks up interface elements to callbacks and events
     private void hookupInterface() {
-		profiles.attachToSpinner(spinner);
+		//profiles.attachToSpinner(spinner);
         
         deleteButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-				profiles.deleteSelectedProfile();
+        		deleteProfile();
             }
 		});
         
@@ -56,10 +58,19 @@ public class ProfileSettingsActivity extends Activity {
         			updateProfile();
             }
 		});
+
+		testButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				testProfile();
+			}
+		});
+        
+        loadProfiles();
     }
     
     private void initViewElements() {
     	server = (EditText) findViewById(R.id.server_input);
+    	port = (EditText) findViewById(R.id.port_input);
         user = (EditText) findViewById(R.id.username_input);
         password = (EditText) findViewById(R.id.password_input);
         
@@ -80,6 +91,7 @@ public class ProfileSettingsActivity extends Activity {
         profiles = new Profiles(this);
         hookupInterface();
 	}
+	
 
 	private void loadProfiles() {
 		creatingNew = false;
@@ -94,7 +106,22 @@ public class ProfileSettingsActivity extends Activity {
 			return;
 		}
 		
-		selectProfile(0);
+	
+		AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	            //Spinner spinner = (Spinner)parent;
+				//int item = spinner.getSelectedItemPosition();
+				selectProfile(position);
+	        }
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub	
+			}
+		};
+		
+    	spinner.setOnItemSelectedListener(selected);
+		
+		this.selectProfile(0);
 	
 	}
 
@@ -104,6 +131,7 @@ public class ProfileSettingsActivity extends Activity {
         //insert values into fields for view/edit
         server.setText(profiles.selected.server);
         user.setText(profiles.selected.user);
+        port.setText(String.valueOf(profiles.selected.port));
         password.setText(profiles.selected.password);
 	}
 	
@@ -118,12 +146,24 @@ public class ProfileSettingsActivity extends Activity {
 	}
 	
 	private void createProfile() {
-		profiles.createProfile(server.getText().toString(), user.getText().toString(), password.getText().toString());
+		profiles.createProfile(server.getText().toString(), Long.parseLong(port.getText().toString()), user.getText().toString(), password.getText().toString());
 		loadProfiles();
 	}
 	
 	private void updateProfile() {
 		profiles.updateProfile(profiles.list.get(selectedProfile));
 		loadProfiles();
+	}
+	
+	private void deleteProfile() {
+		profiles.deleteSelectedProfile();
+		loadProfiles();
+	}
+
+	private void testProfile() {
+		RESTConnector connector = new RESTConnector();
+		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.user, profiles.selected.password);
+		String result = connector.test();
+		//Toast.makeText(this, "ppp", Toast.LENGTH_LONG).show();
 	}
 }

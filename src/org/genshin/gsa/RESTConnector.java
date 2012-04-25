@@ -13,12 +13,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.google.gson.Gson;
-
-
 import android.app.Activity;
 import android.net.Credentials;
 import android.os.Bundle;
+import android.util.Log;
 
 public class RESTConnector extends Activity {
 	private Boolean initialized;
@@ -26,7 +24,7 @@ public class RESTConnector extends Activity {
 	
 	private UsernamePasswordCredentials credentials;
 	private AuthScope scope;
-	private String baseURL;
+	private String server;
 	private int port;
 	
 	
@@ -36,16 +34,16 @@ public class RESTConnector extends Activity {
 		initialized = false;
 	}
 
-	public void setup(String baseURL, int port, String user, String password) {
-		this.baseURL = baseURL;
-		this.port = port;
+	public void setup(String server, long port, String user, String password) {
+		this.server = server;
+		this.port = (int)port;
 		
 		this.client = new DefaultHttpClient();
 		
 		if (user != null) {
 			this.credentials = new UsernamePasswordCredentials(user, password);
-			this.scope = new AuthScope(baseURL, port);
-			client.getCredentialsProvider().setCredentials(scope, credentials);
+			this.scope = new AuthScope(server, (int)port);
+			this.client.getCredentialsProvider().setCredentials(scope, credentials);
 		}
 		
 		this.initialized = true;
@@ -54,35 +52,43 @@ public class RESTConnector extends Activity {
 	public String test() {
 		int statusCode = 0;
 		String combinedStatus = "unsent";
+		Log.d("RESTDEBUG", combinedStatus);
 		
-		if (!initialized)
+		if (!initialized) {
+			Log.d("RESTDEBUG", "Uninitialized");
 			return "Uninitialized";
+		}
 		
 		try {
-			HttpGet getter = new HttpGet(this.baseURL);
+			HttpGet getter = new HttpGet(this.server + ":" + this.port);
 			combinedStatus = "Attempting GET to: " + getter.getURI();
+			Log.d("RESTDEBUG", combinedStatus);
 			HttpResponse response = this.client.execute(getter);
 			combinedStatus = "Executed GET";
+			Log.d("RESTDEBUG", combinedStatus);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
 		} catch (ClientProtocolException e) {
 			combinedStatus = "ClientProtocolException: " + e.getMessage();
+			Log.d("RESTDEBUG", combinedStatus);
 		} catch (IOException e) {
 			combinedStatus = "IOException: " + e.toString();
+			Log.d("RESTDEBUG", combinedStatus);
 		}
+		Log.d("RESTDEBUG", combinedStatus);
 		
 		return combinedStatus;
 	}
 	
 	private Object responseToObject(HttpResponse response, Class<?> cls) {
-		Gson gson = new Gson();
+		//Gson gson = new Gson();
 		/*HttpEntity entity = response.getEntity();
 		InputStream content = entity.getContent();
 		Reader reader = new InputStreamReader(content);*/
 		Reader reader;
 		try {
 			reader = new InputStreamReader(response.getEntity().getContent());
-			return gson.fromJson(reader, cls);
+			//return gson.fromJson(reader, cls);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,7 +103,7 @@ public class RESTConnector extends Activity {
 	public Object GET(String targetURL, Class<?> containerClass) {
 		Object data = null;
 		
-		HttpGet getter = new HttpGet(this.baseURL + targetURL);
+		HttpGet getter = new HttpGet(this.server + targetURL);
 		try {
 			HttpResponse response = client.execute(getter);
 			StatusLine statusLine = response.getStatusLine();
