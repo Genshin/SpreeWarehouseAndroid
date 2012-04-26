@@ -164,6 +164,6 @@ public class ProfileSettingsActivity extends Activity {
 		RESTConnector connector = new RESTConnector();
 		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.user, profiles.selected.password);
 		String result = connector.test();
-		//Toast.makeText(this, "ppp", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 	}
 }

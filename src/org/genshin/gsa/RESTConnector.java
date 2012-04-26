@@ -60,7 +60,7 @@ public class RESTConnector extends Activity {
 		}
 		
 		try {
-			HttpGet getter = new HttpGet(this.server + ":" + this.port);
+			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port);
 			combinedStatus = "Attempting GET to: " + getter.getURI();
 			Log.d("RESTDEBUG", combinedStatus);
 			HttpResponse response = this.client.execute(getter);
@@ -68,6 +68,8 @@ public class RESTConnector extends Activity {
 			Log.d("RESTDEBUG", combinedStatus);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
+			combinedStatus = "GET Result: " + String.valueOf(statusCode);
+			Log.d("RESTDEBUG", combinedStatus);
 		} catch (ClientProtocolException e) {
 			combinedStatus = "ClientProtocolException: " + e.getMessage();
 			Log.d("RESTDEBUG", combinedStatus);
@@ -75,7 +77,6 @@ public class RESTConnector extends Activity {
 			combinedStatus = "IOException: " + e.toString();
 			Log.d("RESTDEBUG", combinedStatus);
 		}
-		Log.d("RESTDEBUG", combinedStatus);
 		
 		return combinedStatus;
 	}

@@ -17,6 +17,9 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "warehouse.db";
 	public static final int DATABASE_VERSION = 2;
 	
+	public static final String TABLE_PROFILE_SETTINGS = "profile_settings";
+	public static final String COLUMN_SETTINGS_DEFAULT_PROFILE = "default_profile";
+	
 	public static final String DATABASE_CREATE = "create table "
 			+ TABLE_PROFILES + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, "

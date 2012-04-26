@@ -37,17 +37,17 @@ public class WarehouseActivity extends Activity {
 	//Result codes from other Activities
 	enum resultCodes { scan };
 
-	MListItem[] menuListItems;
+	ThumbListItem[] menuListItems;
 	
 	private void createMainMenu() {
 		//Create main menu list items
-		menuListItems  = new MListItem[] { 
-				new MListItem(R.drawable.products, getString(R.string.products), "", ProductsMenuActivity.class),
-				new MListItem(R.drawable.orders, getString(R.string.orders), "", OrdersMenuActivity.class),
-				new MListItem(R.drawable.stocking, getString(R.string.stocking), "", StockingMenuActivity.class),
-				new MListItem(R.drawable.picking, getString(R.string.picking), "", PickingMenuActivity.class),
-				new MListItem(R.drawable.packing, getString(R.string.packing), "", PackingMenuActivity.class),
-				new MListItem(R.drawable.shipping, getString(R.string.shipping), "", ShippingMenuActivity.class)
+		menuListItems  = new ThumbListItem[] { 
+				new ThumbListItem(R.drawable.products, getString(R.string.products), "", ProductsMenuActivity.class),
+				new ThumbListItem(R.drawable.orders, getString(R.string.orders), "", OrdersMenuActivity.class),
+				new ThumbListItem(R.drawable.stocking, getString(R.string.stocking), "", StockingMenuActivity.class),
+				new ThumbListItem(R.drawable.picking, getString(R.string.picking), "", PickingMenuActivity.class),
+				new ThumbListItem(R.drawable.packing, getString(R.string.packing), "", PackingMenuActivity.class),
+				new ThumbListItem(R.drawable.shipping, getString(R.string.shipping), "", ShippingMenuActivity.class)
 			};
 	}
 	
@@ -87,7 +87,7 @@ public class WarehouseActivity extends Activity {
         
         //Menu List
         menuList = (ListView) findViewById(R.id.main_menu_actions_list);
-        MListAdapter menuAdapter = new MListAdapter(this, menuListItems);
+        ThumbListAdapter menuAdapter = new ThumbListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,

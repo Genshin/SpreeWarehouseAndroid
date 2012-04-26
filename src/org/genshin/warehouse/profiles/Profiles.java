@@ -47,6 +47,7 @@ public class Profiles {
 		helper = new ProfileDBHelper(ctx);
 		
 		getAllProfiles();
+		getDefaultProfile();
 		
 	}
 
@@ -172,5 +173,11 @@ public class Profiles {
 		}
 
 		return adapter;
+	}
+	
+	//TODO !!!!!!!!!!!!!!!!!!!!!!!! get the actual default profile (and set it)
+	public Profile getDefaultProfile() {
+		selected = list.get(0);
+		return list.get(0);
 	}
 }
