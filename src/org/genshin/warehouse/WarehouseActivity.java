@@ -55,22 +55,11 @@ public class WarehouseActivity extends Activity {
 		//get spinner
 		profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
 		
-		//Load profiles from the local DB and 
+		//Load profiles from the local DB
 		profiles = new Profiles(this);
 		
-		//put profiles in list
-		/*ArrayAdapter<String> profileSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        profileSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (int i = 0; i < profiles.list.size(); i++) {
-        	profileSpinnerAdapter.add(profiles.list.get(i).user + ":" + profiles.list.get(i).server);
-        }*/
+		//set up spinner and select default
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
-        
-        //select default/previous profile
-        //TODO
-        
-        //setup listener for list spinner
-        //profileSpinner.setAdapter(profileSpinnerAdapter);
 	}
 	
 	private void hookupInterface() {

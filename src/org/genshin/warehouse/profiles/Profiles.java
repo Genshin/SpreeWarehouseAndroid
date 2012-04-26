@@ -105,6 +105,14 @@ public class Profiles {
 		return p;
 	}
 	
+	private int getProfileListPosition(Profile profile) {
+		for (int i = 0; i < list.size(); i++)
+			if (list.get(i).id == profile.id)
+				return i;
+
+		return 0;
+	}
+
 	//Gets a list of all available profiles and updates the local list
 	public List<Profile> getAllProfiles() {
 		openDB();
@@ -121,6 +129,9 @@ public class Profiles {
 			}
 			cur.close();
 		closeDB();
+
+		selected = getDefaultProfile();
+		selectedProfilePosition = getProfileListPosition(selected);
 		
 		return list;
 	}
@@ -132,7 +143,6 @@ public class Profiles {
 		Profile sel = list.get(position);
 		
 		preferences.setDefaultProfileID(sel.id);
-
 		
         selectedProfilePosition = position;
 		selected = list.get(position);
@@ -140,6 +150,9 @@ public class Profiles {
 	
 	//Delete the specified profile
 	public void deleteProfile(Profile profile) {
+		if (profile == null || profile.id == -1)
+			return;
+
 		openDB();
 			db.delete(ProfileDBHelper.TABLE_PROFILES, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
 		closeDB();
@@ -159,8 +172,6 @@ public class Profiles {
 		AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
 		public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
-            	//Spinner spinner = (Spinner)parent;
-				//int item = spinner.getSelectedItemPosition();
                 selectProfile(position);
             }
 
@@ -171,6 +182,7 @@ public class Profiles {
 		
 		spinner.setAdapter(getArrayAdapter());
     	spinner.setOnItemSelectedListener(selected);
+    	spinner.setSelection(selectedProfilePosition);
   
     	return spinner;
 	}
@@ -187,6 +199,7 @@ public class Profiles {
 	
 	private Profile createDummyProfile() {
 		Profile dummy = new Profile();
+		dummy.id = -1;
 		return dummy;
 	}
 	
