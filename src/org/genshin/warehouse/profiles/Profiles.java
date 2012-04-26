@@ -12,6 +12,8 @@ package org.genshin.warehouse.profiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.genshin.warehouse.settings.WarehousePreferences;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,11 +42,14 @@ public class Profiles {
 	//Selected profile
 	//選択されているプロフィール
 	public Profile selected;
+	
+	private WarehousePreferences preferences;
 
 	private Context ctx;
 	public Profiles(Context ctx) {
 		this.ctx = ctx;
 		helper = new ProfileDBHelper(ctx);
+		preferences = new WarehousePreferences(ctx);
 		
 		getAllProfiles();
 		getDefaultProfile();
@@ -123,7 +128,12 @@ public class Profiles {
 	public void selectProfile(int position) {
 		if (position < 0 || position >= list.size())
 			return; //OOB
+		
+		Profile sel = list.get(position);
+		
+		preferences.setDefaultProfileID(sel.id);
 
+		
         selectedProfilePosition = position;
 		selected = list.get(position);
     }
@@ -175,9 +185,26 @@ public class Profiles {
 		return adapter;
 	}
 	
-	//TODO !!!!!!!!!!!!!!!!!!!!!!!! get the actual default profile (and set it)
+	private Profile createDummyProfile() {
+		Profile dummy = new Profile();
+		return dummy;
+	}
+	
 	public Profile getDefaultProfile() {
-		selected = list.get(0);
-		return list.get(0);
+		if (list.size() > 0) {
+			//Get default ID from preferences
+			long defID = preferences.getDefaultProfileID();
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).id == defID) {
+					selectProfile(i);
+					return selected;
+				}
+			}
+			
+			selectProfile(0);
+			return selected;
+		}
+		
+		return createDummyProfile();
 	}
 }
