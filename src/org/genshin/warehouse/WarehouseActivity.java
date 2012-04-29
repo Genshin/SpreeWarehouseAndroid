@@ -105,13 +105,6 @@ public class WarehouseActivity extends Activity {
         
         createMainMenu();
         hookupInterface();
-        
-
-        
-        
-        /*RESTConnector connection = new RESTConnector();
-        connection.setup("test", 3000, "spree@example.com", "spree123");
-        Toast.makeText(WarehouseActivity.this, "TEST: " + connection.test(), Toast.LENGTH_LONG).show();*/
     }
     
     public void settingsClickHandler(View view)
