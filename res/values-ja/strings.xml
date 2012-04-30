@@ -38,4 +38,6 @@
     <string name="delete">削除</string>
     <string name="test">試す</string>
     <string name="port">ポート</string>
+    <string name="product_description">商品の説明</string>
+    <string name="product_details">商品詳細</string>
 </resources>

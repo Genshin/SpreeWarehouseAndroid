@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class SpreeConnector {
 	Context ctx;
-	private RESTConnector connector;
+	public RESTConnector connector;
 	private Profile profile;
 
 	public SpreeConnector(Context ctx) {
@@ -36,10 +36,6 @@ public class SpreeConnector {
 		ArrayList<String> collection = new ArrayList<String>();
 		
 		return collection;
-	}
-	
-	public JSONObject getJSON(String path) {
-		return connector.getJSON(path);
 	}
 
 }

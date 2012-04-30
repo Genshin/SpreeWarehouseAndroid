@@ -39,4 +39,6 @@
     <string name="test">Test</string>
     <string name="port">Port</string>
     <string name="default_port">80</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_details">Product Details</string>
 </resources>

@@ -18,6 +18,7 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -131,8 +132,8 @@ public class RESTConnector extends Activity {
 		return data;
 	}
 	
-	public JSONObject getJSON(String targetURL) {
-		JSONObject data = null;
+	public JSONObject getJSONObject(String targetURL) {
+		JSONObject data = new JSONObject();
 							
 		try {
 			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
@@ -144,17 +145,43 @@ public class RESTConnector extends Activity {
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
-				Log.d("PARSE", content);
 				data = new JSONObject(content);
 			} else {
-				Log.d("PARSE", "RESPONSE: " + statusCode);
+				Log.d("getJSON", "Response not 200, Status: " + statusCode);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		return data;
+	}
+	
+	public JSONArray getJSON(String targetURL) {
+		JSONArray data = new JSONArray();
+							
+		try {
+			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
+			//Set headers manually because Android doesn't seem to care to
+			getter.addHeader("Authorization", "Basic " + this.credentials.getUserName() + ":" + this.credentials.getPassword());
+			HttpResponse response = client.execute(getter);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				String content = EntityUtils.toString(entity);
+				data = new JSONArray(content);
+			} else {
+				Log.d("getJSON", "Response not 200, Status: " + statusCode);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}	
 		

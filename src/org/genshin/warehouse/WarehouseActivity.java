@@ -35,7 +35,7 @@ public class WarehouseActivity extends Activity {
 	private ToggleButton loginToggleButton; 
 	private Profiles profiles;
 	//Result codes from other Activities
-	enum resultCodes { scan };
+	public static enum resultCodes { scan };
 
 	ThumbListItem[] menuListItems;
 	
@@ -89,12 +89,12 @@ public class WarehouseActivity extends Activity {
         loadProfiles();
         
         
-        
+
         //Login Toggle Button
-         loginToggleButton = (ToggleButton) findViewById(R.id.login_toggleButton);
-         loginToggleButton.setTextOff("Connect");
-         loginToggleButton.setTextOn("Disconnect");
-         loginToggleButton.setChecked(false);
+        loginToggleButton = (ToggleButton) findViewById(R.id.login_toggleButton);
+        loginToggleButton.setTextOff("Connect");
+        loginToggleButton.setTextOn("Disconnect");
+        loginToggleButton.setChecked(false);
         
 	}
 	
@@ -113,7 +113,7 @@ public class WarehouseActivity extends Activity {
     	startActivity(settingsIntent);
 	}
     
-    public void menuListClickHandler(AdapterView<?> parent, View view,
+    private void menuListClickHandler(AdapterView<?> parent, View view,
             int position)
     {
         Intent menuItemIntent = new Intent(parent.getContext(), menuListItems[position].cls);
