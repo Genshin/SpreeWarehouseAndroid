@@ -31,9 +31,8 @@ public class RESTConnector extends Activity {
 	private Boolean initialized;
 	private DefaultHttpClient client; 
 	
-	private UsernamePasswordCredentials credentials;
-	private AuthScope scope;
 	private String server;
+	private String apiKey;
 	private int port;
 	
 	
@@ -43,17 +42,18 @@ public class RESTConnector extends Activity {
 		initialized = false;
 	}
 
-	public void setup(String server, long port, String user, String password) {
+	public void setup(String server, int port, String apiKey) {
 		this.server = server;
-		this.port = (int)port;
+		this.port = port;
+		this.apiKey = apiKey;
 		
 		this.client = new DefaultHttpClient();
 		
-		if (user != null) {
+		/*if (user != null) {
 			this.credentials = new UsernamePasswordCredentials(user, password);
 			this.scope = new AuthScope(server, (int)port);
 			this.client.getCredentialsProvider().setCredentials(scope, credentials);
-		}
+		}*/
 		
 		this.initialized = true;
 	}
@@ -79,6 +79,9 @@ public class RESTConnector extends Activity {
 			statusCode = statusLine.getStatusCode();
 			combinedStatus = "GET Result: " + String.valueOf(statusCode);
 			Log.d("RESTDEBUG", combinedStatus);
+			if (statusCode == 200) {
+				combinedStatus = "Connection OK";
+			}
 		} catch (ClientProtocolException e) {
 			combinedStatus = "ClientProtocolException: " + e.getMessage();
 			Log.d("RESTDEBUG", combinedStatus);
@@ -90,55 +93,13 @@ public class RESTConnector extends Activity {
 		return combinedStatus;
 	}
 	
-	private Object responseToObject(HttpResponse response, Class<?> cls) {
-		//Gson gson = new Gson();
-		/*HttpEntity entity = response.getEntity();
-		InputStream content = entity.getContent();
-		Reader reader = new InputStreamReader(content);*/
-		Reader reader;
-		try {
-			reader = new InputStreamReader(response.getEntity().getContent());
-			//return gson.fromJson(reader, cls);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	public Object getObject(String targetURL, Class<?> containerClass) {
-		Object data = null;
-		
-		try {
-			HttpGet getter = new HttpGet("http://" + this.server); //+ targetURL);
-			HttpResponse response = client.execute(getter);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				data = responseToObject(response, containerClass);
-			} else {
-				//Log.e(ParseJSON.class.toString(), "Failed to download file");
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return data;
-	}
-	
 	public JSONObject getJSONObject(String targetURL) {
 		JSONObject data = new JSONObject();
 							
 		try {
 			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
 			//Set headers manually because Android doesn't seem to care to
-			getter.addHeader("Authorization", "Basic " + this.credentials.getUserName() + ":" + this.credentials.getPassword());
+			getter.addHeader("X-Spree-Token", this.apiKey);
 			HttpResponse response = client.execute(getter);
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
@@ -160,13 +121,13 @@ public class RESTConnector extends Activity {
 		return data;
 	}
 	
-	public JSONArray getJSON(String targetURL) {
+	public JSONArray getJSONArray(String targetURL) {
 		JSONArray data = new JSONArray();
 							
 		try {
 			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
 			//Set headers manually because Android doesn't seem to care to
-			getter.addHeader("Authorization", "Basic " + this.credentials.getUserName() + ":" + this.credentials.getPassword());
+			getter.addHeader("X-Spree-Token", this.apiKey);
 			HttpResponse response = client.execute(getter);
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();

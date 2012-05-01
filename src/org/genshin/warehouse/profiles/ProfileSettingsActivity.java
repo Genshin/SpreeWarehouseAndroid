@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.WarehouseActivity;
+import org.genshin.warehouse.WarehouseActivity.resultCodes;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,12 +31,15 @@ public class ProfileSettingsActivity extends Activity {
 	Button saveButton;
 	Button deleteButton;
 	Button testButton;
+	Button scanButton;
 	
     EditText server;
     EditText port;
-    EditText user;
-    EditText password;
+    EditText profileName;
+    EditText apiKey;
 	
+    public static enum resultCodes { scan };
+    
     //hooks up interface elements to callbacks and events
     private void hookupInterface() {
 		//profiles.attachToSpinner(spinner);
@@ -64,6 +71,14 @@ public class ProfileSettingsActivity extends Activity {
 				testProfile();
 			}
 		});
+		
+		scanButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                startActivityForResult(intent, resultCodes.scan.ordinal());
+			}
+		});
         
         loadProfiles();
     }
@@ -71,8 +86,8 @@ public class ProfileSettingsActivity extends Activity {
     private void initViewElements() {
     	server = (EditText) findViewById(R.id.server_input);
     	port = (EditText) findViewById(R.id.port_input);
-        user = (EditText) findViewById(R.id.username_input);
-        password = (EditText) findViewById(R.id.password_input);
+        profileName = (EditText) findViewById(R.id.profilename_input);
+        apiKey = (EditText) findViewById(R.id.apikey_input);
         
         spinner = (Spinner) findViewById(R.id.profile_spinner);
         
@@ -80,6 +95,7 @@ public class ProfileSettingsActivity extends Activity {
         deleteButton = (Button) findViewById(R.id.profile_delete_button);
         saveButton = (Button) findViewById(R.id.profile_save_button);
         testButton = (Button) findViewById(R.id.profile_test_button);
+        scanButton = (Button) findViewById(R.id.profile_scan_button);
     }
     
 	@Override
@@ -130,9 +146,9 @@ public class ProfileSettingsActivity extends Activity {
 
         //insert values into fields for view/edit
         server.setText(profiles.selected.server);
-        user.setText(profiles.selected.user);
+        profileName.setText(profiles.selected.profileName);
         port.setText(String.valueOf(profiles.selected.port));
-        password.setText(profiles.selected.password);
+        apiKey.setText(profiles.selected.apiKey);
 	}
 	
 	private void setNew() {
@@ -141,12 +157,12 @@ public class ProfileSettingsActivity extends Activity {
 		
 		//TODO set a new entry in the spinner
 		server.setText("");
-		user.setText("");
-		password.setText("");
+		profileName.setText("");
+		apiKey.setText("");
 	}
 	
 	private void createProfile() {
-		profiles.createProfile(server.getText().toString(), Long.parseLong(port.getText().toString()), user.getText().toString(), password.getText().toString());
+		profiles.createProfile(server.getText().toString(), Long.parseLong(port.getText().toString()), profileName.getText().toString(), apiKey.getText().toString());
 		loadProfiles();
 	}
 	
@@ -162,8 +178,33 @@ public class ProfileSettingsActivity extends Activity {
 
 	private void testProfile() {
 		RESTConnector connector = new RESTConnector();
-		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.user, profiles.selected.password);
+		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.apiKey);
 		String result = connector.test();
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == resultCodes.scan.ordinal()) {
+            if (resultCode == RESULT_OK) {
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                
+                // Handle successful scan
+                // sample QR code content: {profile: { server: "myserver", port: 3000, key: "012bf0bcf3dbf13d66db2119b3cb19cd187c235cb5618ccb" }}
+                try {
+					JSONObject containerObj = new JSONObject(contents);
+					JSONObject profileObj = containerObj.getJSONObject("profile");
+					server.setText(profileObj.getString("server"));
+			    	port.setText("" + profileObj.getInt("port"));
+			        apiKey.setText(profileObj.getString("key"));
+				} catch (JSONException e) {
+					e.printStackTrace();
+					Toast.makeText(this, "Invalid Profile Code", Toast.LENGTH_LONG).show();
+				}
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle cancel
+            	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

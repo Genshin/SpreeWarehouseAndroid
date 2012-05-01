@@ -41,4 +41,7 @@
     <string name="default_port">80</string>
     <string name="product_description">Product Description</string>
     <string name="product_details">Product Details</string>
+    <string name="profile_name">Profile Name</string>
+    <string name="api_key">API Key</string>
+    <string name="profile_scan">Profile Scan (QR Code)</string>
 </resources>

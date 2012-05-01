@@ -33,9 +33,9 @@ public class Products {
 	public ArrayList<Product> getNewestProducts(int limit) {
 		ArrayList<Product> collection = new ArrayList<Product>();
 		
-		JSONArray products = spree.connector.getJSON("api/products.json");
+		JSONObject products = spree.connector.getJSONObject("api/products.json");
 		
-		for (int i = 0; i < products.length(); i++) {
+		/*for (int i = 0; i < products.length(); i++) {
 			try {
 				JSONObject product = products.getJSONObject(i).getJSONObject("product");
 				collection.add(new Product(
@@ -51,7 +51,7 @@ public class Products {
 				e.printStackTrace();
 				return collection;
 			}			
-		}
+		}*/
 
 		list = collection;
 		return collection;

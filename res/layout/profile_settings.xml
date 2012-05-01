@@ -36,6 +36,19 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/profilename_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_name" />
+
+        <EditText
+            android:id="@+id/profilename_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
@@ -86,25 +99,13 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/username_title"
+            android:id="@+id/apikey_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username" />
+            android:text="@string/api_key" />
 
         <EditText
-            android:id="@+id/username_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-
-        <TextView
-            android:id="@+id/password_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password" />
-
-        <EditText
-            android:id="@+id/password_input"
+            android:id="@+id/apikey_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -126,6 +127,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save" />
+
+            <Button
+                android:id="@+id/profile_scan_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_scan" />
 
         </LinearLayout>
 
