@@ -127,6 +127,9 @@ public class WarehouseActivity extends Activity {
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 // Handle successful scan
+                //TODO if it's a barcode it's a product
+                //TODO if it's a QR code check if it's JSON
+                //TODO if it's JSON parse it by the header
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             	Toast.makeText(WarehouseActivity.this, "Scan Cancelled", Toast.LENGTH_LONG).show();

@@ -44,4 +44,5 @@
     <string name="profile_name">Profile Name</string>
     <string name="api_key">API Key</string>
     <string name="profile_scan">Profile Scan (QR Code)</string>
+    <string name="blank_status">...</string>
 </resources>

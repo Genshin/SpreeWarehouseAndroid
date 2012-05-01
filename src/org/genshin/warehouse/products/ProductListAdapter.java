@@ -24,7 +24,6 @@ public class ProductListAdapter extends ArrayAdapter<ProductListItem> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.d("CRI", "beginning layout pos:" + position);
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.product_list_item, parent, false);
 		ImageView thumb = (ImageView)rowView.findViewById(R.id.products_list_item_image);

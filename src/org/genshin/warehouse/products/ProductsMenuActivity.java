@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProductsMenuActivity extends Activity {
@@ -27,11 +28,15 @@ public class ProductsMenuActivity extends Activity {
 	private SpreeConnector spree;
 	private ProductListAdapter productsAdapter;
 	private ListView productList;
+	private TextView statusText;
 	private ImageButton scanButton;
+	public static enum resultCodes { scan };
 
 	private void hookupInterface() {
 		//Product List
         productList = (ListView) findViewById(R.id.product_menu_list);
+        
+        statusText = (TextView) findViewById(R.id.status_text);
         
 		scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
 		scanButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +76,8 @@ public class ProductsMenuActivity extends Activity {
 			productListItems[i] = new ProductListItem(null, p.name, "SKU", p.countOnHand, p.permalink, p.id);
 		}
 		
+		statusText.setText(products.count + "品");
+		
 		productsAdapter = new ProductListAdapter(this, productListItems);
 		productList.setAdapter(productsAdapter);
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,20 +87,6 @@ public class ProductsMenuActivity extends Activity {
         });
         
 	}
-	
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == resultCodes.scan.ordinal()) {
-            if (resultCode == RESULT_OK) {
-                String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                Toast.makeText(this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
-                // Handle successful scan
-            } else if (resultCode == RESULT_CANCELED) {
-                // Handle cancel
-            	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
 		Intent productDetailsIntent = new Intent(this, ProductDetailsActivity.class);
@@ -106,5 +99,26 @@ public class ProductsMenuActivity extends Activity {
 		productDetailsIntent.putExtra("permalink", products.list.get(position).permalink);
 		
     	startActivity(productDetailsIntent);
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == resultCodes.scan.ordinal()) {
+            if (resultCode == RESULT_OK) {
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                //TODO limit this to bar code types?
+                if (format != "QR_CODE") {
+                	//Assume barcode, and barcodes correlate to products
+                	Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
+                	products.scanSearch(contents);
+                	refreshProductMenu();
+                	Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
+                }
+                // Handle successful scan
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle cancel
+            	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

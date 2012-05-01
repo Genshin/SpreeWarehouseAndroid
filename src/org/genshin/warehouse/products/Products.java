@@ -17,6 +17,7 @@ public class Products {
 	SpreeConnector spree;
 	ArrayList<Product> list;
 	ThumbListItem[] productsListItems;
+	public int count;
 	
 	Products(Context ctx, SpreeConnector spree) {
 		this.ctx = ctx;
@@ -25,18 +26,19 @@ public class Products {
 		productsListItems = new ThumbListItem[0];
 		
 		this.spree = spree;
+
+		count = 0;
 	}
 	
 	
-	
-
-	public ArrayList<Product> getNewestProducts(int limit) {
+	private ArrayList<Product> processProductContainer(JSONObject productContainer) {
 		ArrayList<Product> collection = new ArrayList<Product>();
 		
-		JSONObject products = spree.connector.getJSONObject("api/products.json");
-		
-		/*for (int i = 0; i < products.length(); i++) {
-			try {
+		//Pick apart JSON object
+		try {
+			this.count = productContainer.getInt("count");
+			JSONArray products = productContainer.getJSONArray("products");
+			for (int i = 0; i < products.length(); i++) {
 				JSONObject product = products.getJSONObject(i).getJSONObject("product");
 				collection.add(new Product(
 						product.getInt("id"),
@@ -46,14 +48,27 @@ public class Products {
 						product.getString("description"),
 						product.getString("permalink")
 					));
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return collection;
-			}			
-		}*/
-
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+				
 		list = collection;
+		return collection;
+	}
+
+	public ArrayList<Product> getNewestProducts(int limit) {
+		ArrayList<Product> collection = new ArrayList<Product>();
+		JSONObject productContainer = spree.connector.getJSONObject("api/products.json");
+		collection = processProductContainer(productContainer);
+		return collection;
+	}
+	
+	public ArrayList<Product> scanSearch(String query) {
+		ArrayList collection = new ArrayList<Product>();
+		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[visual_code_eq]=" + query);
+		Log.d("Products.scanSearch", "Results: " + count);
+		collection = processProductContainer(productContainer);
 		return collection;
 	}
 	
