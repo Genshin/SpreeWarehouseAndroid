@@ -13,22 +13,33 @@ import org.genshin.warehouse.products.ProductDetailsActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProductsMenuActivity extends Activity {
 	private Products products;
 	private SpreeConnector spree;
+	
 	private ProductListAdapter productsAdapter;
+	
 	private ListView productList;
 	private TextView statusText;
+	private MultiAutoCompleteTextView searchBar;
+	private Button searchButton;
+	
+	private Button clearButton;
+	
 	private ImageButton scanButton;
 	public static enum resultCodes { scan };
 
@@ -38,6 +49,7 @@ public class ProductsMenuActivity extends Activity {
         
         statusText = (TextView) findViewById(R.id.status_text);
         
+        //Visual Code Scan hookup
 		scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
 		scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
@@ -46,6 +58,26 @@ public class ProductsMenuActivity extends Activity {
                 //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
                 startActivityForResult(intent, resultCodes.scan.ordinal());
             }
+		});
+		
+		//Standard text search hookup
+		searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
+		searchButton = (Button) findViewById(R.id.products_menu_search_button);
+		searchButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				products.textSearch(searchBar.getText().toString());
+				refreshProductMenu();
+			}
+		});
+		
+		//Clear button
+		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
+		clearButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				searchBar.setText("");
+				products.clear();
+				refreshProductMenu();
+			}
 		});
 	}
 	
@@ -73,7 +105,11 @@ public class ProductsMenuActivity extends Activity {
 		
 		for (int i = 0; i < products.list.size(); i++) {
 			Product p = products.list.get(i);
-			productListItems[i] = new ProductListItem(null, p.name, "SKU", p.countOnHand, p.permalink, p.id);
+			Drawable thumb = null;
+			if (p.images.size() > 0)
+				thumb = p.images.get(0);
+			
+			productListItems[i] = new ProductListItem(thumb, p.name, /*TODO add sku*/"", p.countOnHand, p.permalink, p.id);
 		}
 		
 		statusText.setText(products.count + "品");
@@ -93,6 +129,7 @@ public class ProductsMenuActivity extends Activity {
 		
 		productDetailsIntent.putExtra("id", products.list.get(position).id);
 		productDetailsIntent.putExtra("name", products.list.get(position).name);
+		//productDetailsIntent.putExtra("sku", products.list.get(position).sku);
 		productDetailsIntent.putExtra("price", products.list.get(position).price);
 		productDetailsIntent.putExtra("countOnHand", products.list.get(position).countOnHand);
 		productDetailsIntent.putExtra("description", products.list.get(position).description);

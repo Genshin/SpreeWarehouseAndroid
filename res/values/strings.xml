@@ -45,4 +45,12 @@
     <string name="api_key">API Key</string>
     <string name="profile_scan">Profile Scan (QR Code)</string>
     <string name="blank_status">...</string>
+    <string name="stock_in">Stock In</string>
+    <string name="destock">Destock</string>
+    <string name="register_barcode">Register Barcode</string>
+    <string name="add_product_image">Add Product Image</string>
+    <string name="edit_product_details">Edit Product</string>
+    <string name="products_counter">Products</string>
+    <string name="units_counter">Units</string>
+
 </resources>

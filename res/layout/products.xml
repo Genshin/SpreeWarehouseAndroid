@@ -53,7 +53,7 @@
     <ListView
         android:id="@+id/product_menu_list"
         android:layout_width="match_parent"
-        android:layout_height="398dp" >
+        android:layout_height="wrap_content" >
 
     </ListView>
 

@@ -54,10 +54,10 @@ public final class R {
         public static final int product_permalink=0x7f050012;
         public static final int product_price=0x7f050010;
         public static final int product_sku=0x7f05000f;
-        public static final int products_list_item_count=0x7f050016;
+        public static final int products_list_item_count=0x7f050017;
         public static final int products_list_item_image=0x7f050014;
         public static final int products_list_item_name=0x7f050015;
-        public static final int products_list_item_sku=0x7f050017;
+        public static final int products_list_item_sku=0x7f050016;
         public static final int products_menu_clear_button=0x7f05001b;
         public static final int products_menu_scan_button=0x7f05001d;
         public static final int products_menu_search_button=0x7f05001c;
@@ -97,6 +97,7 @@ public final class R {
         public static final int warehouse_settings=0x7f03000c;
     }
     public static final class string {
+        public static final int add_product_image=0x7f040030;
         public static final int api_key=0x7f04002a;
         public static final int app_name=0x7f040002;
         public static final int blank_status=0x7f04002c;
@@ -105,7 +106,9 @@ public final class R {
         public static final int default_port=0x7f040026;
         public static final int defaults=0x7f040019;
         public static final int delete=0x7f040023;
+        public static final int destock=0x7f04002e;
         public static final int edit=0x7f04000e;
+        public static final int edit_product_details=0x7f040031;
         public static final int hello=0x7f040000;
         public static final int main_menu=0x7f04001f;
         public static final int orders=0x7f040005;
@@ -118,11 +121,13 @@ public final class R {
         public static final int product_details=0x7f040028;
         public static final int product_name=0x7f040015;
         public static final int products=0x7f040004;
+        public static final int products_counter=0x7f040032;
         public static final int profile=0x7f04000d;
         public static final int profile_name=0x7f040029;
         public static final int profile_scan=0x7f04002b;
         public static final int profile_settings=0x7f04001b;
         public static final int profiles=0x7f040018;
+        public static final int register_barcode=0x7f04002f;
         public static final int register_new=0x7f04000f;
         public static final int save=0x7f040022;
         public static final int save_password_checkbox=0x7f04000a;
@@ -135,9 +140,11 @@ public final class R {
         public static final int settings=0x7f04000c;
         public static final int shipping=0x7f040006;
         public static final int sku=0x7f040017;
+        public static final int stock_in=0x7f04002d;
         public static final int stocking=0x7f040011;
         public static final int test=0x7f040024;
         public static final int title=0x7f040001;
+        public static final int units_counter=0x7f040033;
         public static final int username=0x7f04001d;
         public static final int username_text=0x7f040008;
         public static final int warehouse_title=0x7f040003;

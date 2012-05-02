@@ -4,7 +4,9 @@ import org.genshin.warehouse.R;
 import org.genshin.warehouse.profiles.Profile;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -61,4 +63,18 @@ public class ProductDetailsActivity extends Activity {
 		initViewElements();
 		setViewFields();
 	}
+	
+	public static enum menuCodes { stock, destock, registerVisualCode, addProductImage, editProductDetails };
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		Resources res = getResources();
+        // メニューアイテムを追加します
+        menu.add(Menu.NONE, menuCodes.stock.ordinal(), Menu.NONE, res.getString(R.string.stock_in));
+        menu.add(Menu.NONE, menuCodes.destock.ordinal(), Menu.NONE, res.getString(R.string.destock));
+        menu.add(Menu.NONE, menuCodes.registerVisualCode.ordinal(), Menu.NONE, res.getString(R.string.register_barcode));
+        menu.add(Menu.NONE, menuCodes.addProductImage.ordinal(), Menu.NONE, res.getString(R.string.add_product_image));
+        menu.add(Menu.NONE, menuCodes.editProductDetails.ordinal(), Menu.NONE, res.getString(R.string.edit_product_details));
+        return super.onCreateOptionsMenu(menu);
+    }
 }

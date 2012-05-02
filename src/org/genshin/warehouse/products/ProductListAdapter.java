@@ -27,11 +27,14 @@ public class ProductListAdapter extends ArrayAdapter<ProductListItem> {
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.product_list_item, parent, false);
 		ImageView thumb = (ImageView)rowView.findViewById(R.id.products_list_item_image);
-		thumb.setImageResource(R.drawable.spree);//data[position].thumb);
+		if (data[position].thumb != null)
+			thumb.setImageDrawable(data[position].thumb);
+		else
+			thumb.setImageResource(R.drawable.spree);
 		TextView name = (TextView) rowView.findViewById(R.id.products_list_item_name);
 		name.setText(data[position].name);
-		/*TextView sku = (TextView) rowView.findViewById(R.id.products_list_item_sku);
-		sku.setText(data[position].sku);*/
+		TextView sku = (TextView) rowView.findViewById(R.id.products_list_item_sku);
+		sku.setText(data[position].sku);
 		TextView count = (TextView) rowView.findViewById(R.id.products_list_item_count);
 		count.setText("" + data[position].count);
 		

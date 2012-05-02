@@ -69,7 +69,7 @@ public class WarehouseActivity extends Activity {
         	public void onClick(View v) {
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
                 startActivityForResult(intent, resultCodes.scan.ordinal());
             }
 		});

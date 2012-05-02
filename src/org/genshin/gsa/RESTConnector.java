@@ -35,6 +35,9 @@ public class RESTConnector extends Activity {
 	private String apiKey;
 	private int port;
 	
+	public String getBaseURL() {
+		return "http://" + server + ":" + port;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
