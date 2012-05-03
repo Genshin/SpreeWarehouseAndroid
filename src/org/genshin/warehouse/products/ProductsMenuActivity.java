@@ -126,14 +126,16 @@ public class ProductsMenuActivity extends Activity {
 	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
 		Intent productDetailsIntent = new Intent(this, ProductDetailsActivity.class);
-		
-		productDetailsIntent.putExtra("id", products.list.get(position).id);
+		Bundle bundle = new Bundle();
+		/*productDetailsIntent.putExtra("id", products.list.get(position).id);
 		productDetailsIntent.putExtra("name", products.list.get(position).name);
 		//productDetailsIntent.putExtra("sku", products.list.get(position).sku);
 		productDetailsIntent.putExtra("price", products.list.get(position).price);
 		productDetailsIntent.putExtra("countOnHand", products.list.get(position).countOnHand);
 		productDetailsIntent.putExtra("description", products.list.get(position).description);
-		productDetailsIntent.putExtra("permalink", products.list.get(position).permalink);
+		productDetailsIntent.putExtra("permalink", products.list.get(position).permalink);*/
+		bundle.putParcelable("product", products.list.get(position));
+		productDetailsIntent.putExtra("productBundle", bundle);
 		
     	startActivity(productDetailsIntent);
 	}
@@ -146,10 +148,10 @@ public class ProductsMenuActivity extends Activity {
                 //TODO limit this to bar code types?
                 if (format != "QR_CODE") {
                 	//Assume barcode, and barcodes correlate to products
-                	Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
+                	//Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
                 	products.scanSearch(contents);
                 	refreshProductMenu();
-                	Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
+                	//Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
                 }
                 // Handle successful scan
             } else if (resultCode == RESULT_CANCELED) {

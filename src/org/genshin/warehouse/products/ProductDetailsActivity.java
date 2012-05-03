@@ -34,15 +34,15 @@ public class ProductDetailsActivity extends Activity {
 
 	private void getProductInfo() {
 		extras = getIntent().getExtras();
-		
-		product = new Product(
+		Bundle productBundle = extras.getBundle("productBundle");
+		product = productBundle.getParcelable("product");/*new Product(
 				extras.getInt("id"),
 				extras.getString("name"),
 				extras.getDouble("price"),
 				extras.getInt("countOnHand"),
 				extras.getString("description"),
 				extras.getString("permalink")
-			);
+			);*/
 	}
 
 	private void setViewFields() {
