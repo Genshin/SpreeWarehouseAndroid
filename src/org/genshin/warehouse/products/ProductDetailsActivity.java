@@ -33,9 +33,8 @@ public class ProductDetailsActivity extends Activity {
 	}
 
 	private void getProductInfo() {
-		extras = getIntent().getExtras();
-		Bundle productBundle = extras.getBundle("productBundle");
-		product = productBundle.getParcelable("product");/*new Product(
+		product = ProductsMenuActivity.getSelectedProduct();
+		/*new Product(
 				extras.getInt("id"),
 				extras.getString("name"),
 				extras.getDouble("price"),

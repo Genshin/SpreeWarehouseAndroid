@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 public class ProductsMenuActivity extends Activity {
 	private Products products;
+	private static Product selectedProduct;
 	private SpreeConnector spree;
 	
 	private ProductListAdapter productsAdapter;
@@ -125,8 +126,8 @@ public class ProductsMenuActivity extends Activity {
 	}
 	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
+		ProductsMenuActivity.setSelectedProduct(products.list.get(position));
 		Intent productDetailsIntent = new Intent(this, ProductDetailsActivity.class);
-		Bundle bundle = new Bundle();
 		/*productDetailsIntent.putExtra("id", products.list.get(position).id);
 		productDetailsIntent.putExtra("name", products.list.get(position).name);
 		//productDetailsIntent.putExtra("sku", products.list.get(position).sku);
@@ -134,8 +135,6 @@ public class ProductsMenuActivity extends Activity {
 		productDetailsIntent.putExtra("countOnHand", products.list.get(position).countOnHand);
 		productDetailsIntent.putExtra("description", products.list.get(position).description);
 		productDetailsIntent.putExtra("permalink", products.list.get(position).permalink);*/
-		bundle.putParcelable("product", products.list.get(position));
-		productDetailsIntent.putExtra("productBundle", bundle);
 		
     	startActivity(productDetailsIntent);
 	}
@@ -160,4 +159,15 @@ public class ProductsMenuActivity extends Activity {
             }
         }
     }
+
+	public static Product getSelectedProduct() {
+		return selectedProduct;
+	}
+
+	public static void setSelectedProduct(Product selectedProduct) {
+		if (selectedProduct == null)
+			selectedProduct = new Product(0, "", 0, 0, "", "");
+		
+		ProductsMenuActivity.selectedProduct = selectedProduct;
+	}
 }
