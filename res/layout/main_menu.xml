@@ -79,7 +79,7 @@
         android:text="ToggleButton" />
 
     <Spinner
-        android:id="@+id/warehouse_select"
+        android:id="@+id/warehouse_profile_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/login_toggleButton"

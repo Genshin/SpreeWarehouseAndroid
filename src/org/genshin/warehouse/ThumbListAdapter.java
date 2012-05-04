@@ -7,16 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
-import org.genshin.warehouse.MListItem;
+import org.genshin.warehouse.ThumbListItem;
 
 
 
-public class MListAdapter extends ArrayAdapter<MListItem> {
+public class ThumbListAdapter extends ArrayAdapter<ThumbListItem> {
 	Context context;
-    MListItem data[] = null;
+    ThumbListItem data[] = null;
     
-	public MListAdapter(Context context, MListItem[] data) {
-		super(context, R.layout.main_menu_item, data);
+	public ThumbListAdapter(Context context, ThumbListItem[] data) {
+		super(context, R.layout.thumb_menu_item, data);
 		this.context = context;
         this.data = data;
 	}
@@ -24,7 +24,7 @@ public class MListAdapter extends ArrayAdapter<MListItem> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.main_menu_item, parent, false);
+		View rowView = inflater.inflate(R.layout.thumb_menu_item, parent, false);
 		TextView title = (TextView) rowView.findViewById(R.id.menu_item_title);
 		title.setText(data[position].title);
 		TextView subText = (TextView) rowView.findViewById(R.id.menu_item_subtext);

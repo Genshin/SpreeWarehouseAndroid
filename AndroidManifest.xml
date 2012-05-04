@@ -5,6 +5,9 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="10" />
+    <uses-permission android:name="android.permission.INTERNET">
+        
+    </uses-permission>
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -23,9 +26,22 @@
             android:label="@string/settings" >
             
         </activity>
+        <activity
+            android:name=".profiles.ProfileSettingsActivity"
+            android:label="@string/settings" >
+            
+        </activity>
         <activity 
             android:name=".products.ProductsMenuActivity"
-            android:label="@string/products" >
+            android:label="@string/products" 
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="stateHidden"
+            >
+            
+        </activity>
+        <activity 
+            android:name=".products.ProductDetailsActivity"
+            android:label="@string/product_details" >
             
         </activity>
         <activity 
@@ -54,5 +70,4 @@
             
         </activity>
     </application>
-
 </manifest>
