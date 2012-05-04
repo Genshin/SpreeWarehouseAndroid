@@ -6,10 +6,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.genshin.warehouse.SpreeConnector;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import spree.SpreeConnector;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -76,8 +77,8 @@ public class Products {
 				JSONObject productJSON = products.getJSONObject(i).getJSONObject("product");
 				
 				//TODO put this in variant stuff
-				/*String sku = "";
-				try {
+				String sku = "";
+				/*try {
 					sku = productJSON.getString("sku");
 				} catch (JSONException e) {
 					//No SKU
@@ -87,6 +88,7 @@ public class Products {
 				Product product = new Product(
 						productJSON.getInt("id"),
 						productJSON.getString("name"),
+						sku,
 						productJSON.getDouble("price"),
 						productJSON.getInt("count_on_hand"),
 						productJSON.getString("description"),
@@ -121,7 +123,7 @@ public class Products {
 	public ArrayList<Product> scanSearch(String query) {
 		ArrayList<Product> collection = new ArrayList<Product>();
 		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + query);
-		Log.d("Products.scanSearch", "Results: " + count);
+		//Log.d("Products.scanSearch", "Results: " + count);
 		collection = processProductContainer(productContainer);
 		return collection;
 	}

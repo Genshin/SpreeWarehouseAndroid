@@ -3,12 +3,13 @@ package org.genshin.warehouse.profiles;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.WarehouseActivity;
 import org.genshin.warehouse.WarehouseActivity.resultCodes;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import spree.RESTConnector;
 
 import android.app.Activity;
 import android.content.Intent;

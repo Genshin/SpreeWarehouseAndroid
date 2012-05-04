@@ -52,5 +52,8 @@
     <string name="edit_product_details">Edit Product</string>
     <string name="products_counter">Products</string>
     <string name="units_counter">Units</string>
+    <string name="price">Price</string>
+    <string name="stock">Stock</string>
+    <string name="permalink">Permalink</string>
 
 </resources>

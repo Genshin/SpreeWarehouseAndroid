@@ -1,12 +1,12 @@
-package org.genshin.warehouse;
+package spree;
 
 import java.util.ArrayList;
 
-import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.profiles.Profile;
 import org.genshin.warehouse.profiles.Profiles;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 
 import android.content.Context;

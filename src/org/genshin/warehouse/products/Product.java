@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 public class Product {
 	public int id;
 	public String name;
+	public String sku;
 	public double price;
 	public int countOnHand;
 	public String description;
@@ -17,9 +18,10 @@ public class Product {
 	public ArrayList<Variant> variants;
 
 
-	public Product(int id, String name, double price, int countOnHand, String description, String permalink) {
+	public Product(int id, String name, String sku, double price, int countOnHand, String description, String permalink) {
 		this.id = id;
 		this.name = name;
+		this.sku = sku;
 		this.price = price;
 		this.countOnHand = countOnHand;
 		this.description = description;

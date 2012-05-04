@@ -33,7 +33,10 @@
         </activity>
         <activity 
             android:name=".products.ProductsMenuActivity"
-            android:label="@string/products" >
+            android:label="@string/products" 
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="stateHidden"
+            >
             
         </activity>
         <activity 

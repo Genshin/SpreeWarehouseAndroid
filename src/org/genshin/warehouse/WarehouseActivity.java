@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import org.genshin.gsa.RESTConnector;
 import org.genshin.warehouse.*;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
@@ -25,6 +24,8 @@ import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;
 import org.genshin.warehouse.stocking.StockingMenuActivity;
+
+import spree.RESTConnector;
 
 
 public class WarehouseActivity extends Activity {

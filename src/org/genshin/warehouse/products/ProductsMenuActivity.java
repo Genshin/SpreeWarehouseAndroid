@@ -7,12 +7,14 @@ import org.genshin.warehouse.ThumbListAdapter;
 import org.genshin.warehouse.WarehouseActivity;
 import org.genshin.warehouse.R.layout;
 import org.genshin.warehouse.WarehouseActivity.resultCodes;
-import org.genshin.warehouse.SpreeConnector;
 import org.genshin.warehouse.ThumbListItem;
 import org.genshin.warehouse.products.ProductDetailsActivity;
 
+import spree.SpreeConnector;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProductsMenuActivity extends Activity {
-	private Products products;
+	private static Products products;
 	private static Product selectedProduct;
 	private SpreeConnector spree;
 	
@@ -87,20 +89,26 @@ public class ProductsMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products);
 
-        spree = new SpreeConnector(this);
-        products = new Products(this, spree);
-        
         hookupInterface();
         
-        products.getNewestProducts(10);
-        
-        
+        spree = new SpreeConnector(this);
+        if (products == null) {
+        	products = new Products(this, spree);
+        	products.getNewestProducts(10);
+        }
         
         refreshProductMenu();
 	}
 	
+	/*@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	  super.onConfigurationChanged(newConfig);
+	  setContentView(R.layout.products);
+	}*/
+
+	
 	private void refreshProductMenu() {
-		Log.d("PRODUCTLIST", "length " + products.list.size());
+		//Log.d("PRODUCTLIST", "length " + products.list.size());
 		
 		ProductListItem[] productListItems = new ProductListItem[products.list.size()];
 		
@@ -110,10 +118,10 @@ public class ProductsMenuActivity extends Activity {
 			if (p.images.size() > 0)
 				thumb = p.images.get(0);
 			
-			productListItems[i] = new ProductListItem(thumb, p.name, /*TODO add sku*/"", p.countOnHand, p.permalink, p.id);
+			productListItems[i] = new ProductListItem(thumb, p.name, p.sku, p.countOnHand, p.permalink, p.id);
 		}
 		
-		statusText.setText(products.count + "品");
+		statusText.setText(products.count + this.getString(R.string.products_counter) );
 		
 		productsAdapter = new ProductListAdapter(this, productListItems);
 		productList.setAdapter(productsAdapter);
@@ -125,18 +133,14 @@ public class ProductsMenuActivity extends Activity {
         
 	}
 	
-	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
-		ProductsMenuActivity.setSelectedProduct(products.list.get(position));
+	public void showProductDetails(Product product) {
+		ProductsMenuActivity.setSelectedProduct(product);
 		Intent productDetailsIntent = new Intent(this, ProductDetailsActivity.class);
-		/*productDetailsIntent.putExtra("id", products.list.get(position).id);
-		productDetailsIntent.putExtra("name", products.list.get(position).name);
-		//productDetailsIntent.putExtra("sku", products.list.get(position).sku);
-		productDetailsIntent.putExtra("price", products.list.get(position).price);
-		productDetailsIntent.putExtra("countOnHand", products.list.get(position).countOnHand);
-		productDetailsIntent.putExtra("description", products.list.get(position).description);
-		productDetailsIntent.putExtra("permalink", products.list.get(position).permalink);*/
-		
     	startActivity(productDetailsIntent);
+	}
+	
+	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
+		showProductDetails(products.list.get(position));				
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -149,7 +153,11 @@ public class ProductsMenuActivity extends Activity {
                 	//Assume barcode, and barcodes correlate to products
                 	//Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
                 	products.scanSearch(contents);
+                	//if we have one hit that's the product we want, so go to it
                 	refreshProductMenu();
+                	if (products.list.size() == 1)
+                		showProductDetails(products.list.get(0));
+                    
                 	//Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
                 }
                 // Handle successful scan
@@ -166,7 +174,7 @@ public class ProductsMenuActivity extends Activity {
 
 	public static void setSelectedProduct(Product selectedProduct) {
 		if (selectedProduct == null)
-			selectedProduct = new Product(0, "", 0, 0, "", "");
+			selectedProduct = new Product(0, "", "", 0, 0, "", "");
 		
 		ProductsMenuActivity.selectedProduct = selectedProduct;
 	}

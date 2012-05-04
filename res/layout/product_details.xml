@@ -5,66 +5,86 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <ImageSwitcher
+        android:id="@+id/product_image_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/product_count_on_hand"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/product_name" >
+
+    </ImageSwitcher>
+
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:text="@string/product_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ImageView
-        android:id="@+id/product_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/spree" />
-
     <TextView
-        android:id="@+id/product_sku"
+        android:id="@+id/product_sku_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/product_name"
-        android:text="Medium Text"
+        android:text="@string/sku"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/product_price_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/product_sku_title"
+        android:text="@string/price"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/product_sku"
-        android:text="Medium Text"
+        android:layout_alignBaseline="@+id/product_price_title"
+        android:layout_alignBottom="@+id/product_price_title"
+        android:layout_toRightOf="@+id/product_price_title"
+        android:text="@string/price"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/product_count_on_hand"
+        android:id="@+id/product_sku"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/product_price"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_above="@+id/product_price_title"
+        android:layout_toRightOf="@+id/product_price_title"
+        android:text="@string/sku"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/product_permalink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/product_count_on_hand"
-        android:text="Small Text"
+        android:layout_below="@+id/product_price_title"
+        android:text="@string/permalink"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/product_count_on_hand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/product_permalink"
+        android:text="@string/stock"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/product_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/product_permalink"
+        android:layout_below="@+id/product_count_on_hand"
         android:text="@string/product_description" />
 
 </RelativeLayout>
