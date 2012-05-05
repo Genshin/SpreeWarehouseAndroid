@@ -1,4 +1,4 @@
-package org.genshin.spree.profiles;
+package org.genshin.warehouse.profiles;
 
 import java.util.ArrayList;
 import java.util.List;

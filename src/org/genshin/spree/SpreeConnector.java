@@ -2,8 +2,8 @@ package org.genshin.spree;
 
 import java.util.ArrayList;
 
-import org.genshin.spree.profiles.Profile;
-import org.genshin.spree.profiles.Profiles;
+import org.genshin.warehouse.profiles.Profile;
+import org.genshin.warehouse.profiles.Profiles;
 import org.json.JSONException;
 import org.json.JSONObject;
 

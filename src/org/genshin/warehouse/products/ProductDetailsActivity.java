@@ -1,9 +1,9 @@
 package org.genshin.warehouse.products;
 
 import org.genshin.spree.SpreeConnector;
-import org.genshin.spree.profiles.Profile;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.products.ProductsMenuActivity.resultCodes;
+import org.genshin.warehouse.profiles.Profile;
 
 
 import android.app.Activity;

@@ -53,4 +53,7 @@
     <string name="cancel">キャンセル</string>
     <string name="is_listed">搭載される?</string>
     <string name="product_edit">商品情報編集</string>
+    <string name="api_key">API鍵</string>
+    <string name="profile_name">プロフィール名</string>
+    <string name="profile_scan">プロフィールコードのスキャン</string>
 </resources>

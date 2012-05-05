@@ -17,8 +17,6 @@ import android.widget.ToggleButton;
 
 import org.genshin.spree.RESTConnector;
 import org.genshin.spree.SpreeConnector;
-import org.genshin.spree.profiles.Profile;
-import org.genshin.spree.profiles.Profiles;
 import org.genshin.warehouse.*;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
@@ -26,6 +24,8 @@ import org.genshin.warehouse.picking.PickingMenuActivity;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
+import org.genshin.warehouse.profiles.Profile;
+import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;
 import org.genshin.warehouse.stocking.StockingMenuActivity;
