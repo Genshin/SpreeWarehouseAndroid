@@ -47,4 +47,10 @@
     <string name="edit_product_details">商品編集</string>
     <string name="products_counter">品</string>
     <string name="units_counter">個</string>
+    <string name="price">値段</string>
+    <string name="stock">在庫</string>
+    <string name="permalink">パーマリンク</string>
+    <string name="cancel">キャンセル</string>
+    <string name="is_listed">搭載される?</string>
+    <string name="product_edit">商品情報編集</string>
 </resources>

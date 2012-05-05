@@ -57,5 +57,6 @@
     <string name="permalink">Permalink</string>
     <string name="cancel">Cancel</string>
     <string name="is_listed">Listed?</string>
+    <string name="product_edit">Edit Product</string>
 
 </resources>

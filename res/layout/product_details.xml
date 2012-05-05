@@ -159,17 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/product_description_title" />
-
-        <TextView
-            android:id="@+id/is_listed_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/listed_toggle"
-            android:layout_alignBottom="@+id/listed_toggle"
-            android:layout_alignParentLeft="true"
-            android:text="@string/is_listed"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_alignParentLeft="true" />
 
     </RelativeLayout>
 
