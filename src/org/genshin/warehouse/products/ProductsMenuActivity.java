@@ -2,6 +2,7 @@ package org.genshin.warehouse.products;
 
 import java.util.List;
 
+import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.ThumbListAdapter;
 import org.genshin.warehouse.WarehouseActivity;
@@ -10,9 +11,9 @@ import org.genshin.warehouse.WarehouseActivity.resultCodes;
 import org.genshin.warehouse.ThumbListItem;
 import org.genshin.warehouse.products.ProductDetailsActivity;
 
-import spree.SpreeConnector;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -100,13 +101,6 @@ public class ProductsMenuActivity extends Activity {
         refreshProductMenu();
 	}
 	
-	/*@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-	  super.onConfigurationChanged(newConfig);
-	  setContentView(R.layout.products);
-	}*/
-
-	
 	private void refreshProductMenu() {
 		//Log.d("PRODUCTLIST", "length " + products.list.size());
 		
@@ -133,14 +127,14 @@ public class ProductsMenuActivity extends Activity {
         
 	}
 	
-	public void showProductDetails(Product product) {
+	public static void showProductDetails(Context ctx, Product product) {
 		ProductsMenuActivity.setSelectedProduct(product);
-		Intent productDetailsIntent = new Intent(this, ProductDetailsActivity.class);
-    	startActivity(productDetailsIntent);
+		Intent productDetailsIntent = new Intent(ctx, ProductDetailsActivity.class);
+    	ctx.startActivity(productDetailsIntent);
 	}
 	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
-		showProductDetails(products.list.get(position));				
+		ProductsMenuActivity.showProductDetails(this, products.list.get(position));				
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -152,11 +146,11 @@ public class ProductsMenuActivity extends Activity {
                 if (format != "QR_CODE") {
                 	//Assume barcode, and barcodes correlate to products
                 	//Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
-                	products.scanSearch(contents);
+                	products.findByBarcode(contents);
                 	//if we have one hit that's the product we want, so go to it
                 	refreshProductMenu();
                 	if (products.list.size() == 1)
-                		showProductDetails(products.list.get(0));
+                		showProductDetails(this, products.list.get(0));
                     
                 	//Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
                 }

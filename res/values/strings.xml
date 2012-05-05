@@ -55,5 +55,7 @@
     <string name="price">Price</string>
     <string name="stock">Stock</string>
     <string name="permalink">Permalink</string>
+    <string name="cancel">Cancel</string>
+    <string name="is_listed">Listed?</string>
 
 </resources>

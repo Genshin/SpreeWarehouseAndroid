@@ -1,4 +1,4 @@
-package spree;
+package org.genshin.spree;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

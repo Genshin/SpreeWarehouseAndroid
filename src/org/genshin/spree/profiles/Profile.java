@@ -1,4 +1,4 @@
-package org.genshin.warehouse.profiles;
+package org.genshin.spree.profiles;
 
 public class Profile {
 	public long id;

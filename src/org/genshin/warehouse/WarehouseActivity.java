@@ -1,5 +1,6 @@
 package org.genshin.warehouse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,18 +15,21 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import org.genshin.spree.RESTConnector;
+import org.genshin.spree.SpreeConnector;
+import org.genshin.spree.profiles.Profile;
+import org.genshin.spree.profiles.Profiles;
 import org.genshin.warehouse.*;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
 import org.genshin.warehouse.picking.PickingMenuActivity;
+import org.genshin.warehouse.products.Product;
+import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
-import org.genshin.warehouse.profiles.Profile;
-import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;
 import org.genshin.warehouse.stocking.StockingMenuActivity;
 
-import spree.RESTConnector;
 
 
 public class WarehouseActivity extends Activity {
@@ -35,6 +39,7 @@ public class WarehouseActivity extends Activity {
 	private Spinner profileSpinner;
 	private ToggleButton loginToggleButton; 
 	private Profiles profiles;
+	private SpreeConnector spree;
 	//Result codes from other Activities
 	public static enum resultCodes { scan };
 
@@ -104,6 +109,8 @@ public class WarehouseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
         
+        spree = new SpreeConnector(this);
+        
         createMainMenu();
         hookupInterface();
     }
@@ -128,7 +135,16 @@ public class WarehouseActivity extends Activity {
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 // Handle successful scan
-                //TODO if it's a barcode it's a product
+                //if it's a Barcode it's a product
+                if (format != "QR_CODE") {
+                	Products products = new Products(this, spree);
+                	ArrayList<Product> foundProducts = products.findByBarcode(contents);
+                	//one result means forward to that product
+                	if (foundProducts.size() == 1) {
+                		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
+                	}
+                	
+                }
                 //TODO if it's a QR code check if it's JSON
                 //TODO if it's JSON parse it by the header
             } else if (resultCode == RESULT_CANCELED) {

@@ -7,7 +7,7 @@
  * プロフィルのリストを管理し、DBとのやりとりを代理に行う。
  ******************************************************************************/
 
-package org.genshin.warehouse.profiles;
+package org.genshin.spree.profiles;
 
 import java.util.ArrayList;
 import java.util.List;

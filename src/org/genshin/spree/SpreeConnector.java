@@ -1,9 +1,9 @@
-package spree;
+package org.genshin.spree;
 
 import java.util.ArrayList;
 
-import org.genshin.warehouse.profiles.Profile;
-import org.genshin.warehouse.profiles.Profiles;
+import org.genshin.spree.profiles.Profile;
+import org.genshin.spree.profiles.Profiles;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +27,6 @@ public class SpreeConnector {
 		connector = new RESTConnector();
 		connector.setup(profile.server, profile.port, profile.apiKey);
 	}
-
-	/*public Object getObject(String path, Class<?> containerClass) {
-		return connector.getObject(path, containerClass);
-	}*/
 
 	public ArrayList<?> getList(String path, Class<?> containerClass) {
 		ArrayList<String> collection = new ArrayList<String>();
