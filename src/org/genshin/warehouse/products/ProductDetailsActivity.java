@@ -2,8 +2,7 @@ package org.genshin.warehouse.products;
 
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.products.ProductsMenuActivity.resultCodes;
-import org.genshin.warehouse.profiles.Profile;
+import org.genshin.warehouse.products.ProductEditActivity;
 
 
 import android.app.Activity;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -120,12 +118,17 @@ public class ProductDetailsActivity extends Activity {
             
         		return true;
         }*/
-		if (item.getItemId() == menuCodes.registerVisualCode.ordinal()) {
+		int id = item.getItemId();
+
+		if (id == menuCodes.registerVisualCode.ordinal()) {
 			Intent intent = new Intent("com.google.zxing.client.android.SCAN");
             //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
             startActivityForResult(intent, resultCodes.scan.ordinal());
         	
 			return true;
+		} else if (id == menuCodes.editProductDetails.ordinal()) {
+			Intent intent = new Intent(this, ProductEditActivity.class);
+			startActivity(intent);
 		}
         
         return false;

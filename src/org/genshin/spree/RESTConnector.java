@@ -3,16 +3,19 @@ package org.genshin.spree;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.auth.BasicScheme;
@@ -153,18 +156,22 @@ public class RESTConnector extends Activity {
 		return data;
 	}
 	
-	public boolean genericPut(String targetURL) {
+	public int putWithArgs(String targetURL, ArrayList<NameValuePair> pairs) {
+		int statusCode = 0;
+		
 		try {
 			HttpPut put = new HttpPut("http://" + this.server + ":" + this.port + "/" + targetURL);
 			//Set headers manually because Android doesn't seem to care to
 			put.addHeader("X-Spree-Token", this.apiKey);
+			if (pairs != null) {
+				put.setEntity(new UrlEncodedFormEntity(pairs));
+			}
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
+			statusCode = statusLine.getStatusCode();
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
-				return true;
 			} else {
 				Log.d("RESTConnector.genericRequest", "Response not 200, Status: " + statusCode);
 			}
@@ -174,7 +181,11 @@ public class RESTConnector extends Activity {
 			e.printStackTrace();
 		}
 	
-		return false;
+		return statusCode;
+	}
+	
+	public int genericPut(String targetURL) {
+		return putWithArgs(targetURL, null);
 	}
 }
 

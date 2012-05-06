@@ -1,12 +1,7 @@
 package org.genshin.warehouse.profiles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genshin.spree.RESTConnector;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.WarehouseActivity;
-import org.genshin.warehouse.WarehouseActivity.resultCodes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -188,7 +182,7 @@ public class ProfileSettingsActivity extends Activity {
         if (requestCode == resultCodes.scan.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 
                 // Handle successful scan
                 // sample QR code content: {profile: { server: "myserver", port: 3000, key: "012bf0bcf3dbf13d66db2119b3cb19cd187c235cb5618ccb" }}

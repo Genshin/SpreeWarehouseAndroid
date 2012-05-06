@@ -10,15 +10,9 @@
 package org.genshin.warehouse.profiles;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.genshin.warehouse.settings.WarehousePreferences;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
