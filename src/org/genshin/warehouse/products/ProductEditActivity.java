@@ -1,5 +1,7 @@
 package org.genshin.warehouse.products;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -11,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ToggleButton;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.products.Product;
@@ -41,8 +45,8 @@ public class ProductEditActivity extends Activity {
 
 		imageSwitcher = (ImageSwitcher) findViewById(R.id.product_image_switcher);
 
-		deleteButton = (Button) findViewById(R.id.product_delete_button);
-		saveButton = (Button) findViewById(R.id.product_save_button);
+		deleteButton = (Button) findViewById(R.id.delete_button);
+		saveButton = (Button) findViewById(R.id.save_button);
 
 
 	}
@@ -85,7 +89,12 @@ public class ProductEditActivity extends Activity {
 	private void saveProduct() {
 		SpreeConnector spree = new SpreeConnector(this);
 		ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>();
-		pairs.add("product[name]", product.name);
+		pairs.add(new BasicNameValuePair("product[name]", nameEdit.getText().toString()));
+		pairs.add(new BasicNameValuePair("product[price]", priceEdit.getText().toString()));
+		pairs.add(new BasicNameValuePair("product[permalink]", permalinkEdit.getText().toString()));
+		pairs.add(new BasicNameValuePair("product[description]", descriptionEdit.getText().toString()));
+		//TODO add SKU etc.
+		
 		spree.connector.putWithArgs("api/products/" + product.id + ".json", pairs);
 
 		

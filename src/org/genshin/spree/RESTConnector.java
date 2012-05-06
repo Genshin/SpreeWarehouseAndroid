@@ -164,7 +164,8 @@ public class RESTConnector extends Activity {
 			//Set headers manually because Android doesn't seem to care to
 			put.addHeader("X-Spree-Token", this.apiKey);
 			if (pairs != null) {
-				put.setEntity(new UrlEncodedFormEntity(pairs));
+				put.setEntity(new UrlEncodedFormEntity(pairs, "UTF-8"));
+				Log.d("RESTConnector.putWithArgs", "added pairs");
 			}
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
