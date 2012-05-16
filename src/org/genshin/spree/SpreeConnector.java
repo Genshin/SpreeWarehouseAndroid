@@ -24,7 +24,7 @@ public class SpreeConnector {
 		Profiles profiles = new Profiles(ctx);
 		this.profile = profiles.selected;
 		
-		connector = new RESTConnector();
+		connector = new RESTConnector(ctx);
 		connector.setup(profile.server, profile.port, profile.apiKey);
 	}
 
