@@ -10,15 +10,9 @@
 package org.genshin.warehouse.profiles;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.genshin.warehouse.settings.WarehousePreferences;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,9 +71,9 @@ public class Profiles {
 		return list;
 	}
 
-	public void selectProfile(int position) {
+	public Profile selectProfile(int position) {
 		if (position < 0 || position >= list.size())
-			return; //OOB
+			return new Profile(); //OOB
 		
 		Profile sel = list.get(position);
 		
@@ -87,6 +81,8 @@ public class Profiles {
 		
         selectedProfilePosition = position;
 		selected = list.get(position);
+		
+		return sel;
     }
 	
 	//Delete the specified profile
@@ -130,7 +126,7 @@ public class Profiles {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for (int i = 0; i < list.size(); i++) {
-			adapter.add(list.get(i).profileName + ":" + list.get(i).server);
+			adapter.add(list.get(i).name + ":" + list.get(i).server);
 		}
 
 		return adapter;
