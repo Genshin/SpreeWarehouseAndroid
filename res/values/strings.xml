@@ -44,7 +44,7 @@
     <string name="profile_name">Profile Name</string>
     <string name="api_key">API Key</string>
     <string name="profile_scan">Profile Scan (QR Code)</string>
-    <string name="blank_status">...</string>
+    <string name="blank_status">⌛</string>
     <string name="stock_in">Stock In</string>
     <string name="destock">Destock</string>
     <string name="register_barcode">Register Barcode</string>
@@ -55,5 +55,8 @@
     <string name="price">Price</string>
     <string name="stock">Stock</string>
     <string name="permalink">Permalink</string>
+    <string name="cancel">Cancel</string>
+    <string name="is_listed">Listed?</string>
+    <string name="product_edit">Edit Product</string>
 
 </resources>

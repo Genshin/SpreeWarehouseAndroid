@@ -4,22 +4,22 @@ public class Profile {
 	public long id;
 	public String server;
 	public int port;
-	public String profileName;
+	public String name;
 	public String apiKey;
 
-	public void set(long id, String server, String user, String apiKey) {
-		this.set(id, server, 80, user, apiKey);
+	public void set(long id, String name, String server, String apiKey) {
+		this.set(id, name, server, 80, apiKey);
 	}
 
-	public void set(long id, String server, String port, String user, String apiKey) {
-		this.set(id, server, Integer.parseInt(port), user, apiKey);
+	public void set(long id, String name, String server, String port, String apiKey) {
+		this.set(id, name, server, Integer.parseInt(port), apiKey);
 	}
 
-	public void set(long id, String server, int port, String user, String apiKey) {
+	public void set(long id, String name, String server, int port, String apiKey) {
 		this.id = id;
+		this.name = name;
 		this.server = server;
 		this.port = port;
-		this.profileName = user;
 		this.apiKey = apiKey;
 	}
 }

@@ -6,11 +6,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.genshin.spree.SpreeConnector;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import spree.SpreeConnector;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -22,7 +22,7 @@ public class Products {
 	ArrayList<Product> list;
 	public int count;
 	
-	Products(Context ctx, SpreeConnector spree) {
+	public Products(Context ctx, SpreeConnector spree) {
 		this.ctx = ctx;
 		
 		this.list = new ArrayList<Product>();
@@ -42,7 +42,7 @@ public class Products {
 				product.imageIDs.add(imageInfo.getInt("id"));
 				
 			}
-			Log.d("Products.obtainImages", "found " + imageInfoArray.length());
+			//Log.d("Products.obtainImages", "found " + imageInfoArray.length());
 			for (int i = 0; i < product.imageNames.size(); i++) {
 				URL url;
 				try {
@@ -52,16 +52,13 @@ public class Products {
 						Drawable imageData = Drawable.createFromStream(is, product.imageNames.get(i));
 						product.images.add(imageData);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				} catch (MalformedURLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
 				}			
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -78,12 +75,12 @@ public class Products {
 				
 				//TODO put this in variant stuff
 				String sku = "";
-				/*try {
+				try {
 					sku = productJSON.getString("sku");
 				} catch (JSONException e) {
 					//No SKU
 					sku = "";
-				}*/
+				}
 				
 				Product product = new Product(
 						productJSON.getInt("id"),
@@ -113,6 +110,7 @@ public class Products {
 		count = 0;
 	}
 
+	
 	public ArrayList<Product> getNewestProducts(int limit) {
 		ArrayList<Product> collection = new ArrayList<Product>();
 		JSONObject productContainer = spree.connector.getJSONObject("api/products.json");
@@ -120,10 +118,9 @@ public class Products {
 		return collection;
 	}
 	
-	public ArrayList<Product> scanSearch(String query) {
+	public ArrayList<Product> findByBarcode(String code) {
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + query);
-		//Log.d("Products.scanSearch", "Results: " + count);
+		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + code);
 		collection = processProductContainer(productContainer);
 		return collection;
 	}

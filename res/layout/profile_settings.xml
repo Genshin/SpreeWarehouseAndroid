@@ -1,139 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/scrollView1"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/profile_settings_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/profile_settings"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-        <LinearLayout
-            android:id="@+id/profile_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/profile_new_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_new" />
+		<TextView
+			android:id="@+id/profile_settings_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/profile_settings"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <Spinner
-                android:id="@+id/profile_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.68" />
+		<LinearLayout
+			android:id="@+id/profile_section"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/profile_delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete" />
+			<Button
+				android:id="@+id/profile_new_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/register_new" />
 
-        </LinearLayout>
+			<Spinner
+				android:id="@+id/profile_spinner"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.68" />
 
-        <TextView
-            android:id="@+id/profilename_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_name" />
+			<Button
+				android:id="@+id/profile_delete_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/delete" />
+		</LinearLayout>
 
-        <EditText
-            android:id="@+id/profilename_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+		<TextView
+			android:id="@+id/profilename_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/profile_name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+		<EditText
+			android:id="@+id/profilename_input"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:inputType="textEmailAddress" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.99"
-                android:orientation="vertical" >
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
 
-                <TextView
-                    android:id="@+id/server_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/server" />
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight="0.99"
+				android:orientation="vertical" >
 
-                <EditText
-                    android:id="@+id/server_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textUri" >
+				<TextView
+					android:id="@+id/server_title"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/server" />
 
-                    <requestFocus />
-                </EditText>
-            </LinearLayout>
+				<EditText
+					android:id="@+id/server_input"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:ems="10"
+					android:inputType="textUri" />
+			</LinearLayout>
 
-            <LinearLayout
-                android:layout_width="139dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+			<LinearLayout
+				android:layout_width="139dp"
+				android:layout_height="match_parent"
+				android:layout_weight="0.99"
+				android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/port_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/port" />
+				<TextView
+					android:id="@+id/port_title"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/port" />
 
-                <EditText
-                    android:id="@+id/port_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:text="@string/default_port" />
+				<EditText
+					android:id="@+id/port_input"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:ems="10"
+					android:inputType="number"
+					android:text="@string/default_port" />
+			</LinearLayout>
+		</LinearLayout>
 
-            </LinearLayout>
-        </LinearLayout>
+		<TextView
+			android:id="@+id/apikey_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/api_key" />
 
-        <TextView
-            android:id="@+id/apikey_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/api_key" />
+		<EditText
+			android:id="@+id/apikey_input"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:inputType="textPassword" >
 
-        <EditText
-            android:id="@+id/apikey_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword" />
+			<requestFocus />
+		</EditText>
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+		<LinearLayout
+			android:id="@+id/linearLayout1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/profile_test_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/test" />
+			<Button
+				android:id="@+id/profile_test_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/test" />
 
-            <Button
-                android:id="@+id/profile_save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save" />
+			<Button
+				android:id="@+id/profile_save_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/save" />
 
-            <Button
-                android:id="@+id/profile_scan_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_scan" />
+			<Button
+				android:id="@+id/profile_scan_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/profile_scan" />
+		</LinearLayout>
 
-        </LinearLayout>
+	</LinearLayout>
 
-</LinearLayout>
+</ScrollView>

@@ -1,10 +1,9 @@
 package org.genshin.warehouse.products;
 
+import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.products.ProductsMenuActivity.resultCodes;
-import org.genshin.warehouse.profiles.Profile;
+import org.genshin.warehouse.products.ProductEditActivity;
 
-import spree.SpreeConnector;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +11,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ public class ProductDetailsActivity extends Activity {
 	//private EditText id;
 	private TextView name;
 	private TextView sku;
+	private TextView skuTitle;
 	private TextView price;
 	private TextView countOnHand;
 	private TextView description;
@@ -40,6 +40,7 @@ public class ProductDetailsActivity extends Activity {
 		//id = (TextView) findViewById(R.id.product_id);
 		name = (TextView) findViewById(R.id.product_name);
 		sku = (TextView) findViewById(R.id.product_sku);
+		skuTitle = (TextView) findViewById(R.id.product_sku_title);
 		price = (TextView) findViewById(R.id.product_price);
 		countOnHand = (TextView) findViewById(R.id.product_count_on_hand);
 		description = (TextView) findViewById(R.id.product_description);
@@ -64,7 +65,13 @@ public class ProductDetailsActivity extends Activity {
 
 	private void setViewFields() {
 		name.setText(product.name);
-		sku.setText(product.sku);
+		
+		if (product.sku == "") {
+			sku.setVisibility(View.GONE);
+			skuTitle.setVisibility(View.GONE);
+		} else
+			sku.setText(product.sku);
+		
 		price.setText("" + product.price);
 		countOnHand.setText("" + product.countOnHand);
 		description.setText(product.description);
@@ -111,12 +118,17 @@ public class ProductDetailsActivity extends Activity {
             
         		return true;
         }*/
-		if (item.getItemId() == menuCodes.registerVisualCode.ordinal()) {
+		int id = item.getItemId();
+
+		if (id == menuCodes.registerVisualCode.ordinal()) {
 			Intent intent = new Intent("com.google.zxing.client.android.SCAN");
             //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
             startActivityForResult(intent, resultCodes.scan.ordinal());
         	
 			return true;
+		} else if (id == menuCodes.editProductDetails.ordinal()) {
+			Intent intent = new Intent(this, ProductEditActivity.class);
+			startActivity(intent);
 		}
         
         return false;

@@ -1,22 +1,16 @@
 package org.genshin.warehouse.profiles;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.genshin.spree.RESTConnector;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.WarehouseActivity;
-import org.genshin.warehouse.WarehouseActivity.resultCodes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import spree.RESTConnector;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -36,7 +30,7 @@ public class ProfileSettingsActivity extends Activity {
 	
     EditText server;
     EditText port;
-    EditText profileName;
+    EditText name;
     EditText apiKey;
 	
     public static enum resultCodes { scan };
@@ -87,7 +81,7 @@ public class ProfileSettingsActivity extends Activity {
     private void initViewElements() {
     	server = (EditText) findViewById(R.id.server_input);
     	port = (EditText) findViewById(R.id.port_input);
-        profileName = (EditText) findViewById(R.id.profilename_input);
+        name = (EditText) findViewById(R.id.profilename_input);
         apiKey = (EditText) findViewById(R.id.apikey_input);
         
         spinner = (Spinner) findViewById(R.id.profile_spinner);
@@ -126,8 +120,6 @@ public class ProfileSettingsActivity extends Activity {
 	
 		AdapterView.OnItemSelectedListener selected = new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-	            //Spinner spinner = (Spinner)parent;
-				//int item = spinner.getSelectedItemPosition();
 				selectProfile(position);
 	        }
 
@@ -138,8 +130,15 @@ public class ProfileSettingsActivity extends Activity {
 		
     	spinner.setOnItemSelectedListener(selected);
 		
-		this.selectProfile(0);
+		this.selectProfile(profiles.selectedProfilePosition);
 	
+	}
+
+	private void selectProfile(Profile profile) {
+		for (int i = 0; i < profiles.list.size(); i++) {
+			if (profiles.list.get(i).id == profile.id)
+				this.selectProfile(i); //select profile at list position i
+		}
 	}
 
 	private void selectProfile(int position) {
@@ -147,7 +146,7 @@ public class ProfileSettingsActivity extends Activity {
 
         //insert values into fields for view/edit
         server.setText(profiles.selected.server);
-        profileName.setText(profiles.selected.profileName);
+        name.setText(profiles.selected.name);
         port.setText(String.valueOf(profiles.selected.port));
         apiKey.setText(profiles.selected.apiKey);
 	}
@@ -158,18 +157,35 @@ public class ProfileSettingsActivity extends Activity {
 		
 		//TODO set a new entry in the spinner
 		server.setText("");
-		profileName.setText("");
+		name.setText("");
 		apiKey.setText("");
 	}
 	
 	private void createProfile() {
-		profiles.createProfile(server.getText().toString(), Long.parseLong(port.getText().toString()), profileName.getText().toString(), apiKey.getText().toString());
+		profiles.createProfile(server.getText().toString(), Long.parseLong(port.getText().toString()), name.getText().toString(), apiKey.getText().toString());
 		loadProfiles();
 	}
 	
+	//update the currently selected profile
 	private void updateProfile() {
-		profiles.updateProfile(profiles.list.get(selectedProfile));
+		//get currently selected profile info
+		Profile updatedProfile = profiles.list.get(selectedProfile);
+		
+		//get info from fields
+		updatedProfile.name = name.getText().toString();
+		updatedProfile.server = server.getText().toString();
+		updatedProfile.port = Integer.parseInt(port.getText().toString());
+		updatedProfile.apiKey = apiKey.getText().toString();
+		
+		//update!
+		profiles.updateProfile(updatedProfile);
+		
+		//reload profile list
 		loadProfiles();
+		
+		//we loose our place after re-loading the profiles
+		//reset the profile to what we just updated
+		selectProfile(1);//updatedProfile);
 	}
 	
 	private void deleteProfile() {
@@ -188,13 +204,14 @@ public class ProfileSettingsActivity extends Activity {
         if (requestCode == resultCodes.scan.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 
                 // Handle successful scan
-                // sample QR code content: {profile: { server: "myserver", port: 3000, key: "012bf0bcf3dbf13d66db2119b3cb19cd187c235cb5618ccb" }}
+                // sample QR code content: {profile: { server: "myserver", name: "name@example.com", port: 3000, key: "012bf0bcf3dbf13d66db2119b3cb19cd187c235cb5618ccb" }}
                 try {
 					JSONObject containerObj = new JSONObject(contents);
 					JSONObject profileObj = containerObj.getJSONObject("profile");
+					name.setText(profileObj.getString("name"));
 					server.setText(profileObj.getString("server"));
 			    	port.setText("" + profileObj.getInt("port"));
 			        apiKey.setText(profileObj.getString("key"));

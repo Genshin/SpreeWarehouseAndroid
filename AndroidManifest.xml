@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.genshin.warehouse"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="10" />
     <uses-permission android:name="android.permission.INTERNET">
@@ -42,6 +42,11 @@
         <activity 
             android:name=".products.ProductDetailsActivity"
             android:label="@string/product_details" >
+            
+        </activity>
+        <activity 
+            android:name=".products.ProductEditActivity"
+            android:label="@string/product_edit" >
             
         </activity>
         <activity 
