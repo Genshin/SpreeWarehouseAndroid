@@ -146,7 +146,7 @@ public class ProfileSettingsActivity extends Activity {
 
         //insert values into fields for view/edit
         server.setText(profiles.selected.server);
-        name.setText(profiles.selected.profileName);
+        name.setText(profiles.selected.name);
         port.setText(String.valueOf(profiles.selected.port));
         apiKey.setText(profiles.selected.apiKey);
 	}
@@ -168,9 +168,21 @@ public class ProfileSettingsActivity extends Activity {
 	
 	//update the currently selected profile
 	private void updateProfile() {
+		//get currently selected profile info
 		Profile updatedProfile = profiles.list.get(selectedProfile);
+		
+		//get info from fields
+		updatedProfile.name = name.getText().toString();
+		updatedProfile.server = server.getText().toString();
+		updatedProfile.port = Integer.parseInt(port.getText().toString());
+		updatedProfile.apiKey = apiKey.getText().toString();
+		
+		//update!
 		profiles.updateProfile(updatedProfile);
+		
+		//reload profile list
 		loadProfiles();
+		
 		//we loose our place after re-loading the profiles
 		//reset the profile to what we just updated
 		selectProfile(1);//updatedProfile);

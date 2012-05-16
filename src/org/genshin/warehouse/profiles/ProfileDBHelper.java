@@ -10,24 +10,25 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class ProfileDBHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase db;
 	
 	private static final String TABLE_PROFILES = "profiles";
 	private static final String COLUMN_ID = "id";
+	private static final String COLUMN_NAME = "name";
 	private static final String COLUMN_SERVER = "server";
 	private static final String COLUMN_PORT = "port";
-	private static final String COLUMN_PROFILENAME = "profileName";
 	private static final String COLUMN_APIKEY = "apiKey";
 	private static final String DATABASE_NAME = "warehouse.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 	
 	private String[] allColumns = {
 			ProfileDBHelper.COLUMN_ID,
+			ProfileDBHelper.COLUMN_NAME,
 			ProfileDBHelper.COLUMN_SERVER,
 			ProfileDBHelper.COLUMN_PORT,
-			ProfileDBHelper.COLUMN_PROFILENAME,
 			ProfileDBHelper.COLUMN_APIKEY };
 
 	public static final String DATABASE_CREATE =
@@ -35,9 +36,9 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 			"create table "
 			+ TABLE_PROFILES + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, "
+			+ COLUMN_NAME + " string not null, "
 			+ COLUMN_SERVER + " string not null, "
 			+ COLUMN_PORT + " integer not null, "
-			+ COLUMN_PROFILENAME + " string not null, "
 			+ COLUMN_APIKEY + " string not null);";
 	
 	public ProfileDBHelper(Context context) {
@@ -67,12 +68,12 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 	}
 
 	//Create a new profile
-	public Profile createProfile(String server, long port, String profileName, String apiKey) {
+	public Profile createProfile(String server, long port, String name, String apiKey) {
 		openDB();
 			ContentValues values = new ContentValues();
 			values.put(ProfileDBHelper.COLUMN_SERVER, server);
+			values.put(ProfileDBHelper.COLUMN_NAME, name);
 			values.put(ProfileDBHelper.COLUMN_PORT, port);
-			values.put(ProfileDBHelper.COLUMN_PROFILENAME, profileName);
 			values.put(ProfileDBHelper.COLUMN_APIKEY, apiKey);
 			long insertID = db.insert(ProfileDBHelper.TABLE_PROFILES, null, values);
 			Cursor cursor = db.query(ProfileDBHelper.TABLE_PROFILES, allColumns, ProfileDBHelper.COLUMN_ID + " = " + insertID, null, null, null, null);
@@ -87,11 +88,12 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 	//Update a profile
 	//The profile ID is held within the profile object
 	public void updateProfile(Profile profile) {
+		Log.d("ProfileDBHelper.updateProfile", "id: " + profile.id + " | name: " + profile.name);
 		openDB();
 			ContentValues values = new ContentValues();
 			values.put(ProfileDBHelper.COLUMN_SERVER, profile.server);
+			values.put(ProfileDBHelper.COLUMN_NAME, profile.name);
 			values.put(ProfileDBHelper.COLUMN_PORT, profile.port);
-			values.put(ProfileDBHelper.COLUMN_PROFILENAME, profile.profileName);
 			values.put(ProfileDBHelper.COLUMN_APIKEY, profile.apiKey);
 			
 			db.update(ProfileDBHelper.TABLE_PROFILES, values, ProfileDBHelper.COLUMN_ID + " = " + profile.id, null);
@@ -101,7 +103,7 @@ public class ProfileDBHelper extends SQLiteOpenHelper {
 	//Converts a cursor record to a Profile object
 	private Profile cursorToProfile(Cursor c) {
 		Profile p = new Profile();
-		p.set(c.getLong(0)/*id*/, c.getString(1)/*server*/, c.getInt(2) /*port*/, c.getString(3)/*profileName*/, c.getString(4)/*apiKey*/);
+		p.set(c.getLong(0)/*id*/, c.getString(1)/*name*/, c.getString(2)/*server*/, c.getInt(3) /*port*/, c.getString(4)/*apiKey*/);
 		return p;
 	}
 	

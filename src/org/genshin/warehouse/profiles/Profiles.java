@@ -126,7 +126,7 @@ public class Profiles {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for (int i = 0; i < list.size(); i++) {
-			adapter.add(list.get(i).profileName + ":" + list.get(i).server);
+			adapter.add(list.get(i).name + ":" + list.get(i).server);
 		}
 
 		return adapter;
