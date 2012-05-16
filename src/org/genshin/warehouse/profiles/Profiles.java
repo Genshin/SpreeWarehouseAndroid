@@ -71,9 +71,9 @@ public class Profiles {
 		return list;
 	}
 
-	public void selectProfile(int position) {
+	public Profile selectProfile(int position) {
 		if (position < 0 || position >= list.size())
-			return; //OOB
+			return new Profile(); //OOB
 		
 		Profile sel = list.get(position);
 		
@@ -81,6 +81,8 @@ public class Profiles {
 		
         selectedProfilePosition = position;
 		selected = list.get(position);
+		
+		return sel;
     }
 	
 	//Delete the specified profile
