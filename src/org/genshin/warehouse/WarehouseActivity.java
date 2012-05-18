@@ -36,8 +36,7 @@ public class WarehouseActivity extends Activity {
 	//Interface objects
 	private Button scanButton;
 	private ListView menuList;
-	private Spinner profileSpinner;
-	private ToggleButton loginToggleButton; 
+	private Spinner profileSpinner; 
 	private Profiles profiles;
 	private SpreeConnector spree;
 	//Result codes from other Activities
@@ -92,16 +91,7 @@ public class WarehouseActivity extends Activity {
         });
         
         //Profile Spinner hooked up and loaded in loadProfiles
-        loadProfiles();
-        
-        
-
-        //Login Toggle Button
-        loginToggleButton = (ToggleButton) findViewById(R.id.login_toggleButton);
-        loginToggleButton.setTextOff("Connect");
-        loginToggleButton.setTextOn("Disconnect");
-        loginToggleButton.setChecked(false);
-        
+        loadProfiles();        
 	}
 	
     @Override
