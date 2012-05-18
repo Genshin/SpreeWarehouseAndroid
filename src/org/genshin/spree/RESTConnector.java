@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -27,18 +28,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Credentials;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class RESTConnector extends Activity {
+	private Context ctx;
 	private Boolean initialized;
-	private DefaultHttpClient client; 
+	private DefaultHttpClient client;
 	
 	private String server;
 	private String apiKey;
 	private int port;
 	
+	public RESTConnector(Context ctx) {
+		this.ctx = ctx;
+	}
+
 	public String getBaseURL() {
 		return "http://" + server + ":" + port;
 	}
@@ -91,7 +99,6 @@ public class RESTConnector extends Activity {
 			}
 		} catch (ClientProtocolException e) {
 			combinedStatus = "ClientProtocolException: " + e.getMessage();
-			Log.d("RESTDEBUG", combinedStatus);
 		} catch (IOException e) {
 			combinedStatus = "IOException: " + e.toString();
 			Log.d("RESTDEBUG", combinedStatus);
@@ -100,58 +107,78 @@ public class RESTConnector extends Activity {
 		return combinedStatus;
 	}
 	
-	public JSONObject getJSONObject(String targetURL) {
-		JSONObject data = new JSONObject();
-							
+	public HttpResponse getResponse(HttpGet getter) {
+		
 		try {
-			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
-			//Set headers manually because Android doesn't seem to care to
-			getter.addHeader("X-Spree-Token", this.apiKey);
 			HttpResponse response = client.execute(getter);
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
 			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				String content = EntityUtils.toString(entity);
-				data = new JSONObject(content);
+				return response;
 			} else {
-				Log.d("getJSON", "Response not 200, Status: " + statusCode);
+				Toast.makeText(ctx, "Response not 200, Status: " + statusCode, Toast.LENGTH_LONG).show();
 			}
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			Toast.makeText(ctx, "ClientProtocolException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}	
+			Toast.makeText(ctx, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+		}
 		
+		return null;
+	}
+
+	public JSONObject getJSONObject(String targetURL) {
+		JSONObject data = new JSONObject();
+							
+		HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
+		//Set headers manually because Android doesn't seem to care to
+		getter.addHeader("X-Spree-Token", this.apiKey);
+		HttpResponse response = this.getResponse(getter);
+		if (response == null) {
+			Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
+			return data;
+		}
+
+		HttpEntity entity = response.getEntity();
+		String content;
+		try {
+			content = EntityUtils.toString(entity);
+			data = new JSONObject(content);
+		} catch (ParseException e) {
+			Toast.makeText(ctx, "ParseException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+		} catch (IOException e) {
+			Toast.makeText(ctx, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+		} catch (JSONException e) {
+			Toast.makeText(ctx, "JSON parse error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+
 		return data;
 	}
 	
 	public JSONArray getJSONArray(String targetURL) {
 		JSONArray data = new JSONArray();
 							
+		HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
+		//Set headers manually because Android doesn't seem to care to
+		getter.addHeader("X-Spree-Token", this.apiKey);
+		HttpResponse response = this.getResponse(getter);
+		if (response == null) {
+			Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
+			return data;
+		}
+
+		HttpEntity entity = response.getEntity();
+		String content;
 		try {
-			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port + "/" + targetURL);
-			//Set headers manually because Android doesn't seem to care to
-			getter.addHeader("X-Spree-Token", this.apiKey);
-			HttpResponse response = client.execute(getter);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				String content = EntityUtils.toString(entity);
-				data = new JSONArray(content);
-			} else {
-				Log.d("getJSON", "Response not 200, Status: " + statusCode);
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			content = EntityUtils.toString(entity);
+			data = new JSONArray(content);
+		} catch (ParseException e) {
+			Toast.makeText(ctx, "ParseException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Toast.makeText(ctx, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 		} catch (JSONException e) {
-			e.printStackTrace();
-		}	
+			Toast.makeText(ctx, "JSON parse error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 		
 		return data;
 	}
