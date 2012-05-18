@@ -194,7 +194,7 @@ public class ProfileSettingsActivity extends Activity {
 	}
 
 	private void testProfile() {
-		RESTConnector connector = new RESTConnector();
+		RESTConnector connector = new RESTConnector(this);
 		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.apiKey);
 		String result = connector.test();
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
