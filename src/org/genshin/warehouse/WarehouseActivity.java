@@ -1,23 +1,16 @@
 package org.genshin.warehouse;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import org.genshin.spree.RESTConnector;
 import org.genshin.spree.SpreeConnector;
-import org.genshin.warehouse.*;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
@@ -25,7 +18,6 @@ import org.genshin.warehouse.picking.PickingMenuActivity;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
-import org.genshin.warehouse.profiles.Profile;
 import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;

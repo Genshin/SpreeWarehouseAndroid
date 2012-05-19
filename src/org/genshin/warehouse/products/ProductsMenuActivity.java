@@ -9,8 +9,11 @@ import org.genshin.warehouse.products.ProductDetailsActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -90,6 +93,31 @@ public class ProductsMenuActivity extends Activity {
         
         refreshProductMenu();
 	}
+
+	public static enum menuCodes { registerProduct };
+
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		Resources res = getResources();
+        // メニューアイテムを追加します
+        menu.add(Menu.NONE, menuCodes.registerProduct.ordinal(), Menu.NONE, res.getString(R.string.register_product));
+        return super.onCreateOptionsMenu(menu);
+    }
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+
+		if (id == menuCodes.registerProduct.ordinal()) {
+			Intent intent = new Intent(this, ProductNewActivity.class);
+            startActivity(intent);
+        	
+			return true;
+		}
+        
+        return false;
+    }
 	
 	private void refreshProductMenu() {
 		//Log.d("PRODUCTLIST", "length " + products.list.size());

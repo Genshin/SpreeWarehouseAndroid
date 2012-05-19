@@ -49,6 +49,11 @@
             android:label="@string/product_edit" >
             
         </activity>
+                <activity 
+            android:name=".products.ProductEditActivity"
+            android:label="@string/new_product" >
+            
+        </activity>
         <activity 
             android:name=".orders.OrdersMenuActivity"
             android:label="@string/orders" >

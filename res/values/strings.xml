@@ -62,4 +62,7 @@
     <string name="scan_stocking">Consecutive Scan Stocking</string>
     <string name="supplier">Supplier</string>
     <string name="order_number">Order Number</string>
+	<string name="register_product">Register Product</string>
+	<string name="new_product">New Product</string>
+
 </resources>

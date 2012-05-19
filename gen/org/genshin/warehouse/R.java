@@ -136,6 +136,7 @@ public final class R {
         public static final int hello=0x7f040000;
         public static final int is_listed=0x7f040038;
         public static final int main_menu=0x7f04001f;
+        public static final int new_product=0x7f04003f;
         public static final int order_number=0x7f04003d;
         public static final int orders=0x7f040005;
         public static final int packing=0x7f040020;
@@ -158,6 +159,7 @@ public final class R {
         public static final int profiles=0x7f040018;
         public static final int register_barcode=0x7f04002f;
         public static final int register_new=0x7f04000f;
+        public static final int register_product=0x7f04003e;
         public static final int save=0x7f040022;
         public static final int save_password_checkbox=0x7f04000a;
         public static final int scan=0x7f040010;
