@@ -116,6 +116,12 @@
 			<requestFocus />
 		</EditText>
 
+		<CheckBox
+		    android:id="@+id/unsigned_cert_checkbox"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/allow_unsigned_cert" />
+
 		<LinearLayout
 			android:id="@+id/linearLayout1"
 			android:layout_width="match_parent"

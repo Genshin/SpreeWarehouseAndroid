@@ -58,5 +58,6 @@
     <string name="cancel">Cancel</string>
     <string name="is_listed">Listed?</string>
     <string name="product_edit">Edit Product</string>
+    <string name="allow_unsigned_cert">Allow Unsigned Cert</string>
 
 </resources>
