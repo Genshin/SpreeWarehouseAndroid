@@ -56,4 +56,5 @@
     <string name="api_key">API鍵</string>
     <string name="profile_name">プロフィール名</string>
     <string name="profile_scan">プロフィールコードのスキャン</string>
+    <string name="allow_unsigned_cert">認証なしの証明を許可</string>
 </resources>

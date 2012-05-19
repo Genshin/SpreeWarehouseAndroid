@@ -38,9 +38,9 @@ public final class R {
         public static final int linearLayout2=0x7f050001;
         public static final int listed_toggle=0x7f05001e;
         public static final int main_menu_actions_list=0x7f050003;
-        public static final int menu_item_icon=0x7f05003d;
-        public static final int menu_item_subtext=0x7f05003f;
-        public static final int menu_item_title=0x7f05003e;
+        public static final int menu_item_icon=0x7f05003e;
+        public static final int menu_item_subtext=0x7f050040;
+        public static final int menu_item_title=0x7f05003f;
         public static final int port_input=0x7f050037;
         public static final int port_title=0x7f050036;
         public static final int producs_menu_order_spinner=0x7f050026;
@@ -72,12 +72,12 @@ public final class R {
         public static final int products_menu_search_button=0x7f050028;
         public static final int profile_delete_button=0x7f050031;
         public static final int profile_new_button=0x7f05002f;
-        public static final int profile_save_button=0x7f05003b;
-        public static final int profile_scan_button=0x7f05003c;
+        public static final int profile_save_button=0x7f05003c;
+        public static final int profile_scan_button=0x7f05003d;
         public static final int profile_section=0x7f05002e;
         public static final int profile_settings_title=0x7f05002d;
         public static final int profile_spinner=0x7f050030;
-        public static final int profile_test_button=0x7f05003a;
+        public static final int profile_test_button=0x7f05003b;
         public static final int profilename_input=0x7f050033;
         public static final int profilename_title=0x7f050032;
         public static final int save_button=0x7f05001d;
@@ -86,11 +86,12 @@ public final class R {
         public static final int server_input=0x7f050035;
         public static final int server_title=0x7f050034;
         public static final int settings_button=0x7f050005;
-        public static final int settings_category_list=0x7f050041;
-        public static final int settings_title=0x7f050040;
+        public static final int settings_category_list=0x7f050042;
+        public static final int settings_title=0x7f050041;
         public static final int status_text=0x7f05002a;
         public static final int tableRow1=0x7f050016;
         public static final int tableRow2=0x7f050018;
+        public static final int unsigned_cert_checkbox=0x7f05003a;
         public static final int warehouse_profile_spinner=0x7f050002;
         public static final int warehouse_settings_layout=0x7f050000;
     }
@@ -112,6 +113,7 @@ public final class R {
     }
     public static final class string {
         public static final int add_product_image=0x7f040030;
+        public static final int allow_unsigned_cert=0x7f04003a;
         public static final int api_key=0x7f04002a;
         public static final int app_name=0x7f040002;
         public static final int blank_status=0x7f04002c;
