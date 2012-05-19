@@ -20,7 +20,6 @@ import org.genshin.warehouse.R;
 import org.genshin.warehouse.products.Product;
 
 public class ProductEditActivity extends Activity {
-	private Boolean isNew;
 	private Product product;
 
 	private EditText nameEdit;

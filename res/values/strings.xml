@@ -59,5 +59,7 @@
     <string name="is_listed">Listed?</string>
     <string name="product_edit">Edit Product</string>
     <string name="allow_unsigned_cert">Allow Unsigned Cert</string>
-
+    <string name="scan_stocking">Consecutive Scan Stocking</string>
+    <string name="supplier">Supplier</string>
+    <string name="order_number">Order Number</string>
 </resources>

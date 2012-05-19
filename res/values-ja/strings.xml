@@ -57,4 +57,7 @@
     <string name="profile_name">プロフィール名</string>
     <string name="profile_scan">プロフィールコードのスキャン</string>
     <string name="allow_unsigned_cert">認証なしの証明を許可</string>
+    <string name="scan_stocking">連続スキャン入荷</string>
+    <string name="supplier">サプライヤ</string>
+    <string name="order_number">注文番号</string>
 </resources>

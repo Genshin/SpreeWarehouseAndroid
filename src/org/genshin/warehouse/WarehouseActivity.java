@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import org.genshin.spree.RESTConnector;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.*;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
 import org.genshin.warehouse.picking.PickingMenuActivity;
@@ -39,8 +40,6 @@ public class WarehouseActivity extends Activity {
 	private Spinner profileSpinner; 
 	private Profiles profiles;
 	private SpreeConnector spree;
-	//Result codes from other Activities
-	public static enum resultCodes { scan };
 
 	ThumbListItem[] menuListItems;
 	
@@ -67,20 +66,23 @@ public class WarehouseActivity extends Activity {
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
 	}
 	
+	private void initViewElements() {
+		scanButton = (Button) findViewById(R.id.scan_button);
+        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
+	}
+
 	private void hookupInterface() {
 		//Scan Button
-		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
+        		//Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
                 //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                startActivityForResult(intent, resultCodes.scan.ordinal());
+                startActivityForResult(intent, ResultCodes.SCAN.ordinal());
             }
 		});
         
         //Menu List
-        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
         ThumbListAdapter menuAdapter = new ThumbListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,6 +104,7 @@ public class WarehouseActivity extends Activity {
         spree = new SpreeConnector(this);
         
         createMainMenu();
+		initViewElements();
         hookupInterface();
     }
     
@@ -119,11 +122,11 @@ public class WarehouseActivity extends Activity {
     }
     
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == resultCodes.scan.ordinal()) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
+                //Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 // Handle successful scan
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
@@ -131,6 +134,7 @@ public class WarehouseActivity extends Activity {
                 	ArrayList<Product> foundProducts = products.findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
+                		Toast.makeText(this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
                 	}
                 	
