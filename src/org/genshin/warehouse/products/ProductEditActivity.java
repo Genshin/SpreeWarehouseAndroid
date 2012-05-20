@@ -28,6 +28,7 @@ public class ProductEditActivity extends Activity {
 	private EditText skuEdit;
 	private EditText priceEdit;
 	private EditText permalinkEdit;
+	private EditText barcodeEdit;
 	private EditText descriptionEdit;
 
 	private ImageSwitcher imageSwitcher;
@@ -42,6 +43,7 @@ public class ProductEditActivity extends Activity {
 		skuEdit = (EditText) findViewById(R.id.product_sku_edit);
 		priceEdit = (EditText) findViewById(R.id.product_price_edit);
 		permalinkEdit = (EditText) findViewById(R.id.product_permalink_edit);
+		barcodeEdit = (EditText) findViewById(R.id.barcode_text);
 	    descriptionEdit = (EditText) findViewById(R.id.product_description_edit);
 
 		imageSwitcher = (ImageSwitcher) findViewById(R.id.product_image_switcher);

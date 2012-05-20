@@ -45,6 +45,6 @@ public class Product {
 	}
 	
 	public void addVariant(int id, String name, int countOnHand, String visualCode, String sku, double price, double weight, double height, double width, double depth, Boolean isMaster, double costPrice, String permalink) {
-		
+		variants.add(new Variant(id, name, countOnHand, visualCode, sku, price, weight, height, width, depth, isMaster, costPrice, permalink));
 	}
 }
