@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -20,6 +21,7 @@ import org.genshin.warehouse.R;
 import org.genshin.warehouse.products.Product;
 
 public class ProductEditActivity extends Activity {
+	boolean isNew;
 	private Product product;
 
 	private EditText nameEdit;
@@ -71,15 +73,20 @@ public class ProductEditActivity extends Activity {
 				saveProduct();
 			}
 		});
-
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Intent intent = getIntent();
+		isNew = intent.getBooleanExtra("IS_NEW", false);
+			
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_edit);
 
-        product = ProductsMenuActivity.getSelectedProduct();
+        if (isNew)
+        	product = new Product();
+        else
+        	product = ProductsMenuActivity.getSelectedProduct();
         
 		initViewElements();
         hookupInterface();
@@ -88,13 +95,21 @@ public class ProductEditActivity extends Activity {
 	private void saveProduct() {
 		SpreeConnector spree = new SpreeConnector(this);
 		ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>();
-		pairs.add(new BasicNameValuePair("product[name]", nameEdit.getText().toString()));
-		pairs.add(new BasicNameValuePair("product[price]", priceEdit.getText().toString()));
-		pairs.add(new BasicNameValuePair("product[permalink]", permalinkEdit.getText().toString()));
-		pairs.add(new BasicNameValuePair("product[description]", descriptionEdit.getText().toString()));
+		if (nameEdit.getText().toString() != "")
+			pairs.add(new BasicNameValuePair("product[name]", nameEdit.getText().toString()));
+		if (priceEdit.getText().toString() != "")
+			pairs.add(new BasicNameValuePair("product[price]", priceEdit.getText().toString()));
+		if (permalinkEdit.getText().toString() != "")
+			pairs.add(new BasicNameValuePair("product[permalink]", permalinkEdit.getText().toString()));
+		if (descriptionEdit.getText().toString() != "")
+			pairs.add(new BasicNameValuePair("product[description]", descriptionEdit.getText().toString()));
 		//TODO add SKU etc.
 		
-		spree.connector.putWithArgs("api/products/" + product.id + ".json", pairs);
+		if (isNew) {
+			spree.connector.postWithArgs("api/products#create", pairs);
+			isNew = false;
+		} else
+			spree.connector.putWithArgs("api/products/" + product.id + ".json", pairs);
 
 		
 	}

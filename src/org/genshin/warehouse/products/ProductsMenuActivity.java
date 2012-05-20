@@ -99,7 +99,7 @@ public class ProductsMenuActivity extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 		Resources res = getResources();
-        // メニューアイテムを追加します
+        // メニューアイテムを追加する
         menu.add(Menu.NONE, menuCodes.registerProduct.ordinal(), Menu.NONE, res.getString(R.string.register_product));
         return super.onCreateOptionsMenu(menu);
     }
@@ -110,7 +110,8 @@ public class ProductsMenuActivity extends Activity {
 		int id = item.getItemId();
 
 		if (id == menuCodes.registerProduct.ordinal()) {
-			Intent intent = new Intent(this, ProductNewActivity.class);
+			Intent intent = new Intent(this, ProductEditActivity.class);
+			intent.putExtra("IS_NEW", true);
             startActivity(intent);
         	
 			return true;

@@ -18,6 +18,19 @@ public class Product {
 	public ArrayList<Variant> variants;
 
 
+	public Product() {
+		this.id = -1;
+		this.name = "";
+		this.sku = "";
+		this.price = 0.0;
+		this.countOnHand = 0;
+		this.description = "";
+		this.permalink = "";
+		this.imageNames = new ArrayList<String>();
+		this.imageIDs = new ArrayList<Integer>();
+		this.images = new ArrayList<Drawable>();
+	}
+	
 	public Product(int id, String name, String sku, double price, int countOnHand, String description, String permalink) {
 		this.id = id;
 		this.name = name;

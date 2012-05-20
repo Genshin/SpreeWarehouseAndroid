@@ -62,5 +62,6 @@
     <string name="order_number">注文番号</string>
 	<string name="register_product">商品登録</string>
 	<string name="new_product">新規商品</string>
+	<string name="barcode">バーコード</string>
 	
 </resources>

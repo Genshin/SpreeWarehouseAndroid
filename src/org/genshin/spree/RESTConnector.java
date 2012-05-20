@@ -32,6 +32,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -173,11 +174,7 @@ public class RESTConnector extends Activity {
 	public JSONObject getJSONObject(String targetURL) {
 		JSONObject data = new JSONObject();
 		
-		String protocol = "http://";
-		if (this.port ==  443)
-			protocol = "https://";
-		
-		HttpGet getter = new HttpGet(protocol + this.server + ":" + this.port + "/" + targetURL);
+		HttpGet getter = new HttpGet(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
 		//Set headers manually because Android doesn't seem to care to
 		getter.addHeader("X-Spree-Token", this.apiKey);
 		HttpResponse response = this.getResponse(getter);
@@ -204,15 +201,20 @@ public class RESTConnector extends Activity {
 	
 	
 	
-	public JSONArray getJSONArray(String targetURL) {
-		JSONArray data = new JSONArray();
-		
+	private String protocolHeader() {
 		String protocol = "http://";
 		if (this.port ==  443) {
 			protocol = "https://";
 		}
 		
-		HttpGet getter = new HttpGet(protocol + this.server + ":" + this.port + "/" + targetURL);
+		return protocol;
+	}
+	
+	
+	public JSONArray getJSONArray(String targetURL) {
+		JSONArray data = new JSONArray();
+		
+		HttpGet getter = new HttpGet(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
 		
 		
 				
@@ -246,7 +248,7 @@ public class RESTConnector extends Activity {
 		int statusCode = 0;
 		
 		try {
-			HttpPut put = new HttpPut("http://" + this.server + ":" + this.port + "/" + targetURL);
+			HttpPut put = new HttpPut(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
 			//Set headers manually because Android doesn't seem to care to
 			put.addHeader("X-Spree-Token", this.apiKey);
 			if (pairs != null) {
@@ -273,6 +275,35 @@ public class RESTConnector extends Activity {
 	
 	public int genericPut(String targetURL) {
 		return putWithArgs(targetURL, null);
+	}
+	
+	public int postWithArgs(String targetURL, ArrayList<NameValuePair> pairs) {
+		int statusCode = 0;
+		
+		try {
+			HttpPost post = new HttpPost(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
+			//Set headers manually because Android doesn't seem to care to
+			post.addHeader("X-Spree-Token", this.apiKey);
+			if (pairs != null) {
+				post.setEntity(new UrlEncodedFormEntity(pairs, "UTF-8"));
+				Log.d("RESTConnector.putWithArgs", "added pairs");
+			}
+			HttpResponse response = client.execute(post);
+			StatusLine statusLine = response.getStatusLine();
+			statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				String content = EntityUtils.toString(entity);
+			} else {
+				Log.d("RESTConnector.genericRequest", "Response not 200, Status: " + statusCode);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		return statusCode;
 	}
 	
 	public class AnyCertSSLSocketFactory extends SSLSocketFactory {
