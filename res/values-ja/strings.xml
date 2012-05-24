@@ -63,5 +63,12 @@
 	<string name="register_product">商品登録</string>
 	<string name="new_product">新規商品</string>
 	<string name="barcode">バーコード</string>
+	<string name="update">更新</string>
+	<string name="about_warehouse">Warehouseについて</string>
+	<string name="version">バージョン</string>
+	<string name="creator_and_copyright_title">作者と著作権</string>
+	<string name="your_version">今のバージョン</string>
+	<string name="app_store_version">Playストアバージョン</string>
+	<string name="development_version">開発バージョン</string>
 	
 </resources>
