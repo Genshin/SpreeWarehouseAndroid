@@ -27,8 +27,13 @@
             
         </activity>
         <activity
+            android:name=".settings.UpdateActivity"
+            android:label="@string/update" >
+            
+        </activity>
+        <activity
             android:name=".profiles.ProfileSettingsActivity"
-            android:label="@string/settings" >
+            android:label="@string/profiles" >
             
         </activity>
         <activity 

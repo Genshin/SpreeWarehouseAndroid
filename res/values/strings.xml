@@ -64,7 +64,6 @@
     <string name="order_number">Order Number</string>
 	<string name="register_product">Register Product</string>
 	<string name="new_product">New Product</string>
-	<string name="barcode">Barcode</string>
 	<string name="update">Update</string>
 	<string name="about_warehouse">About Warehouse</string>
 	<string name="version">Version</string>

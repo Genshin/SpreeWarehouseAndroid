@@ -135,26 +135,26 @@ public final class R {
         public static final int warehouse_settings=0x7f030010;
     }
     public static final class string {
-        public static final int about_warehouse=0x7f040042;
+        public static final int about_warehouse=0x7f040041;
         public static final int add_product_image=0x7f040030;
         public static final int allow_unsigned_cert=0x7f04003a;
         public static final int api_key=0x7f04002a;
         public static final int app_name=0x7f040002;
-        public static final int app_store_version=0x7f040047;
-        public static final int barcode=0x7f040040;
+        public static final int app_store_version=0x7f040046;
+        public static final int barcode=0x7f040048;
         public static final int blank_status=0x7f04002c;
         public static final int camera=0x7f04001a;
         public static final int cancel=0x7f040037;
         public static final int clear=0x7f040013;
-        public static final int creator_and_copyright_title=0x7f040044;
+        public static final int creator_and_copyright_title=0x7f040043;
         public static final int default_port=0x7f040026;
         public static final int defaults=0x7f040019;
         public static final int delete=0x7f040023;
         public static final int destock=0x7f04002e;
-        public static final int development_version=0x7f040048;
+        public static final int development_version=0x7f040047;
         public static final int edit=0x7f04000e;
         public static final int edit_product_details=0x7f040031;
-        public static final int genshin=0x7f040045;
+        public static final int genshin=0x7f040044;
         public static final int hello=0x7f040000;
         public static final int is_listed=0x7f040038;
         public static final int main_menu=0x7f04001f;
@@ -201,12 +201,12 @@ public final class R {
         public static final int test=0x7f040024;
         public static final int title=0x7f040001;
         public static final int units_counter=0x7f040033;
-        public static final int update=0x7f040041;
+        public static final int update=0x7f040040;
         public static final int username=0x7f04001d;
         public static final int username_text=0x7f040008;
-        public static final int version=0x7f040043;
+        public static final int version=0x7f040042;
         public static final int warehouse_title=0x7f040003;
-        public static final int your_version=0x7f040046;
+        public static final int your_version=0x7f040045;
         public static final int zero=0x7f040016;
     }
 }
