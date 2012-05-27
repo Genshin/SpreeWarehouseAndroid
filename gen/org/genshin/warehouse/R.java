@@ -36,7 +36,6 @@ public final class R {
         public static final int barcode_scan_button=0x7f050023;
         public static final int barcode_text=0x7f050022;
         public static final int barcode_title=0x7f050021;
-        public static final int button1=0x7f050054;
         public static final int created_and_copyright=0x7f050004;
         public static final int delete_button=0x7f050028;
         public static final int development_version_text=0x7f050053;
@@ -108,6 +107,7 @@ public final class R {
         public static final int tableRow1=0x7f05001c;
         public static final int tableRow2=0x7f05001e;
         public static final int unsigned_cert_checkbox=0x7f050043;
+        public static final int update_button=0x7f050054;
         public static final int version_text=0x7f050002;
         public static final int version_title_text=0x7f050001;
         public static final int warehouse_profile_spinner=0x7f050009;
