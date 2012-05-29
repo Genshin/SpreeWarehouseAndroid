@@ -1,30 +1,23 @@
 package org.genshin.warehouse.products;
 
-import java.util.List;
-
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
-import org.genshin.warehouse.ThumbListAdapter;
-import org.genshin.warehouse.WarehouseActivity;
-import org.genshin.warehouse.R.layout;
-import org.genshin.warehouse.WarehouseActivity.resultCodes;
-import org.genshin.warehouse.ThumbListItem;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.ProductDetailsActivity;
 
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -45,28 +38,28 @@ public class ProductsMenuActivity extends Activity {
 	private Button clearButton;
 	
 	private ImageButton scanButton;
-	public static enum resultCodes { scan };
 
-	private void hookupInterface() {
-		//Product List
+	private void initViewElements() {
         productList = (ListView) findViewById(R.id.product_menu_list);
-        
         statusText = (TextView) findViewById(R.id.status_text);
-        
+        scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
+        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
+		searchButton = (Button) findViewById(R.id.products_menu_search_button);
+		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
+	}
+	
+	private void hookupInterface() {
         //Visual Code Scan hookup
-		scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
 		scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
                 //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
-                startActivityForResult(intent, resultCodes.scan.ordinal());
+                startActivityForResult(intent, ResultCodes.SCAN.ordinal());
             }
 		});
 		
 		//Standard text search hookup
-		searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
-		searchButton = (Button) findViewById(R.id.products_menu_search_button);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				products.textSearch(searchBar.getText().toString());
@@ -75,7 +68,6 @@ public class ProductsMenuActivity extends Activity {
 		});
 		
 		//Clear button
-		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
 		clearButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				searchBar.setText("");
@@ -90,6 +82,7 @@ public class ProductsMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products);
 
+        initViewElements();
         hookupInterface();
         
         spree = new SpreeConnector(this);
@@ -100,6 +93,32 @@ public class ProductsMenuActivity extends Activity {
         
         refreshProductMenu();
 	}
+
+	public static enum menuCodes { registerProduct };
+
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		Resources res = getResources();
+        // メニューアイテムを追加する
+        menu.add(Menu.NONE, menuCodes.registerProduct.ordinal(), Menu.NONE, res.getString(R.string.register_product));
+        return super.onCreateOptionsMenu(menu);
+    }
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+
+		if (id == menuCodes.registerProduct.ordinal()) {
+			Intent intent = new Intent(this, ProductEditActivity.class);
+			intent.putExtra("IS_NEW", true);
+            startActivity(intent);
+        	
+			return true;
+		}
+        
+        return false;
+    }
 	
 	private void refreshProductMenu() {
 		//Log.d("PRODUCTLIST", "length " + products.list.size());
@@ -138,7 +157,7 @@ public class ProductsMenuActivity extends Activity {
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == resultCodes.scan.ordinal()) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");

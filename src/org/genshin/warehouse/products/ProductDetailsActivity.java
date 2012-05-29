@@ -2,6 +2,7 @@ package org.genshin.warehouse.products;
 
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.ProductEditActivity;
 
 
@@ -106,7 +107,6 @@ public class ProductDetailsActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 	
-	public static enum resultCodes { scan };
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
 		  
@@ -123,7 +123,7 @@ public class ProductDetailsActivity extends Activity {
 		if (id == menuCodes.registerVisualCode.ordinal()) {
 			Intent intent = new Intent("com.google.zxing.client.android.SCAN");
             //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
-            startActivityForResult(intent, resultCodes.scan.ordinal());
+            startActivityForResult(intent, ResultCodes.SCAN.ordinal());
         	
 			return true;
 		} else if (id == menuCodes.editProductDetails.ordinal()) {
@@ -135,7 +135,7 @@ public class ProductDetailsActivity extends Activity {
     }
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == resultCodes.scan.ordinal()) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");

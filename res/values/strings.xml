@@ -59,5 +59,18 @@
     <string name="is_listed">Listed?</string>
     <string name="product_edit">Edit Product</string>
     <string name="allow_unsigned_cert">Allow Unsigned Cert</string>
+    <string name="scan_stocking">Consecutive Scan Stocking</string>
+    <string name="supplier">Supplier</string>
+    <string name="order_number">Order Number</string>
+	<string name="register_product">Register Product</string>
+	<string name="new_product">New Product</string>
+	<string name="update">Update</string>
+	<string name="about_warehouse">About Warehouse</string>
+	<string name="version">Version</string>
+	<string name="creator_and_copyright_title">Created by &amp; Copyright of</string>
+	<string name="genshin">Genshin Souzou Kabushiki Kaisha\n [Phantom Creation Inc.]</string>
+	<string name="your_version">Installed Version</string>
+	<string name="app_store_version">Play Store Version</string>
+	<string name="development_version">Development Version</string>
 
 </resources>

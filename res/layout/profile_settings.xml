@@ -134,16 +134,17 @@
 				android:text="@string/test" />
 
 			<Button
-				android:id="@+id/profile_save_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/save" />
-
-			<Button
 				android:id="@+id/profile_scan_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/profile_scan" />
+
+			<Button
+			    android:id="@+id/profile_save_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/save" />
+
 		</LinearLayout>
 
 	</LinearLayout>
