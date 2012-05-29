@@ -37,6 +37,8 @@ public class ProductListAdapter extends ArrayAdapter<ProductListItem> {
 		sku.setText(data[position].sku);
 		TextView count = (TextView) rowView.findViewById(R.id.products_list_item_count);
 		count.setText("" + data[position].count);
+		TextView price = (TextView) rowView.findViewById(R.id.products_list_item_price);
+		price.setText("" + data[position].price);
 		
 		
 		return rowView;
