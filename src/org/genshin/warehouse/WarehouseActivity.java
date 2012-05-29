@@ -1,30 +1,23 @@
 package org.genshin.warehouse;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import org.genshin.spree.RESTConnector;
 import org.genshin.spree.SpreeConnector;
-import org.genshin.warehouse.*;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
 import org.genshin.warehouse.picking.PickingMenuActivity;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
-import org.genshin.warehouse.profiles.Profile;
 import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.settings.WarehouseSettingsActivity;
 import org.genshin.warehouse.shipping.ShippingMenuActivity;
@@ -39,8 +32,6 @@ public class WarehouseActivity extends Activity {
 	private Spinner profileSpinner; 
 	private Profiles profiles;
 	private SpreeConnector spree;
-	//Result codes from other Activities
-	public static enum resultCodes { scan };
 
 	ThumbListItem[] menuListItems;
 	
@@ -67,20 +58,24 @@ public class WarehouseActivity extends Activity {
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
 	}
 	
+	private void initViewElements() {
+		scanButton = (Button) findViewById(R.id.scan_button);
+        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
+	}
+
 	private void hookupInterface() {
 		//Scan Button
-		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
+        		//Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("DEFAULT_BYTE_MODE_ENCODING", "UTF-8");
                 //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                startActivityForResult(intent, resultCodes.scan.ordinal());
+                startActivityForResult(intent, ResultCodes.SCAN.ordinal());
             }
 		});
         
         //Menu List
-        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
         ThumbListAdapter menuAdapter = new ThumbListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,6 +97,7 @@ public class WarehouseActivity extends Activity {
         spree = new SpreeConnector(this);
         
         createMainMenu();
+		initViewElements();
         hookupInterface();
     }
     
@@ -119,12 +115,13 @@ public class WarehouseActivity extends Activity {
     }
     
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == resultCodes.scan.ordinal()) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
+                //Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 // Handle successful scan
+                //Toast.makeText(this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
                 	Products products = new Products(this, spree);
@@ -133,6 +130,7 @@ public class WarehouseActivity extends Activity {
                 	if (foundProducts.size() == 1) {
                 		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
                 	}
+                } else {
                 	
                 }
                 //TODO if it's a QR code check if it's JSON
