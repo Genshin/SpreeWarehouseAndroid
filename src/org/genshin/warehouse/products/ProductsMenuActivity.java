@@ -38,18 +38,14 @@ public class ProductsMenuActivity extends Activity {
 	private Button clearButton;
 	
 	private ImageButton scanButton;
-
-	private void initViewElements() {
-        productList = (ListView) findViewById(R.id.product_menu_list);
-        statusText = (TextView) findViewById(R.id.status_text);
-        scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
-        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
-		searchButton = (Button) findViewById(R.id.products_menu_search_button);
-		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
-	}
 	
 	private void hookupInterface() {
+		productList = (ListView) findViewById(R.id.product_menu_list);
+        statusText = (TextView) findViewById(R.id.status_text);
+        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
+		
         //Visual Code Scan hookup
+		scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
 		scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
@@ -60,6 +56,7 @@ public class ProductsMenuActivity extends Activity {
 		});
 		
 		//Standard text search hookup
+		searchButton = (Button) findViewById(R.id.products_menu_search_button);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				products.textSearch(searchBar.getText().toString());
@@ -68,6 +65,7 @@ public class ProductsMenuActivity extends Activity {
 		});
 		
 		//Clear button
+		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
 		clearButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				searchBar.setText("");
@@ -82,7 +80,6 @@ public class ProductsMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products);
 
-        initViewElements();
         hookupInterface();
         
         spree = new SpreeConnector(this);
@@ -120,9 +117,7 @@ public class ProductsMenuActivity extends Activity {
         return false;
     }
 	
-	private void refreshProductMenu() {
-		//Log.d("PRODUCTLIST", "length " + products.list.size());
-		
+	private void refreshProductMenu() {		
 		ProductListItem[] productListItems = new ProductListItem[products.list.size()];
 		
 		for (int i = 0; i < products.list.size(); i++) {

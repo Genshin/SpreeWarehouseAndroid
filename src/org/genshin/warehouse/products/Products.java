@@ -32,37 +32,6 @@ public class Products {
 		count = 0;
 	}
 	
-	
-	private void obtainImages(JSONObject productJSON, Product product) {
-		try {
-			JSONArray imageInfoArray = productJSON.getJSONArray("images");
-			for (int i = 0; i < imageInfoArray.length(); i++) {
-				JSONObject imageInfo = imageInfoArray.getJSONObject(i).getJSONObject("image");
-				product.imageNames.add(imageInfo.getString("attachment_file_name"));
-				product.imageIDs.add(imageInfo.getInt("id"));
-				
-			}
-			//Log.d("Products.obtainImages", "found " + imageInfoArray.length());
-			for (int i = 0; i < product.imageNames.size(); i++) {
-				URL url;
-				try {
-					url = new URL(spree.connector.getBaseURL() + "/spree/products/" + product.imageIDs.get(i) + "/product/" + product.imageNames.get(i));
-					try {
-						InputStream is = (InputStream) url.getContent();
-						Drawable imageData = Drawable.createFromStream(is, product.imageNames.get(i));
-						product.images.add(imageData);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}			
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private ArrayList<Product> processProductContainer(JSONObject productContainer) {
 		ArrayList<Product> collection = new ArrayList<Product>();
 		
@@ -82,16 +51,7 @@ public class Products {
 					sku = "";
 				}
 				
-				Product product = new Product(
-						productJSON.getInt("id"),
-						productJSON.getString("name"),
-						sku,
-						productJSON.getDouble("price"),
-						productJSON.getInt("count_on_hand"),
-						productJSON.getString("description"),
-						productJSON.getString("permalink"));
-				
-				obtainImages(productJSON, product);
+				Product product = new Product(productJSON);
 				
 				collection.add(product);
 				

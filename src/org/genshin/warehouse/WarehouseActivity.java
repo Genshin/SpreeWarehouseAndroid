@@ -48,9 +48,6 @@ public class WarehouseActivity extends Activity {
 	}
 	
 	private void loadProfiles() {
-		//get spinner
-		profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
-		
 		//Load profiles from the local DB
 		profiles = new Profiles(this);
 		
@@ -58,13 +55,9 @@ public class WarehouseActivity extends Activity {
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
 	}
 	
-	private void initViewElements() {
-		scanButton = (Button) findViewById(R.id.scan_button);
-        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
-	}
-
 	private void hookupInterface() {
 		//Scan Button
+		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		//Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
@@ -76,6 +69,7 @@ public class WarehouseActivity extends Activity {
 		});
         
         //Menu List
+        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
         ThumbListAdapter menuAdapter = new ThumbListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,8 +79,10 @@ public class WarehouseActivity extends Activity {
             }
         });
         
-        //Profile Spinner hooked up and loaded in loadProfiles
-        loadProfiles();        
+      //Profile Spinner
+      profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
+      //Profile Spinner contents loaded and spinner refreshsed in loadProfiles
+      loadProfiles();        
 	}
 	
     @Override
@@ -97,14 +93,13 @@ public class WarehouseActivity extends Activity {
         spree = new SpreeConnector(this);
         
         createMainMenu();
-		initViewElements();
         hookupInterface();
     }
     
     public void settingsClickHandler(View view)
 	{
 		Intent settingsIntent = new Intent(this, WarehouseSettingsActivity.class);
-    	startActivity(settingsIntent);
+    	startActivityForResult(settingsIntent, ResultCodes.SETTINGS.ordinal());
 	}
     
     private void menuListClickHandler(AdapterView<?> parent, View view,
@@ -139,6 +134,8 @@ public class WarehouseActivity extends Activity {
                 // Handle cancel
             	Toast.makeText(WarehouseActivity.this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             }
+        } else if (resultCode == ResultCodes.SETTINGS.ordinal()) {
+        	loadProfiles();
         }
     }
 
