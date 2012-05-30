@@ -123,8 +123,8 @@ public class ProductsMenuActivity extends Activity {
 		for (int i = 0; i < products.list.size(); i++) {
 			Product p = products.list.get(i);
 			Drawable thumb = null;
-			if (p.images.size() > 0)
-				thumb = p.images.get(0);
+		/*	if (p.images.size() > 0)
+				thumb = p.images.get(0);*/
 			
 			productListItems[i] = new ProductListItem(thumb, p.name, p.sku, p.countOnHand, p.permalink, p.id);
 		}

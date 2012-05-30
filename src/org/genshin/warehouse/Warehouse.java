@@ -16,10 +16,6 @@ public class Warehouse {
 		spree = new SpreeConnector(Warehouse.ctx);
 	}
 	
-	
-	
-	
-	
 	public static SpreeConnector Spree() {
 		return spree;
 	}

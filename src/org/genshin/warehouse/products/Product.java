@@ -6,12 +6,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.genshin.spree.SpreeImageData;
 import org.genshin.warehouse.Warehouse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class Product {
 	public int id;
@@ -24,13 +26,17 @@ public class Product {
 	public String description;
 	public String metaDescription;
 	public String permalink;
-	public ArrayList<String> imageNames;
-	public ArrayList<Integer> imageIDs;
-	public ArrayList<Drawable> images;
+	public ArrayList<SpreeImageData> images;
 	public ArrayList<Variant> variants;
 
 
+	private void init() {
+		this.images = new ArrayList<SpreeImageData>();
+	}
+	
 	public Product() {
+		init();
+		
 		this.id = -1;
 		this.name = "";
 		this.sku = "";
@@ -38,12 +44,11 @@ public class Product {
 		this.countOnHand = 0;
 		this.description = "";
 		this.permalink = "";
-		this.imageNames = new ArrayList<String>();
-		this.imageIDs = new ArrayList<Integer>();
-		this.images = new ArrayList<Drawable>();
 	}
 	
 	public Product(JSONObject productJSON) {
+		init();
+		
 		try {
 			this.id = productJSON.getInt("id");
 			this.name = productJSON.getString("name");
@@ -61,6 +66,8 @@ public class Product {
 	}
 	
 	public Product(int id, String name, String sku, double price, int countOnHand, String description, String permalink) {
+		init();
+		
 		this.id = id;
 		this.name = name;
 		this.sku = sku;
@@ -68,9 +75,6 @@ public class Product {
 		this.countOnHand = countOnHand;
 		this.description = description;
 		this.permalink = permalink;
-		this.imageNames = new ArrayList<String>();
-		this.imageIDs = new ArrayList<Integer>();
-		this.images = new ArrayList<Drawable>();
 	}
 	
 	public void addVariant(int id, String name, int countOnHand, String visualCode, String sku, double price, double weight, double height, double width, double depth, Boolean isMaster, double costPrice, String permalink) {
@@ -82,16 +86,14 @@ public class Product {
 			JSONArray imageInfoArray = productJSON.getJSONArray("images");
 			for (int i = 0; i < imageInfoArray.length(); i++) {
 				JSONObject imageInfo = imageInfoArray.getJSONObject(i).getJSONObject("image");
-				this.imageNames.add(imageInfo.getString("attachment_file_name"));
-				this.imageIDs.add(imageInfo.getInt("id"));
-				
+				//Log.d("FOUNDIMAGE", imageInfo.toString());
+				images.add(new SpreeImageData(imageInfo.getString("attachment_file_name"), imageInfo.getInt("id")));
 			}
 			
-			//Log.d("Products.obtainImages", "found " + imageInfoArray.length());
-			for (int i = 0; i < this.imageNames.size(); i++) {
+			for (int i = 0; i < this.images.size(); i++) {
 				URL url;
 				try {
-					url = new URL(Warehouse.Spree().connector.getBaseURL() + "/spree/products/" + this.imageIDs.get(i) + "/product/" + this.imageNames.get(i));
+					url = new URL(Warehouse.Spree().connector.getBaseURL() + "/spree/products/" + images.get(i).id + "/product/" + images.get(i).name);
 					try {
 						InputStream is = (InputStream) url.getContent();
 						Drawable imageData = Drawable.createFromStream(is, this.imageNames.get(i));
