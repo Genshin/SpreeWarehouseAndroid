@@ -96,8 +96,8 @@ public class Product {
 					url = new URL(Warehouse.Spree().connector.getBaseURL() + "/spree/products/" + images.get(i).id + "/product/" + images.get(i).name);
 					try {
 						InputStream is = (InputStream) url.getContent();
-						Drawable imageData = Drawable.createFromStream(is, this.imageNames.get(i));
-						this.images.add(imageData);
+						Drawable imageData = Drawable.createFromStream(is, this.images.get(i).name);
+						this.images.get(i).data = imageData;
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

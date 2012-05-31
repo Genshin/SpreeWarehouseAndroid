@@ -2,6 +2,7 @@ package org.genshin.warehouse.products;
 
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.ProductDetailsActivity;
 
@@ -79,7 +80,8 @@ public class ProductsMenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products);
-
+        Warehouse.ChangeActivityContext(this);
+        
         hookupInterface();
         
         spree = new SpreeConnector(this);
@@ -89,6 +91,7 @@ public class ProductsMenuActivity extends Activity {
         }
         
         refreshProductMenu();
+        
 	}
 
 	public static enum menuCodes { registerProduct };

@@ -19,4 +19,9 @@ public class Warehouse {
 	public static SpreeConnector Spree() {
 		return spree;
 	}
+	
+	public static void ChangeActivityContext(Context newContext) {
+		Warehouse.ctx = newContext;
+		spree = new SpreeConnector(Warehouse.ctx);
+	}
 }
