@@ -1,5 +1,7 @@
 package org.genshin.warehouse.products;
 
+import java.util.ArrayList;
+
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
@@ -13,14 +15,17 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +44,16 @@ public class ProductsMenuActivity extends Activity {
 	private Button clearButton;
 	
 	private ImageButton scanButton;
+	private Spinner orderSpinner;
+
+	private void initViewElements() {
+        productList = (ListView) findViewById(R.id.product_menu_list);
+        statusText = (TextView) findViewById(R.id.status_text);
+        scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
+        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
+		searchButton = (Button) findViewById(R.id.products_menu_search_button);
+		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
+	}
 	
 	private void hookupInterface() {
 		productList = (ListView) findViewById(R.id.product_menu_list);
@@ -74,6 +89,40 @@ public class ProductsMenuActivity extends Activity {
 				refreshProductMenu();
 			}
 		});
+		
+		//Order spinner
+		orderSpinner = (Spinner) findViewById(R.id.order_spinner);
+		ArrayAdapter<String> sadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+	    sadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    // アイテムを追加します
+	    sadapter.add("名前順");
+	    sadapter.add("値段順");
+	    sadapter.add("在庫数順");
+	    orderSpinner.setAdapter(sadapter);
+	    
+	    orderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                Spinner spinner = (Spinner) parent;
+                //String item = (String) spinner.getSelectedItem();
+                switch(position) {
+                	case 0: //名前順
+						sortName();
+                		break;
+	                case 1: //値段順
+	                	sortPrice();
+	                	break;
+	                case 2: //在庫数順
+	                	sortCountOnHand();
+	                	break;
+	                default :
+	                	break;             
+                }
+            }
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+        });
 	}
 	
 	@Override
@@ -129,7 +178,7 @@ public class ProductsMenuActivity extends Activity {
 		/*	if (p.images.size() > 0)
 				thumb = p.images.get(0);*/
 			
-			productListItems[i] = new ProductListItem(thumb, p.name, p.sku, p.countOnHand, p.permalink, p.id);
+			productListItems[i] = new ProductListItem(thumb, p.name, p.sku, p.countOnHand, p.permalink, p.price, p.id);
 		}
 		
 		statusText.setText(products.count + this.getString(R.string.products_counter) );
@@ -189,4 +238,53 @@ public class ProductsMenuActivity extends Activity {
 		
 		ProductsMenuActivity.selectedProduct = selectedProduct;
 	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	public void switchOrder() {
+		ArrayList<Product> sortedList = new ArrayList<Product>();
+		
+		for(int i = products.list.size() - 1; i >= 0; i--) {
+			sortedList.add(products.list.get(i));
+		}
+		
+		products.list = sortedList;
+		refreshProductMenu();
+	}
+	
+	public void sortPrice() {
+		Product temp;
+
+		for(int i = 0; i < products.list.size() - 1; i++){
+			if(products.list.get(i).price < products.list.get(i+1).price) {
+				temp = products.list.get(i);
+				products.list.set(i, products.list.get(i+1));
+				products.list.set(i+1, temp);
+			}
+		}
+
+		refreshProductMenu();
+	}
+	
+	public void sortCountOnHand() {
+		Product temp;
+		
+		for(int i = 0; i < products.list.size() - 1; i++){
+			if(products.list.get(i).countOnHand < products.list.get(i+1).countOnHand) {
+				temp = products.list.get(i);
+				products.list.set(i, products.list.get(i+1));
+				products.list.set(i+1, temp);
+			}
+		}
+
+		refreshProductMenu();
+	}
+	
+	// 未実装
+	public void sortName() {
+
+		refreshProductMenu();
+	}
+
 }
