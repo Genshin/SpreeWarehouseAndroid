@@ -2,11 +2,14 @@ package org.genshin.warehouse;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -120,10 +123,14 @@ public class WarehouseActivity extends Activity {
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
                 	Products products = new Products(this, spree);
+                	
                 	ArrayList<Product> foundProducts = products.findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
                 		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
+                	} else if (foundProducts.size() == 0) {
+                		//New product?
+                		products.unregisteredBarcode(contents);
                 	}
                 } else {
                 	

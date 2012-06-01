@@ -38,29 +38,26 @@ public class ProductEditActivity extends Activity {
 	private Button deleteButton;
 	private ToggleButton listedToggle;
 
-	private void initViewElements() {
-		nameEdit = (EditText) findViewById(R.id.product_name_edit);
-		skuEdit = (EditText) findViewById(R.id.product_sku_edit);
-		priceEdit = (EditText) findViewById(R.id.product_price_edit);
-		permalinkEdit = (EditText) findViewById(R.id.product_permalink_edit);
-		barcodeEdit = (EditText) findViewById(R.id.barcode_text);
-	    descriptionEdit = (EditText) findViewById(R.id.product_description_edit);
-
-		imageSwitcher = (ImageSwitcher) findViewById(R.id.product_image_switcher);
-
-		deleteButton = (Button) findViewById(R.id.delete_button);
-		saveButton = (Button) findViewById(R.id.save_button);
-
-
-	}
-
 	private void hookupInterface() {
+		nameEdit = (EditText) findViewById(R.id.product_name_edit);
 		nameEdit.setText(product.name);
+		
+		skuEdit = (EditText) findViewById(R.id.product_sku_edit);
 		skuEdit.setText(product.sku);
+		
+		priceEdit = (EditText) findViewById(R.id.product_price_edit);
 		priceEdit.setText("" + product.price);
+		
+		permalinkEdit = (EditText) findViewById(R.id.product_permalink_edit);
 		permalinkEdit.setText(product.permalink);
+		
+		barcodeEdit = (EditText) findViewById(R.id.barcode_text);
+		barcodeEdit.setText(product.variant().visualCode);
+		
+		descriptionEdit = (EditText) findViewById(R.id.product_description_edit);
 		descriptionEdit.setText(product.description);
 
+		imageSwitcher = (ImageSwitcher) findViewById(R.id.product_image_switcher);
 		imageViewer = new ProductImageViewer(this);
 		imageSwitcher.setFactory(imageViewer);
 		imageSwitcher.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
@@ -70,17 +67,22 @@ public class ProductEditActivity extends Activity {
         else
         	imageSwitcher.setImageDrawable(product.images.get(0).data);
 
+        saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				saveProduct();
 			}
 		});
+		
+		deleteButton = (Button) findViewById(R.id.delete_button);
+		//TODO implement delete
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Intent intent = getIntent();
 		isNew = intent.getBooleanExtra("IS_NEW", false);
+		String barcode = intent.getStringExtra("BARCODE");
 			
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_edit);
@@ -90,8 +92,9 @@ public class ProductEditActivity extends Activity {
         else
         	product = ProductsMenuActivity.getSelectedProduct();
         
-		initViewElements();
         hookupInterface();
+        if (barcode != "")
+        	barcodeEdit.setText(barcode);
 	}
 
 	private void saveProduct() {

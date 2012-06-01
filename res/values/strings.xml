@@ -64,6 +64,9 @@
     <string name="order_number">Order Number</string>
 	<string name="register_product">Register Product</string>
 	<string name="new_product">New Product</string>
+	<string name="existing_product">Existing Product</string>
+	<string name="register_to_new_product">New Product</string>
+	<string name="register_to_existing_product">Existing Product</string>
 	<string name="update">Update</string>
 	<string name="about_warehouse">About Warehouse</string>
 	<string name="version">Version</string>
@@ -73,4 +76,13 @@
 	<string name="app_store_version">Play Store Version</string>
 	<string name="development_version">Development Version</string>
 
+	<!-- alert content -->
+	<string name="unregistered_barcode_new_product">This Barcode is not registered.\nRegister a new product?</string>
+
+	<!-- GSA Dialog Text -->
+	<string name="searching">Searching</string>
+	<string name="scanning">Scanning</string>
+	<string name="loading">Loading</string>
+	<string name="saving">Saving</string>
+	<string name="deleting">Deleting</string>
 </resources>

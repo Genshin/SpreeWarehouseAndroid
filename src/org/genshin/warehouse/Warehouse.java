@@ -2,6 +2,7 @@ package org.genshin.warehouse;
 
 import org.genshin.spree.SpreeConnector;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 public class Warehouse {
