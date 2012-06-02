@@ -127,24 +127,16 @@ public class RESTConnector extends Activity {
 		
 		this.initialized = true;
 	}
-	
-	public String test() {
-		int statusCode = 0;
-		String combinedStatus = "unsent";
+
+	// Set up the Getter with the API token and proper URL
+	private HttpGet getGetter(String targetURL) {
+		HttpGet getter = new HttpGet(baseURL() + targetURL);
+		getter.addHeader("X-Spree-Token", this.apiKey);
 		
-		HttpResponse response = getResponse(getGetter(baseURL() + "api/products.json"));
-		/*combinedStatus = "Executed GET";
-		Log.d("RESTDEBUG", combinedStatus);
-		StatusLine statusLine = response.getStatusLine();
-		statusCode = statusLine.getStatusCode();
-		Log.d("RESTDEBUG", combinedStatus);
-		if (statusCode == 200) {
-			combinedStatus = "Connection OK";
-		}*/
-		
-		return combinedStatus;
+		return getter;
 	}
 	
+	// Process the Getter and handle response exceptions
 	public HttpResponse getResponse(HttpGet getter) {
 		
 		try {
@@ -168,6 +160,33 @@ public class RESTConnector extends Activity {
 		Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
 		return null;
 	}
+	
+	public String test() {
+		int statusCode = 0;
+		
+		HttpGet getter = getGetter("");
+		
+		try {
+			HttpResponse response;
+			response = client.execute(getter);
+			StatusLine statusLine = response.getStatusLine();
+			statusCode = statusLine.getStatusCode();
+			response.getStatusLine();
+			if (statusCode == 200) {
+				return "OK";
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			return "ERROR";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "ERROR";
+		}
+		
+		
+		return "NOTCONNECTED";
+	}
+	
 
 	public JSONObject getJSONObject(String targetURL) {
 		JSONObject data = new JSONObject();
@@ -188,13 +207,6 @@ public class RESTConnector extends Activity {
 		}
 
 		return data;
-	}
-	
-	private HttpGet getGetter(String targetURL) {
-		HttpGet getter = new HttpGet(baseURL() + targetURL);
-		getter.addHeader("X-Spree-Token", this.apiKey);
-		
-		return getter;
 	}
 
 	public JSONArray getJSONArray(String targetURL) {

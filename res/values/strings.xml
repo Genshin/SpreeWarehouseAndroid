@@ -82,6 +82,7 @@
 	<!-- GSA Dialog Text -->
 	<string name="searching">Searching</string>
 	<string name="scanning">Scanning</string>
+	<string name="connecting">Connecting</string>
 	<string name="loading">Loading</string>
 	<string name="saving">Saving</string>
 	<string name="deleting">Deleting</string>

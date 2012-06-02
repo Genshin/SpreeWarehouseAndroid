@@ -10,9 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.genshin.gsa.Dialogs;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
@@ -32,6 +35,7 @@ public class WarehouseActivity extends Activity {
 	//Interface objects
 	private Button scanButton;
 	private ListView menuList;
+	private ImageView connectionStatusIcon;
 	private Spinner profileSpinner; 
 	private Profiles profiles;
 	private SpreeConnector spree;
@@ -56,6 +60,17 @@ public class WarehouseActivity extends Activity {
 		
 		//set up spinner and select default
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
+		profileSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                profiles.selectProfile(position);
+                checkConnection();
+            }
+	
+			public void onNothingSelected(AdapterView<?> arg0) {	
+                //checkConnection();
+			}
+		});
 	}
 	
 	private void hookupInterface() {
@@ -85,7 +100,23 @@ public class WarehouseActivity extends Activity {
       //Profile Spinner
       profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
       //Profile Spinner contents loaded and spinner refreshsed in loadProfiles
-      loadProfiles();        
+      loadProfiles();
+      
+      connectionStatusIcon = (ImageView) findViewById(R.id.connection_status_icon);
+	}
+	
+	private void checkConnection() {
+		Dialogs.showConnecting(this);
+		String check = spree.connector.test();
+		Dialogs.dismiss();
+		
+		if (check == "OK") {
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_online);
+		} else if (check == "ERROR"){
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_away);
+		} else {
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_offline);
+		}
 	}
 	
     @Override
@@ -97,6 +128,8 @@ public class WarehouseActivity extends Activity {
         
         createMainMenu();
         hookupInterface();
+        
+        checkConnection();
     }
     
     public void settingsClickHandler(View view)

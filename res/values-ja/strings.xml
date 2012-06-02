@@ -82,6 +82,7 @@
 	<!-- GSA Dialog Text -->
 	<string name="searching">検索中</string>
 	<string name="scanning">スキャン中</string>
+	<string name="connecting">接続中</string>
 	<string name="loading">読み込み中</string>
 	<string name="saving">保存中</string>
 	<string name="deleting">削除中</string>

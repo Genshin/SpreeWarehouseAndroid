@@ -27,6 +27,10 @@ public class Dialogs {
 		showProgress(ctx, ctx.getText(R.string.loading));
 	}
 	
+	public static void showConnecting(Context ctx) {
+		showProgress(ctx, ctx.getText(R.string.connecting));
+	}
+	
 	public static void dismiss() {
 		if (progress != null) {
 			progress.dismiss();
