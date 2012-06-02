@@ -111,7 +111,7 @@ public class Product {
 			for (int i = 0; i < this.images.size(); i++) {
 				URL url;
 				try {
-					url = new URL(Warehouse.Spree().connector.getBaseURL() + "/spree/products/" + images.get(i).id + "/product/" + images.get(i).name);
+					url = new URL(Warehouse.Spree().connector.baseURL() + "/spree/products/" + images.get(i).id + "/product/" + images.get(i).name);
 					try {
 						InputStream is = (InputStream) url.getContent();
 						Drawable imageData = Drawable.createFromStream(is, this.images.get(i).name);
