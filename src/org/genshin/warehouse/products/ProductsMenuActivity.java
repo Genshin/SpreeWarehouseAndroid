@@ -1,6 +1,8 @@
 package org.genshin.warehouse.products;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
@@ -45,6 +47,10 @@ public class ProductsMenuActivity extends Activity {
 	
 	private ImageButton scanButton;
 	private Spinner orderSpinner;
+	private ArrayAdapter<String> sadapter;
+	
+	private ImageButton backwardButton;
+	private boolean updown = false;		// falseの時は▽、trueの時は△表示
 
 	private void initViewElements() {
         productList = (ListView) findViewById(R.id.product_menu_list);
@@ -64,6 +70,8 @@ public class ProductsMenuActivity extends Activity {
 		scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
 		scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+        		clearImage();
+        		orderSpinner.setSelection(0);
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
                 //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
@@ -77,6 +85,8 @@ public class ProductsMenuActivity extends Activity {
 			public void onClick(View v) {
 				products.textSearch(searchBar.getText().toString());
 				refreshProductMenu();
+				clearImage();
+				orderSpinner.setSelection(0);
 			}
 		});
 		
@@ -87,17 +97,22 @@ public class ProductsMenuActivity extends Activity {
 				searchBar.setText("");
 				products.clear();
 				refreshProductMenu();
+				clearImage();
+				orderSpinner.setSelection(0);
 			}
 		});
 		
 		//Order spinner
 		orderSpinner = (Spinner) findViewById(R.id.order_spinner);
-		ArrayAdapter<String> sadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+		sadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
 	    sadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    // アイテムを追加します
+	    sadapter.add("未選択");
+	    sadapter.add("初期値に戻す");
 	    sadapter.add("名前順");
 	    sadapter.add("値段順");
 	    sadapter.add("在庫数順");
+	    orderSpinner.setPrompt("ソート");
 	    orderSpinner.setAdapter(sadapter);
 	    
 	    orderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,14 +121,24 @@ public class ProductsMenuActivity extends Activity {
                 Spinner spinner = (Spinner) parent;
                 //String item = (String) spinner.getSelectedItem();
                 switch(position) {
-                	case 0: //名前順
-						sortName();
+                	case 0:		// 未選択
                 		break;
-	                case 1: //値段順
+                	case 1:		// 初期値に戻す
+                		products.textSearch(searchBar.getText().toString());
+        				refreshProductMenu();
+                		clearImage();
+                		break;
+                	case 2:		// 名前順
+						sortName();
+						clearImage();
+                		break;
+	                case 3:		// 値段順
 	                	sortPrice();
+	                	clearImage();
 	                	break;
-	                case 2: //在庫数順
+	                case 4:		// 在庫数順
 	                	sortCountOnHand();
+	                	clearImage();
 	                	break;
 	                default :
 	                	break;             
@@ -123,6 +148,21 @@ public class ProductsMenuActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
         });
+	    
+	    // backwardButton 並びを逆に
+	    backwardButton = (ImageButton)findViewById(R.id.product_menu_backward_button);
+	    backwardButton.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				if (!updown) {
+					backwardButton.setImageResource(android.R.drawable.arrow_up_float);
+					updown = true;
+				} else {
+					backwardButton.setImageResource(android.R.drawable.arrow_down_float);
+					updown = false;
+				}
+				switchOrder();
+			}
+		});
 	}
 	
 	@Override
@@ -241,11 +281,25 @@ public class ProductsMenuActivity extends Activity {
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////
+	//
+	// 各種ソート
+	//
+	/////////////////////////////////////////////////////////////////////////////////////
 
+	// ▽ボタンを初期に
+	
+	public void clearImage() {
+		if (updown) {
+			backwardButton.setImageResource(android.R.drawable.arrow_down_float);
+			updown = false;
+		}
+	}
+	
+	// 並びを逆にする
 	public void switchOrder() {
 		ArrayList<Product> sortedList = new ArrayList<Product>();
 		
-		for(int i = products.list.size() - 1; i >= 0; i--) {
+		for (int i = products.list.size() - 1; i >= 0; i--) {
 			sortedList.add(products.list.get(i));
 		}
 		
@@ -253,38 +307,118 @@ public class ProductsMenuActivity extends Activity {
 		refreshProductMenu();
 	}
 	
+	// 値段順
 	public void sortPrice() {
 		Product temp;
 
-		for(int i = 0; i < products.list.size() - 1; i++){
-			if(products.list.get(i).price < products.list.get(i+1).price) {
-				temp = products.list.get(i);
-				products.list.set(i, products.list.get(i+1));
-				products.list.set(i+1, temp);
+		for (int i = 0; i < products.list.size() - 1; i++) {
+			for (int j = i + 1; j < products.list.size(); j++) {
+				if (products.list.get(i).price < products.list.get(j).price) {
+					temp = products.list.get(i);
+					products.list.set(i, products.list.get(j));
+					products.list.set(j, temp);
+				} else if (products.list.get(i).price == products.list.get(j).price) {
+					if (products.list.get(i).id > products.list.get(j).id) {
+						temp = products.list.get(i);
+						products.list.set(i, products.list.get(j));
+						products.list.set(j, temp);
+					}
+				}
 			}
 		}
 
 		refreshProductMenu();
 	}
 	
+	// 在庫数順
 	public void sortCountOnHand() {
 		Product temp;
 		
-		for(int i = 0; i < products.list.size() - 1; i++){
-			if(products.list.get(i).countOnHand < products.list.get(i+1).countOnHand) {
-				temp = products.list.get(i);
-				products.list.set(i, products.list.get(i+1));
-				products.list.set(i+1, temp);
+		for (int i = 0; i < products.list.size() - 1; i++) {
+			for (int j = i + 1; j < products.list.size(); j++) {
+				if (products.list.get(i).countOnHand < products.list.get(j).countOnHand) {
+					temp = products.list.get(i);
+					products.list.set(i, products.list.get(j));
+					products.list.set(j, temp);
+				} else if (products.list.get(i).countOnHand == products.list.get(j).countOnHand) {
+					if (products.list.get(i).id > products.list.get(j).id) {
+						temp = products.list.get(i);
+						products.list.set(i, products.list.get(j));
+						products.list.set(j, temp);
+					}
+				}
 			}
 		}
 
 		refreshProductMenu();
 	}
 	
-	// 未実装
-	public void sortName() {
+	// 名前順
+	public void sortName(){
+		Product temp;
+		
+		for (int i = 0; i < products.list.size() - 1; i++) {
+			for (int j = i + 1; j < products.list.size(); j++) {
+				if (products.list.get(i).name.compareTo(products.list.get(j).name) > 0) {
+					temp = products.list.get(i);
+					products.list.set(i, products.list.get(j));
+					products.list.set(j, temp);
+				} else if (products.list.get(i).name.compareTo(products.list.get(j).name) == 0) {
+					if (products.list.get(i).id > products.list.get(j).id) {
+						temp = products.list.get(i);
+						products.list.set(i, products.list.get(j));
+						products.list.set(j, temp);
+					}
+				}
+			}
+		}
 
 		refreshProductMenu();
 	}
+	
+	
+	/*
+	// 名前順
+	public void sortName(){
+		ArrayList<Product> sortedList = new ArrayList<Product>();
+		String[][] sort = new String[products.list.size()][2];
+		
+		for (int i = 0; i < products.list.size(); i++) {
+				sort[i][0] = products.list.get(i).name;
+				sort[i][1] = String.valueOf(products.list.get(i).id);
+		}
+		
+		Arrays.sort(sort, new nameComparator());
+		
+		for (int i = 0; i <products.list.size(); i++) {
+			for (int j = 0; j < products.list.size(); j++)
+				if (sort[i][0].equals(products.list.get(j).name) &&
+					sort[i][1] == String.valueOf(products.list.get(j).id)) {
+					sortedList.add(products.list.get(j));
+				}
+		}
+		
+		products.list = sortedList;
+		refreshProductMenu();
+	}		
+	// 比較用
+	public class nameComparator implements Comparator<Object> {
+		private int index;
+
+		public int compare(Object Obj1, Object Obj2) {
+			index = 0;
+
+			String[] str1 = (String[])Obj1;
+			String[] str2 = (String[])Obj2;
+			
+			if ((str1[index].compareTo(str2[index])) == 0) {
+				index = 1;
+			}
+			
+			return (str1[index].compareTo(str2[index]));
+		}
+		
+	}
+	*/
 
 }

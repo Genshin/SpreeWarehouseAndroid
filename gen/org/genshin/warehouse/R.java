@@ -44,7 +44,6 @@ public final class R {
         public static final int development_version_text=0x7f050056;
         public static final int development_version_title=0x7f050055;
         public static final int genshin_title=0x7f050006;
-        public static final int imageButton1=0x7f050035;
         public static final int imageView1=0x7f050003;
         public static final int imageView2=0x7f050005;
         public static final int linearLayout1=0x7f050030;
@@ -64,6 +63,7 @@ public final class R {
         public static final int product_description_edit=0x7f050026;
         public static final int product_description_title=0x7f050025;
         public static final int product_image_switcher=0x7f05000f;
+        public static final int product_menu_backward_button=0x7f050035;
         public static final int product_menu_list=0x7f050037;
         public static final int product_menu_searchbox=0x7f05002f;
         public static final int product_name=0x7f050011;
