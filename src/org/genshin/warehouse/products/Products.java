@@ -6,15 +6,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.genshin.gsa.Dialogs;
 import org.genshin.spree.SpreeConnector;
+import org.genshin.warehouse.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.Toast;
 
 public class Products {
 	Context ctx;
@@ -30,37 +36,6 @@ public class Products {
 		this.spree = spree;
 
 		count = 0;
-	}
-	
-	
-	private void obtainImages(JSONObject productJSON, Product product) {
-		try {
-			JSONArray imageInfoArray = productJSON.getJSONArray("images");
-			for (int i = 0; i < imageInfoArray.length(); i++) {
-				JSONObject imageInfo = imageInfoArray.getJSONObject(i).getJSONObject("image");
-				product.imageNames.add(imageInfo.getString("attachment_file_name"));
-				product.imageIDs.add(imageInfo.getInt("id"));
-				
-			}
-			//Log.d("Products.obtainImages", "found " + imageInfoArray.length());
-			for (int i = 0; i < product.imageNames.size(); i++) {
-				URL url;
-				try {
-					url = new URL(spree.connector.getBaseURL() + "/spree/products/" + product.imageIDs.get(i) + "/product/" + product.imageNames.get(i));
-					try {
-						InputStream is = (InputStream) url.getContent();
-						Drawable imageData = Drawable.createFromStream(is, product.imageNames.get(i));
-						product.images.add(imageData);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}			
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	private ArrayList<Product> processProductContainer(JSONObject productContainer) {
@@ -82,16 +57,7 @@ public class Products {
 					sku = "";
 				}
 				
-				Product product = new Product(
-						productJSON.getInt("id"),
-						productJSON.getString("name"),
-						sku,
-						productJSON.getDouble("price"),
-						productJSON.getInt("count_on_hand"),
-						productJSON.getString("description"),
-						productJSON.getString("permalink"));
-				
-				obtainImages(productJSON, product);
+				Product product = new Product(productJSON);
 				
 				collection.add(product);
 				
@@ -112,24 +78,62 @@ public class Products {
 
 	
 	public ArrayList<Product> getNewestProducts(int limit) {
+		Dialogs.showLoading(ctx);
+		
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products.json");
+		JSONObject productContainer = spree.connector.getJSONObject("api/products.json?page=1");
 		collection = processProductContainer(productContainer);
+		
+		Dialogs.dismiss();
+		
 		return collection;
 	}
 	
 	public ArrayList<Product> findByBarcode(String code) {
+		//Dialogs.showSearching(ctx);
+		
 		ArrayList<Product> collection = new ArrayList<Product>();
 		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + code);
 		collection = processProductContainer(productContainer);
+		
+		//Dialogs.dismiss();
+		
 		return collection;
 	}
 
 	public ArrayList<Product> textSearch(String query) {
+		Dialogs.showSearching(ctx);
+
 		ArrayList<Product> collection = new ArrayList<Product>();
 		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[name_cont]=" + query);
 		collection = processProductContainer(productContainer);
+		
+		Dialogs.dismiss();
+		
 		return collection;
+	}
+	
+	 public void unregisteredBarcode(final String code) {
+		AlertDialog.Builder question = new AlertDialog.Builder(ctx);
+
+		question.setMessage(ctx.getString(R.string.unregistered_barcode_new_product));
+		question.setTitle("タイトル");
+		question.setIcon(R.drawable.newproduct);
+		question.setPositiveButton(ctx.getString(R.string.register_to_new_product), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				Intent intent = new Intent(ctx, ProductEditActivity.class);
+				intent.putExtra("IS_NEW", true);
+				intent.putExtra("BARCODE", code);
+	            ctx.startActivity(intent);
+			}
+		});
+		
+		question.setNeutralButton(ctx.getString(R.string.register_to_existing_product), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+			}
+		});
+
+		question.show();
 	}
 	
 }

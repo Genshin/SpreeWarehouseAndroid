@@ -5,17 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageSwitcher
-        android:id="@+id/product_image_switcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/product_count_on_hand"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/product_name" >
-
-    </ImageSwitcher>
-
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
@@ -79,12 +68,22 @@
         android:text="@string/stock"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <ImageSwitcher
+        android:id="@+id/product_image_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/product_count_on_hand" >
+
+    </ImageSwitcher>
+
     <TextView
         android:id="@+id/product_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/product_count_on_hand"
+        android:layout_below="@+id/product_image_switcher"
         android:text="@string/product_description" />
 
 </RelativeLayout>
