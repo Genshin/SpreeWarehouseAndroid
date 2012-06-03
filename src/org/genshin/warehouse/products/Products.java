@@ -81,7 +81,7 @@ public class Products {
 		Dialogs.showLoading(ctx);
 		
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products.json");
+		JSONObject productContainer = spree.connector.getJSONObject("api/products.json?page=1");
 		collection = processProductContainer(productContainer);
 		
 		Dialogs.dismiss();
@@ -90,13 +90,13 @@ public class Products {
 	}
 	
 	public ArrayList<Product> findByBarcode(String code) {
-		Dialogs.showSearching(ctx);
+		//Dialogs.showSearching(ctx);
 		
 		ArrayList<Product> collection = new ArrayList<Product>();
 		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + code);
 		collection = processProductContainer(productContainer);
 		
-		Dialogs.dismiss();
+		//Dialogs.dismiss();
 		
 		return collection;
 	}

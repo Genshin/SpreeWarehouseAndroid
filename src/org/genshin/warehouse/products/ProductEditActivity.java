@@ -52,7 +52,7 @@ public class ProductEditActivity extends Activity {
 		permalinkEdit.setText(product.permalink);
 		
 		barcodeEdit = (EditText) findViewById(R.id.barcode_text);
-		barcodeEdit.setText(product.variant().visualCode);
+		barcodeEdit.setText(product.visualCode);
 		
 		descriptionEdit = (EditText) findViewById(R.id.product_description_edit);
 		descriptionEdit.setText(product.description);
