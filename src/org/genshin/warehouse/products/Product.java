@@ -115,8 +115,8 @@ public class Product {
 	private void obtainThumbnail() {
 		if (images.size() > 0) {
 			this.thumbnail = images.get(0);
-			this.thumbnail.name = "small/" + this.thumbnail.name;
-			this.thumbnail = getImageData(this.thumbnail);
+			this.thumbnail.name = this.thumbnail.name;
+			this.thumbnail = getThumbnailData(this.thumbnail);
 		} else
 			this.thumbnail = null;
 	}
@@ -133,21 +133,27 @@ public class Product {
 		}
 	}
 	
-	private SpreeImageData getImageData(SpreeImageData image) {
-		try {
-			URL url = new URL(Warehouse.Spree().connector.baseURL() + "/spree/products/" + image.id + "/product/" + image.name);
-			try {
-				Log.d("GETTINGIMAGE", url.toString());
-				InputStream is = (InputStream) url.getContent();
-				Drawable imageData = Drawable.createFromStream(is, image.name);
-				image.data = imageData;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+	private SpreeImageData getThumbnailData(SpreeImageData image) {
+		String path = "spree/products/" + image.id + "/small/" + image.name;
+
+		InputStream is = Warehouse.Spree().connector.getStream(path);
+		if (is != null) {
+			Drawable imageData = Drawable.createFromStream(is, image.name);
+			image.data = imageData;
 		}
-		
+
+		return image;
+	}
+
+	private SpreeImageData getImageData(SpreeImageData image) {
+		String path = "spree/products/" + image.id + "/product/" + image.name;
+
+		InputStream is = Warehouse.Spree().connector.getStream(path);
+		if (is != null) {
+			Drawable imageData = Drawable.createFromStream(is, image.name);
+			image.data = imageData;
+		}
+
 		return image;
 	}
 	

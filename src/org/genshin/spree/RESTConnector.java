@@ -1,9 +1,11 @@
 package org.genshin.spree;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -21,6 +23,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
@@ -238,7 +241,7 @@ public class RESTConnector extends Activity {
 			put.addHeader("X-Spree-Token", this.apiKey);
 			if (pairs != null) {
 				put.setEntity(new UrlEncodedFormEntity(pairs, "UTF-8"));
-				Log.d("RESTConnector.putWithArgs", "added pairs");
+				//Log.d("RESTConnector.putWithArgs", "added pairs");
 			}
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
@@ -289,6 +292,31 @@ public class RESTConnector extends Activity {
 		}
 	
 		return statusCode;
+	}
+	
+	public InputStream getStream(String path) {
+		InputStream inputStream = null;
+		
+		try {
+			HttpGet getter = getGetter(path);
+			HttpResponse response = this.getResponse(getter);
+			
+            final HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+            	inputStream = entity.getContent();
+                /*finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    entity.consumeContent();
+                }*/
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return inputStream;
 	}
 	
 	public class AnyCertSSLSocketFactory extends SSLSocketFactory {
