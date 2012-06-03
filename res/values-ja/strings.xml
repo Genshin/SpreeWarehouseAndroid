@@ -24,7 +24,7 @@
 	<string name="server">サーバ</string>
 	<string name="username">ユーザ名</string>
 	<string name="password">パスワード</string>
-	<string name="scan">コードスキャン</string>
+	<string name="scan">コード\nスキャン</string>
 	<string name="picking">ピッキング</string>
 	<string name="packing">梱包</string>
 	<string name="main_menu">メインメニュー</string>
@@ -62,6 +62,9 @@
     <string name="order_number">注文番号</string>
 	<string name="register_product">商品登録</string>
 	<string name="new_product">新規商品</string>
+	<string name="existing_product">登録商品</string>
+	<string name="register_to_new_product">新規商品に登録</string>
+	<string name="register_to_existing_product">登録商品に追加</string>
 	<string name="barcode">バーコード</string>
 	<string name="update">更新</string>
 	<string name="about_warehouse">Warehouseについて</string>
@@ -71,4 +74,16 @@
 	<string name="app_store_version">Playストアバージョン</string>
 	<string name="development_version">開発バージョン</string>
 	
+	
+	
+	<!-- alert content -->
+	<string name="unregistered_barcode_new_product">バーコードが未登録です。\n新規商品登録を行いますか?</string>
+
+	<!-- GSA Dialog Text -->
+	<string name="searching">検索中</string>
+	<string name="scanning">スキャン中</string>
+	<string name="connecting">接続中</string>
+	<string name="loading">読み込み中</string>
+	<string name="saving">保存中</string>
+	<string name="deleting">削除中</string>
 </resources>

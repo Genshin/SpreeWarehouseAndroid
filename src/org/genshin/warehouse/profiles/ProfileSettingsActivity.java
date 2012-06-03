@@ -37,7 +37,18 @@ public class ProfileSettingsActivity extends Activity {
     
     //hooks up interface elements to callbacks and events
     private void hookupInterface() {
-		//profiles.attachToSpinner(spinner);
+    	server = (EditText) findViewById(R.id.server_input);
+    	port = (EditText) findViewById(R.id.port_input);
+        name = (EditText) findViewById(R.id.profilename_input);
+        apiKey = (EditText) findViewById(R.id.apikey_input);
+        
+        spinner = (Spinner) findViewById(R.id.profile_spinner);
+        
+        newButton = (Button) findViewById(R.id.profile_new_button);
+        deleteButton = (Button) findViewById(R.id.profile_delete_button);
+        saveButton = (Button) findViewById(R.id.profile_save_button);
+        testButton = (Button) findViewById(R.id.profile_test_button);
+        scanButton = (Button) findViewById(R.id.profile_scan_button);
         
         deleteButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
@@ -79,18 +90,7 @@ public class ProfileSettingsActivity extends Activity {
     }
     
     private void initViewElements() {
-    	server = (EditText) findViewById(R.id.server_input);
-    	port = (EditText) findViewById(R.id.port_input);
-        name = (EditText) findViewById(R.id.profilename_input);
-        apiKey = (EditText) findViewById(R.id.apikey_input);
-        
-        spinner = (Spinner) findViewById(R.id.profile_spinner);
-        
-        newButton = (Button) findViewById(R.id.profile_new_button);
-        deleteButton = (Button) findViewById(R.id.profile_delete_button);
-        saveButton = (Button) findViewById(R.id.profile_save_button);
-        testButton = (Button) findViewById(R.id.profile_test_button);
-        scanButton = (Button) findViewById(R.id.profile_scan_button);
+    	
     }
     
 	@Override
@@ -196,9 +196,9 @@ public class ProfileSettingsActivity extends Activity {
 
 	private void testProfile() {
 		RESTConnector connector = new RESTConnector(this);
-		connector.setup(profiles.selected.server, profiles.selected.port, profiles.selected.apiKey);
+		connector.setup(server.getText().toString(), Integer.getInteger(port.getText().toString()), apiKey.getText().toString());
 		String result = connector.test();
-		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {

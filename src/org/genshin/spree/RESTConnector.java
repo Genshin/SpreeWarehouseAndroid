@@ -1,9 +1,11 @@
 package org.genshin.spree;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -21,6 +23,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
@@ -72,8 +75,20 @@ public class RESTConnector extends Activity {
 		this.ctx = ctx;
 	}
 
-	public String getBaseURL() {
-		return "http://" + server + ":" + port;
+
+	// Attempts to set the protocol header based on port
+	// TODO - this should be set by a flag probably
+	private String protocolHeader() {
+		String protocol = "http://";
+		if (this.port ==  443) {
+			protocol = "https://";
+		}
+		
+		return protocol;
+	}
+
+	public String baseURL() {
+		return protocolHeader() + server + ":" + port + "/";
 	}
 	
 	@Override
@@ -115,41 +130,16 @@ public class RESTConnector extends Activity {
 		
 		this.initialized = true;
 	}
-	
-	public String test() {
-		int statusCode = 0;
-		String combinedStatus = "unsent";
-		Log.d("RESTDEBUG", combinedStatus);
+
+	// Set up the Getter with the API token and proper URL
+	private HttpGet getGetter(String targetURL) {
+		HttpGet getter = new HttpGet(baseURL() + targetURL);
+		getter.addHeader("X-Spree-Token", this.apiKey);
 		
-		if (!initialized) {
-			Log.d("RESTDEBUG", "Uninitialized");
-			return "Uninitialized";
-		}
-		
-		try {
-			HttpGet getter = new HttpGet("http://" + this.server + ":" + this.port);
-			combinedStatus = "Attempting GET to: " + getter.getURI();
-			Log.d("RESTDEBUG", combinedStatus);
-			HttpResponse response = this.client.execute(getter);
-			combinedStatus = "Executed GET";
-			Log.d("RESTDEBUG", combinedStatus);
-			StatusLine statusLine = response.getStatusLine();
-			statusCode = statusLine.getStatusCode();
-			combinedStatus = "GET Result: " + String.valueOf(statusCode);
-			Log.d("RESTDEBUG", combinedStatus);
-			if (statusCode == 200) {
-				combinedStatus = "Connection OK";
-			}
-		} catch (ClientProtocolException e) {
-			combinedStatus = "ClientProtocolException: " + e.getMessage();
-		} catch (IOException e) {
-			combinedStatus = "IOException: " + e.toString();
-			Log.d("RESTDEBUG", combinedStatus);
-		}
-		
-		return combinedStatus;
+		return getter;
 	}
 	
+	// Process the Getter and handle response exceptions
 	public HttpResponse getResponse(HttpGet getter) {
 		
 		try {
@@ -167,21 +157,44 @@ public class RESTConnector extends Activity {
 		} catch (IOException e) {
 			Toast.makeText(ctx, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 		}
+
 		
+		// Something went wrong!
+		Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
 		return null;
 	}
+	
+	public String test() {
+		int statusCode = 0;
+		
+		HttpGet getter = getGetter("");
+		
+		try {
+			HttpResponse response;
+			response = client.execute(getter);
+			StatusLine statusLine = response.getStatusLine();
+			statusCode = statusLine.getStatusCode();
+			response.getStatusLine();
+			if (statusCode == 200) {
+				return "OK";
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			return "ERROR";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "ERROR";
+		}
+		
+		
+		return "NOTCONNECTED";
+	}
+	
 
 	public JSONObject getJSONObject(String targetURL) {
 		JSONObject data = new JSONObject();
 		
-		HttpGet getter = new HttpGet(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
-		//Set headers manually because Android doesn't seem to care to
-		getter.addHeader("X-Spree-Token", this.apiKey);
-		HttpResponse response = this.getResponse(getter);
-		if (response == null) {
-			Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
-			return data;
-		}
+		HttpResponse response = this.getResponse(getGetter(targetURL));
 
 		HttpEntity entity = response.getEntity();
 		String content;
@@ -198,36 +211,11 @@ public class RESTConnector extends Activity {
 
 		return data;
 	}
-	
-	
-	
-	private String protocolHeader() {
-		String protocol = "http://";
-		if (this.port ==  443) {
-			protocol = "https://";
-		}
-		
-		return protocol;
-	}
-	
-	
+
 	public JSONArray getJSONArray(String targetURL) {
 		JSONArray data = new JSONArray();
 		
-		HttpGet getter = new HttpGet(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
-		
-		
-				
-		//Set headers manually because Android doesn't seem to care to
-		getter.addHeader("X-Spree-Token", this.apiKey);
-		HttpResponse response = this.getResponse(getter);
-		if (response == null) {
-			Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
-			return data;
-		}
-
-		
-		
+		HttpResponse response = getResponse(getGetter(targetURL));
 		HttpEntity entity = response.getEntity();
 		String content;
 		try {
@@ -248,12 +236,12 @@ public class RESTConnector extends Activity {
 		int statusCode = 0;
 		
 		try {
-			HttpPut put = new HttpPut(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
+			HttpPut put = new HttpPut(baseURL() + targetURL);
 			//Set headers manually because Android doesn't seem to care to
 			put.addHeader("X-Spree-Token", this.apiKey);
 			if (pairs != null) {
 				put.setEntity(new UrlEncodedFormEntity(pairs, "UTF-8"));
-				Log.d("RESTConnector.putWithArgs", "added pairs");
+				//Log.d("RESTConnector.putWithArgs", "added pairs");
 			}
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
@@ -281,7 +269,7 @@ public class RESTConnector extends Activity {
 		int statusCode = 0;
 		
 		try {
-			HttpPost post = new HttpPost(protocolHeader() + this.server + ":" + this.port + "/" + targetURL);
+			HttpPost post = new HttpPost(baseURL() + targetURL);
 			//Set headers manually because Android doesn't seem to care to
 			post.addHeader("X-Spree-Token", this.apiKey);
 			if (pairs != null) {
@@ -304,6 +292,31 @@ public class RESTConnector extends Activity {
 		}
 	
 		return statusCode;
+	}
+	
+	public InputStream getStream(String path) {
+		InputStream inputStream = null;
+		
+		try {
+			HttpGet getter = getGetter(path);
+			HttpResponse response = this.getResponse(getter);
+			
+            final HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+            	inputStream = entity.getContent();
+                /*finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    entity.consumeContent();
+                }*/
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return inputStream;
 	}
 	
 	public class AnyCertSSLSocketFactory extends SSLSocketFactory {

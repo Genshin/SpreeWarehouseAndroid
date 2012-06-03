@@ -2,14 +2,20 @@ package org.genshin.warehouse;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.genshin.gsa.Dialogs;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
@@ -29,6 +35,7 @@ public class WarehouseActivity extends Activity {
 	//Interface objects
 	private Button scanButton;
 	private ListView menuList;
+	private ImageView connectionStatusIcon;
 	private Spinner profileSpinner; 
 	private Profiles profiles;
 	private SpreeConnector spree;
@@ -48,23 +55,27 @@ public class WarehouseActivity extends Activity {
 	}
 	
 	private void loadProfiles() {
-		//get spinner
-		profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
-		
 		//Load profiles from the local DB
 		profiles = new Profiles(this);
 		
 		//set up spinner and select default
 		profileSpinner = profiles.attachToSpinner(profileSpinner);
+		profileSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                profiles.selectProfile(position);
+                checkConnection();
+            }
+	
+			public void onNothingSelected(AdapterView<?> arg0) {	
+                //checkConnection();
+			}
+		});
 	}
 	
-	private void initViewElements() {
-		scanButton = (Button) findViewById(R.id.scan_button);
-        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
-	}
-
 	private void hookupInterface() {
 		//Scan Button
+		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		//Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
@@ -76,6 +87,7 @@ public class WarehouseActivity extends Activity {
 		});
         
         //Menu List
+        menuList = (ListView) findViewById(R.id.main_menu_actions_list);
         ThumbListAdapter menuAdapter = new ThumbListAdapter(this, menuListItems);
 		menuList.setAdapter(menuAdapter);
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,8 +97,26 @@ public class WarehouseActivity extends Activity {
             }
         });
         
-        //Profile Spinner hooked up and loaded in loadProfiles
-        loadProfiles();        
+      //Profile Spinner
+      profileSpinner = (Spinner) findViewById(R.id.warehouse_profile_spinner);
+      //Profile Spinner contents loaded and spinner refreshsed in loadProfiles
+      loadProfiles();
+      
+      connectionStatusIcon = (ImageView) findViewById(R.id.connection_status_icon);
+	}
+	
+	private void checkConnection() {
+		Dialogs.showConnecting(this);
+		String check = spree.connector.test();
+		Dialogs.dismiss();
+		
+		if (check == "OK") {
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_online);
+		} else if (check == "ERROR"){
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_away);
+		} else {
+			connectionStatusIcon.setImageResource(android.R.drawable.presence_offline);
+		}
 	}
 	
     @Override
@@ -97,14 +127,15 @@ public class WarehouseActivity extends Activity {
         spree = new SpreeConnector(this);
         
         createMainMenu();
-		initViewElements();
         hookupInterface();
+        
+        checkConnection();
     }
     
     public void settingsClickHandler(View view)
 	{
 		Intent settingsIntent = new Intent(this, WarehouseSettingsActivity.class);
-    	startActivity(settingsIntent);
+    	startActivityForResult(settingsIntent, ResultCodes.SETTINGS.ordinal());
 	}
     
     private void menuListClickHandler(AdapterView<?> parent, View view,
@@ -125,10 +156,14 @@ public class WarehouseActivity extends Activity {
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
                 	Products products = new Products(this, spree);
+                	
                 	ArrayList<Product> foundProducts = products.findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
                 		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
+                	} else if (foundProducts.size() == 0) {
+                		//New product?
+                		products.unregisteredBarcode(contents);
                 	}
                 } else {
                 	
@@ -139,6 +174,8 @@ public class WarehouseActivity extends Activity {
                 // Handle cancel
             	Toast.makeText(WarehouseActivity.this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             }
+        } else if (resultCode == ResultCodes.SETTINGS.ordinal()) {
+        	loadProfiles();
         }
     }
 

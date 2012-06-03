@@ -4,6 +4,7 @@ import org.genshin.gsa.SimpleMenuList;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.R.id;
 import org.genshin.warehouse.R.layout;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.profiles.ProfileSettingsActivity;
 import org.genshin.warehouse.WarehouseActivity;
 
@@ -45,6 +46,12 @@ public class WarehouseSettingsActivity extends Activity {
             	menuListClickHandler(parent, view, position);
             }
         });
+        
+        if (getParent() == null) {
+            setResult(ResultCodes.SETTINGS.ordinal());
+        } else {
+            getParent().setResult(ResultCodes.SETTINGS.ordinal());
+        }
 
 	}
 	
