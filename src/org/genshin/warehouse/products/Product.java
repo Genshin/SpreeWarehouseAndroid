@@ -26,6 +26,7 @@ public class Product {
 	public String metaDescription;
 	public String permalink;
 	public String visualCode;
+	public SpreeImageData thumbnail;
 	public ArrayList<SpreeImageData> images;
 	private int primaryVarientIndex;
 	public ArrayList<Variant> variants;
@@ -70,6 +71,8 @@ public class Product {
 			this.price = productJSON.getDouble("price");
 			this.countOnHand = productJSON.getInt("count_on_hand");
 			this.description = productJSON.getString("description");
+			if (this.description == null)
+				this.description = "";
 			this.permalink = productJSON.getString("permalink");
 			this.visualCode = productJSON.getString("visual_code");
 			if (this.visualCode == null)
@@ -79,8 +82,9 @@ public class Product {
 			e.printStackTrace();
 		}
 		
-		obtainImages(productJSON);
+		obtainImagesInfo(productJSON);
 		obtainVariants(productJSON);
+		obtainThumbnail();
 	}
 	
 	public Product(int id, String name, String sku, double price, int countOnHand, String description, String permalink) {
@@ -108,32 +112,53 @@ public class Product {
 		}
 	}
 	
-	private void obtainImages(JSONObject productJSON) {
+	private void obtainThumbnail() {
+		if (images.size() > 0) {
+			this.thumbnail = images.get(0);
+			this.thumbnail.name = "small/" + this.thumbnail.name;
+			this.thumbnail = getImageData(this.thumbnail);
+		} else
+			this.thumbnail = null;
+	}
+	
+	private void obtainImagesInfo(JSONObject productJSON) {
 		try {
 			JSONArray imageInfoArray = productJSON.getJSONArray("images");
 			for (int i = 0; i < imageInfoArray.length(); i++) {
 				JSONObject imageInfo = imageInfoArray.getJSONObject(i).getJSONObject("image");
-				//Log.d("FOUNDIMAGE", imageInfo.toString());
 				images.add(new SpreeImageData(imageInfo.getString("attachment_file_name"), imageInfo.getInt("id")));
-			}
-			
-			for (int i = 0; i < this.images.size(); i++) {
-				URL url;
-				try {
-					url = new URL(Warehouse.Spree().connector.baseURL() + "/spree/products/" + images.get(i).id + "/product/" + images.get(i).name);
-					try {
-						InputStream is = (InputStream) url.getContent();
-						Drawable imageData = Drawable.createFromStream(is, this.images.get(i).name);
-						this.images.get(i).data = imageData;
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}			
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private SpreeImageData getImageData(SpreeImageData image) {
+		try {
+			URL url = new URL(Warehouse.Spree().connector.baseURL() + "/spree/products/" + image.id + "/product/" + image.name);
+			try {
+				Log.d("GETTINGIMAGE", url.toString());
+				InputStream is = (InputStream) url.getContent();
+				Drawable imageData = Drawable.createFromStream(is, image.name);
+				image.data = imageData;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		return image;
+	}
+	
+	private void obtainImages(JSONObject productJSON) {
+		
+		if (images.size() <= 0) {
+			obtainImagesInfo(productJSON);
+		}
+		
+		for (int i = 0; i < this.images.size(); i++) {
+					getImageData(this.images.get(i));			
 		}
 	}
 	
