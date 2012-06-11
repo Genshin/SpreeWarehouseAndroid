@@ -1,4 +1,4 @@
 *.swp
 bin/*
 *.orig
-R.java
+gen/org/genshin/warehouse/R.java
