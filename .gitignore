@@ -1,3 +1,4 @@
 *.swp
 bin/*
 *.orig
+R.java
