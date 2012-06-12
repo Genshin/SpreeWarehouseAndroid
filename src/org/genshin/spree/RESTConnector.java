@@ -2,10 +2,7 @@ package org.genshin.spree;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -21,17 +18,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -42,13 +33,11 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -57,7 +46,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Credentials;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -149,7 +137,7 @@ public class RESTConnector extends Activity {
 			if (statusCode == 200) {
 				return response;
 			} else {
-				Toast.makeText(ctx, "Response not 200, Status: " + statusCode, Toast.LENGTH_LONG).show();
+				Toast.makeText(ctx, getter.getURI() + "\nResponse not 200, Status: " + statusCode, Toast.LENGTH_LONG).show();
 				Log.e("getHttpResponse", statusLine.toString());
 			}
 		} catch (ClientProtocolException e) {
@@ -160,7 +148,7 @@ public class RESTConnector extends Activity {
 
 		
 		// Something went wrong!
-		Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
+		//Toast.makeText(ctx, "Server did not respond", Toast.LENGTH_LONG).show();
 		return null;
 	}
 	
@@ -297,23 +285,42 @@ public class RESTConnector extends Activity {
 	public InputStream getStream(String path) {
 		InputStream inputStream = null;
 		
+		HttpResponse response = null;
 		try {
 			HttpGet getter = getGetter(path);
-			HttpResponse response = this.getResponse(getter);
-			
-            final HttpEntity entity = response.getEntity();
+			response = this.getResponse(getter);
+		} catch (Exception e) {
+			return null;
+		}
 
-            if (entity != null) {
-            	inputStream = entity.getContent();
-                /*finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    entity.consumeContent();
-                }*/
-            }
-		} catch (IOException e) {
-			e.printStackTrace();
+		HttpEntity entity = null;
+		try {			
+			Log.d("getStream", "getting entity");
+            entity = response.getEntity();
+			Log.d("getStream", "entity obtained");
+		} catch (Exception e) {
+			// stream was null/could not get entity
+			// this porbably means the image is missing/corrupt
+			entity = null;
+			Log.d("getStream", "entity bad");
+		}
+
+		if (entity != null) {
+			try {
+				inputStream = entity.getContent();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*finally {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				entity.consumeContent();
+			}*/
 		}
 		
 		return inputStream;

@@ -1,9 +1,6 @@
 package org.genshin.warehouse.products;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import org.genshin.spree.SpreeImageData;
@@ -271,11 +268,15 @@ public class Product {
 	private void obtainVariants(JSONObject productJSON) {
 		JSONArray variantArray = new JSONArray();
 		
+		
 		try {
 			variantArray = productJSON.getJSONArray("variants");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		
+		//Log.d("VARIANTS", "Length: " + variantArray.length());
 		
 		// get master first
 		for (int i = 0; i < variantArray.length(); i++) {
