@@ -86,6 +86,9 @@
 	<string name="serverside_developer">Serverside Development</string>
 	<string name="camplight">CampLight Ltd.</string>
 	<string name="camplight_url">http://camplight.net</string>
+	<string name="target_container">Target Container</string>
+	<string name="select">Select</string>
+	<string name="count">Count</string>
 
 	<!-- alert content -->
 	<string name="unregistered_barcode_title">Unregistered Barcode</string>
@@ -98,5 +101,6 @@
 	<string name="loading">Loading</string>
 	<string name="saving">Saving</string>
 	<string name="deleting">Deleting</string>
+	
 	
 </resources>

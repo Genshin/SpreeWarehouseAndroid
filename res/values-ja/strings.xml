@@ -85,6 +85,9 @@
 	<string name="serverside_developer">サーバ側開発</string>
 	<string name="camplight">CampLight Ltd.</string>
 	<string name="camplight_url">http://camplight.net</string>
+	<string name="target_container">入荷先コンテナ</string>
+	<string name="select">選択</string>
+	<string name="count">数</string>
 	
 	
 	<!-- alert content -->

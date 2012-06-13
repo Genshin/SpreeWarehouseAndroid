@@ -14,18 +14,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class StockingMenuActivity extends Activity {
 	private EditText supplierText;
 	private EditText orderNumberText;
-	private Button stockingScanButton;
+	private ImageButton stockingScanButton;
 	private SpreeConnector spree;
 	
 	private void initViewElements() {
 		supplierText = (EditText) findViewById(R.id.supplier_text);
 		orderNumberText = (EditText) findViewById(R.id.order_number_text);
-		stockingScanButton = (Button) findViewById(R.id.scan_stocking_button);
+		stockingScanButton = (ImageButton) findViewById(R.id.scan_stocking_button);
 	}
 
 	private void hookupInterface() {

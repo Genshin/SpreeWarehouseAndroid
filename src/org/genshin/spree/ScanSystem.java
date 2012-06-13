@@ -1,17 +1,14 @@
-package org.genshin.warehouse;
+package org.genshin.spree;
 
+import org.genshin.warehouse.Warehouse.ResultCodes;
+
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 import android.app.Activity;
 
-public class ScanSystem extends Activity implements View.OnClickListener {
-	public void onClick(View v) {
-		Toast.makeText(v.getContext(), "scan", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-        startActivityForResult(intent, 0);
-    }
+public class ScanSystem extends Activity {
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
@@ -24,5 +21,4 @@ public class ScanSystem extends Activity implements View.OnClickListener {
             }
         }
     }
-
 }
