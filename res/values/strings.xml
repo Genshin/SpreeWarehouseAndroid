@@ -18,6 +18,7 @@
     <string name="register_new">New</string>
     <string name="scan">Scan</string>
     <string name="stocking">Stocking</string>
+    <string name="racks">Racks</string>
     <string name="search">Search</string>
     <string name="clear">Clear</string>
     <string name="search_conditions">Search Conditions</string>
@@ -70,11 +71,18 @@
 	<string name="update">Update</string>
 	<string name="about_warehouse">About Warehouse</string>
 	<string name="version">Version</string>
-	<string name="creator_and_copyright_title">Created by &amp; Copyright of</string>
-	<string name="genshin">Genshin Souzou Kabushiki Kaisha\n [Phantom Creation Inc.]</string>
 	<string name="your_version">Installed Version</string>
 	<string name="app_store_version">Play Store Version</string>
 	<string name="development_version">Development Version</string>
+	<string name="creator_and_copyright_title">Created by &amp; Copyright of</string>
+	<string name="genshin">Genshin Souzou Kabushiki Kaisha\n [Phantom Creation Inc.]</string>
+	<string name="genshin_url">http://genshin.org</string>
+	<string name="pilot_and_producer">Pilot &amp; Producer</string>
+	<string name="freestyle">Free Style Inc.</string>
+	<string name="freestyle_url">http://fs-hobby.jp</string>
+	<string name="icon_bases">Base Icon Images:</string>
+	<string name="pixture_hide">Hide of PIXTURE STUDIO</string>
+	<string name="pixture_url">http://pixture.com</string>
 
 	<!-- alert content -->
 	<string name="unregistered_barcode_new_product">This Barcode is not registered.\nRegister a new product?</string>

@@ -7,6 +7,7 @@
     <string name="products">商品</string>
     <string name="orders">注文</string>
     <string name="stocking">入荷</string>
+    <string name="racks">棚</string>
     <string name="shipping">発送</string>
     <string name="server_address_text">サーバアドレス:</string>
     <string name="username_text">ユーザ名:</string>
@@ -69,10 +70,18 @@
 	<string name="update">更新</string>
 	<string name="about_warehouse">Warehouseについて</string>
 	<string name="version">バージョン</string>
-	<string name="creator_and_copyright_title">作者と著作権</string>
-	<string name="your_version">今のバージョン</string>
+	<string name="your_version">現在のバージョン</string>
 	<string name="app_store_version">Playストアバージョン</string>
 	<string name="development_version">開発バージョン</string>
+	<string name="creator_and_copyright_title">開発と著作権</string>
+	<string name="genshin">幻信創造株式会社</string>
+	<string name="genshin_url">http://genshin.org</string>
+	<string name="pilot_and_producer">パイロットとプロデュース</string>
+	<string name="freestyle">株式会社フリースタイル</string>
+	<string name="freestyle_url">http://fs-hobby.jp</string>
+	<string name="icon_bases">アイコンの元:</string>
+	<string name="pixture_hide">PIXTURE STUDIO社のHideさん</string>
+	<string name="pixture_url">http://pixture.com</string>
 	
 	
 	

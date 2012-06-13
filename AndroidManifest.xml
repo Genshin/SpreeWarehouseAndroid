@@ -28,6 +28,11 @@
             
         </activity>
         <activity
+            android:name=".settings.AboutWarehouseActivity"
+            android:label="@string/settings" >
+            
+        </activity>
+        <activity
             android:name=".settings.UpdateActivity"
             android:label="@string/update" >
             
