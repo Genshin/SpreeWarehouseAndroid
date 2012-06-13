@@ -4,6 +4,8 @@ import org.genshin.spree.SpreeConnector;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.format.DateFormat;
+import java.util.Date;
 
 public class Warehouse {
 	//Result codes from other Activities
@@ -24,5 +26,9 @@ public class Warehouse {
 	public static void ChangeActivityContext(Context newContext) {
 		Warehouse.ctx = newContext;
 		spree = new SpreeConnector(Warehouse.ctx);
+	}
+	
+	public static String getLocalDateString(Date date) {
+		return DateFormat.getDateFormat(ctx).format(date);
 	}
 }
