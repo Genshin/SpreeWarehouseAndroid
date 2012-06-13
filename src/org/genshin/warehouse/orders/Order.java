@@ -1,19 +1,16 @@
 package org.genshin.warehouse.orders;
 
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.genshin.spree.SpreeImageData;
 import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.products.Variant;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -56,21 +53,20 @@ public class Order {
 		try {
 			String strDate = orderJSON.getString("completed_at");
 			
-			if (strDate != null) {
-				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+			if (strDate != null && strDate != "null" && strDate != "") {
+				Date date = null;
 				
-				if (strDate.contains("-")) {
-					strDate = strDate.replace("-", "/");
-				}
-				
-				//strDate = strDate.substring(0, 10);
+
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				
 				try {
-					this.date = format.parse(strDate);
+					date = format.parse(strDate);
 				} catch (ParseException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
+				
+				this.date = date;
 			}
 			else
 				this.date = null;

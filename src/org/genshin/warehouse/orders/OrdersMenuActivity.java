@@ -42,30 +42,18 @@ public class OrdersMenuActivity extends Activity {
 	private OrderListAdapter ordersAdapter;
 	
 	private ListView orderList;
-	private TextView statusText;
 	private MultiAutoCompleteTextView searchBar;
 	private Button searchButton;
 	
-	private Button clearButton;
-	
-	private ImageButton scanButton;
 	private Spinner orderSpinner;
 	private ArrayAdapter<String> sadapter;
 	
 	private ImageButton backwardButton;
 	private boolean updown = false;		// falseの時は▽、trueの時は△表示
-
-	private void initViewElements() {
-        orderList = (ListView) findViewById(R.id.order_menu_list);
-        statusText = (TextView) findViewById(R.id.status_text);
-        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.order_menu_searchbox);
-		searchButton = (Button) findViewById(R.id.order_menu_search_button);
-		//clearButton = (Button) findViewById(R.id.orders_menu_clear_button);
-	}
 	
 	private void hookupInterface() {
 		orderList = (ListView) findViewById(R.id.order_menu_list);
-        statusText = (TextView) findViewById(R.id.status_text);
+        
         searchBar = (MultiAutoCompleteTextView) findViewById(R.id.order_menu_searchbox);
 		
 		//Standard text search hookup
@@ -78,20 +66,6 @@ public class OrdersMenuActivity extends Activity {
 				orderSpinner.setSelection(0);
 			}
 		});
-		
-		/*
-		//Clear button
-		clearButton = (Button) findViewById(R.id.orders_menu_clear_button);
-		clearButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				searchBar.setText("");
-				orders.clear();
-				refreshOrderMenu();
-				clearImage();
-				orderSpinner.setSelection(0);
-			}
-		});
-		*/
 		
 		//Order spinner
 		orderSpinner = (Spinner) findViewById(R.id.order_spinner);

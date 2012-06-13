@@ -51,15 +51,6 @@ public class ProductsMenuActivity extends Activity {
 	
 	private ImageButton backwardButton;
 	private boolean updown = false;		// falseの時は▽、trueの時は△表示
-
-	private void initViewElements() {
-        productList = (ListView) findViewById(R.id.product_menu_list);
-        statusText = (TextView) findViewById(R.id.status_text);
-        scanButton = (ImageButton) findViewById(R.id.products_menu_scan_button);
-        searchBar = (MultiAutoCompleteTextView) findViewById(R.id.product_menu_searchbox);
-		searchButton = (Button) findViewById(R.id.products_menu_search_button);
-		clearButton = (Button) findViewById(R.id.products_menu_clear_button);
-	}
 	
 	private void hookupInterface() {
 		productList = (ListView) findViewById(R.id.product_menu_list);
