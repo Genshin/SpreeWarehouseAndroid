@@ -1,0 +1,209 @@
+package org.genshin.warehouse.orders;
+
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.genshin.spree.SpreeImageData;
+import org.genshin.warehouse.Warehouse;
+import org.genshin.warehouse.products.Variant;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.graphics.drawable.Drawable;
+import android.text.format.DateFormat;
+import android.util.Log;
+
+public class Order {
+	public Date date;
+	public String number;
+	public String state;
+	public String paymentState;
+	public String shipmentState;
+	public String email;
+	public int count;
+	public int price;
+	private int primaryVarientIndex;
+	public ArrayList<Variant> variants;
+	
+	public Order() {		
+		this.date = new Date();
+		this.number = "";
+		this.state = "";
+		this.paymentState = "";
+		this.shipmentState = "";
+		this.email = "";
+		this.count = 0;
+		this.price = 0;
+	}
+	
+	public Variant variant() {
+		if (variants.size() == 0) // no variants
+			return new Variant(); // return dummy
+		
+		return variants.get(primaryVarientIndex);
+	}
+	
+	public Variant variant(int idx) {
+		return variants.get(idx);
+	}
+	
+	public Order(JSONObject orderJSON) {
+		
+		try {
+			String strDate = orderJSON.getString("completed_at");
+			
+			if (strDate != null) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+				
+				if (strDate.contains("-")) {
+					strDate = strDate.replace("-", "/");
+				}
+				
+				//strDate = strDate.substring(0, 10);
+				
+				try {
+					this.date = format.parse(strDate);
+				} catch (ParseException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+			}
+			else
+				this.date = null;
+			this.number = orderJSON.getString("number");
+			this.state = orderJSON.getString("state");
+			this.paymentState = orderJSON.getString("payment_state");
+			this.shipmentState = orderJSON.getString("shipment_state");
+			this.email = orderJSON.getString("email");
+			this.count = orderJSON.getInt("item_total");
+			this.price = orderJSON.getInt("total");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		obtainVariants(orderJSON);
+	}
+	
+	public void addVariant(int id, String name, int countOnHand, // basics
+			String visualCode, String sku, double price, // extended identifying information
+			double weight, double height, double width, double depth, //physical specifications
+			Boolean isMaster, double costPrice,	String permalink) { // extended data information
+		variants.add(new Variant(id, name, countOnHand, visualCode, sku, price, weight, height, width, depth, isMaster, costPrice, permalink));
+
+		if (isMaster) {
+			this.primaryVarientIndex = variants.size() - 1; // set as last added variant
+		}
+	}
+	
+	private void processVariantJSON(JSONObject v) {
+		//pre-build object
+		boolean isMaster = false;
+		try {
+			isMaster = v.getBoolean("is_master");
+		} catch (JSONException e) {
+			isMaster = false;
+		}
+		
+		/*
+		Date date = this.date;
+		try {
+			date = v.getInt("id");
+		} catch (JSONException e) {
+			//no unique ID, so set to product ID
+			date = this.date;
+		}
+		*/
+		
+		String number = this.number;
+		try {
+			number = v.getString("number");
+		} catch (JSONException e) {
+			number = this.number;
+		}
+		
+		String state = this.state;
+		try {
+			state = v.getString("state");
+		} catch (JSONException e) {
+			state = this.state;
+		}
+		
+		String paymentState = this.paymentState;
+		try {
+			paymentState = v.getString("payment_state");
+		} catch (JSONException e) {
+			paymentState = this.paymentState;
+		}
+		
+		String shipmentState = this.shipmentState;
+		try {
+			shipmentState = v.getString("shipment_state");
+		} catch (JSONException e) {
+			shipmentState = this.shipmentState;
+		}
+		
+		String email = this.email;
+		try {
+			email= v.getString("email");
+		} catch (JSONException e) {
+			email = this.email;
+		}
+		
+		double count = this.count;
+		try {
+			count = v.getInt("item_total");
+		} catch (JSONException e) {
+			count = this.count;
+		}
+		
+		double price = this.price;
+		try {
+			price = v.getInt("total");
+		} catch (JSONException e) {
+			price = this.price;
+		}
+
+		//addVariant(date, number, state,
+		//			paymentState, shipmentState, mail, count, price);
+		
+	}
+	
+	private void obtainVariants(JSONObject orderJSON) {
+		JSONArray variantArray = new JSONArray();
+		
+		try {
+			variantArray = orderJSON.getJSONArray("variants");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		// get master first
+		for (int i = 0; i < variantArray.length(); i++) {
+			JSONObject v = new JSONObject();
+			try {
+				v = variantArray.getJSONObject(i);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				// something broken? skip this one
+				continue;
+			}
+			
+			boolean isMaster = false;
+			try {
+				isMaster = v.getBoolean("is_master");
+			} catch (JSONException e) {
+				isMaster = false;
+			}
+			
+			if (isMaster) {
+				processVariantJSON(v);
+				break;
+			} 
+		}		
+	}
+}

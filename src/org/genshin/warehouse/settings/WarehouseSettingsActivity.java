@@ -34,7 +34,7 @@ public class WarehouseSettingsActivity extends Activity {
         	menu.add(R.string.defaults, WarehouseActivity.class);
         	menu.add(R.string.camera, ProfileSettingsActivity.class);
         	menu.add(R.string.update, UpdateActivity.class);
-        	menu.add(R.string.about_warehouse, ProfileSettingsActivity.class);
+        	menu.add(R.string.about_warehouse, AboutWarehouseActivity.class);
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, android.R.id.text1, menu.getTitles());
