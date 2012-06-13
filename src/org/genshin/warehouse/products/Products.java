@@ -2,10 +2,13 @@ package org.genshin.warehouse.products;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import org.apache.http.client.methods.HttpGet;
 import org.genshin.gsa.Dialogs;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
@@ -40,6 +43,9 @@ public class Products {
 	
 	private ArrayList<Product> processProductContainer(JSONObject productContainer) {
 		ArrayList<Product> collection = new ArrayList<Product>();
+		
+		if (productContainer == null)
+			return null;
 		
 		//Pick apart JSON object
 		try {
@@ -105,7 +111,14 @@ public class Products {
 		Dialogs.showSearching(ctx);
 
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[name_cont]=" + query);
+		String escapedQuery = query;
+		try {
+			escapedQuery = URLEncoder.encode(query, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// WTF unsupported encoding? fine, just take it raw
+			escapedQuery = query;
+		}
+		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[name_cont]=" + escapedQuery);
 		collection = processProductContainer(productContainer);
 		
 		Dialogs.dismiss();
@@ -117,7 +130,7 @@ public class Products {
 		AlertDialog.Builder question = new AlertDialog.Builder(ctx);
 
 		question.setMessage(ctx.getString(R.string.unregistered_barcode_new_product));
-		question.setTitle("タイトル");
+		question.setTitle(ctx.getString(R.string.unregistered_barcode_title));
 		question.setIcon(R.drawable.newproduct);
 		question.setPositiveButton(ctx.getString(R.string.register_to_new_product), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {

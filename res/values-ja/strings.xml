@@ -82,10 +82,13 @@
 	<string name="icon_bases">アイコンの元:</string>
 	<string name="pixture_hide">PIXTURE STUDIO社のHideさん</string>
 	<string name="pixture_url">http://pixture.com</string>
-	
+	<string name="serverside_developer">サーバ側開発</string>
+	<string name="camplight">CampLight Ltd.</string>
+	<string name="camplight_url">http://camplight.net</string>
 	
 	
 	<!-- alert content -->
+	<string name="unregistered_barcode_title">未登録バーコード</string>
 	<string name="unregistered_barcode_new_product">バーコードが未登録です。\n新規商品登録を行いますか?</string>
 
 	<!-- GSA Dialog Text -->

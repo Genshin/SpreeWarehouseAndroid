@@ -83,8 +83,12 @@
 	<string name="icon_bases">Base Icon Images:</string>
 	<string name="pixture_hide">Hide of PIXTURE STUDIO</string>
 	<string name="pixture_url">http://pixture.com</string>
+	<string name="serverside_developer">Serverside Development</string>
+	<string name="camplight">CampLight Ltd.</string>
+	<string name="camplight_url">http://camplight.net</string>
 
 	<!-- alert content -->
+	<string name="unregistered_barcode_title">Unregistered Barcode</string>
 	<string name="unregistered_barcode_new_product">This Barcode is not registered.\nRegister a new product?</string>
 
 	<!-- GSA Dialog Text -->
@@ -94,4 +98,5 @@
 	<string name="loading">Loading</string>
 	<string name="saving">Saving</string>
 	<string name="deleting">Deleting</string>
+	
 </resources>
