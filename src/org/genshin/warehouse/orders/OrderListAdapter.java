@@ -1,6 +1,7 @@
 package org.genshin.warehouse.orders;
 
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.products.ProductListItem;
 
 import android.content.Context;
@@ -28,7 +29,10 @@ public class OrderListAdapter extends ArrayAdapter<OrderListItem>{
 		View rowView = inflater.inflate(R.layout.order_list_item, parent, false);
 		
 		TextView date = (TextView) rowView.findViewById(R.id.orders_list_item_date);
-		date.setText("" + data[position].date);
+		if (data[position].date != null)
+			date.setText(Warehouse.getLocalDateString(data[position].date));
+		else 
+			date.setText("");
 		TextView number = (TextView) rowView.findViewById(R.id.orders_list_item_number);
 		number.setText(data[position].number);
 		
