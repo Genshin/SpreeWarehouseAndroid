@@ -4,5 +4,125 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >	
+	    <MultiAutoCompleteTextView
+	        android:id="@+id/order_menu_searchbox"
+	        android:layout_width="250dp"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/search_conditions" />
+	    <Button
+	        android:id="@+id/order_menu_search_button"
+	        android:layout_width="70dp"
+	        android:layout_height="wrap_content"
+	        android:text="@string/search" />
+		    
+	</LinearLayout>
+	    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+        <Spinner
+            android:id="@+id/order_spinner"
+            android:layout_width="250dp"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:id="@+id/order_menu_backward_button"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/arrow_down_float" />
+
+    </LinearLayout>
+	    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp" >
+   
+        <TextView 
+            android:text="完了日時"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:textColor="@color/white"
+            android:background="@color/gray" />
+		<TextView 
+            android:text="注文番号"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+			android:textColor="@color/white"
+            android:background="@color/gray" />
+		
+	</LinearLayout>
+	
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+		<TextView 
+            android:text="状態"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+			android:textColor="@color/white"
+            android:background="@color/gray" />
+		<TextView 
+            android:text="支払い状態"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:textColor="@color/white"
+            android:background="@color/gray" />			
+		<TextView 
+            android:text="配送状態"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+			android:textColor="@color/white"
+            android:background="@color/gray" />
+		
+	</LinearLayout>	
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="5dp" >
+		
+		<TextView 
+			android:text="メールアドレス"
+			android:layout_width="125dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="1dp"
+			android:textColor="@color/white"
+			android:background="@color/gray" />
+		<TextView 
+			android:text="合計"
+			android:layout_width="125dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="1dp"
+			android:textColor="@color/white"
+			android:background="@color/gray" />
+		<TextView 
+			android:text="編集"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="1dp"
+			android:textColor="@color/white"
+			android:background="@color/gray" />
+			
+	</LinearLayout>
+    
+    <ListView
+        android:id="@+id/order_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </ListView>    
 
 </LinearLayout>
