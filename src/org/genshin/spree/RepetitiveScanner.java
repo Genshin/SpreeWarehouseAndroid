@@ -5,35 +5,35 @@ import org.genshin.warehouse.Warehouse.ResultCodes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
-public class RepetitiveScanner extends Activity {
+public abstract class RepetitiveScanner extends Activity {
 	public static enum RepetitiveScanCodes {ERROR, STANDBY, START, CONTINUE, FINISH};
 	private int status;
 	private Intent intent;
 	
-	RepetitiveScanner() {
-		intent = new Intent("com.google.zxing.client.android.SCAN");
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        intent = new Intent("com.google.zxing.client.android.SCAN");
         intent.putExtra("DEFAULT_BYTE_MODE_ENCODING", "UTF-8");
 		status = RepetitiveScanCodes.STANDBY.ordinal();
+        
+        start();
 	}
 	
-	public void beforeScanning() {
-		status = RepetitiveScanCodes.CONTINUE.ordinal();
-	}
+	public abstract void beforeScanning();
 	
-	public void onScanResult(Intent intent, String format, String contents) {
-		
-	}
+	public abstract void onScanResult(Intent intent, String format, String contents);
 	
-	private void finishScanning() {
-		
-	}
+	protected abstract void finishScanning();
 	
 	public void start() {
 		status = RepetitiveScanCodes.START.ordinal();
         beforeScanning();
-				
-	    
+        status = RepetitiveScanCodes.CONTINUE.ordinal();
+        continueScanning();
 	}
 	
 	private void continueScanning() {

@@ -2,6 +2,7 @@ package org.genshin.warehouse.stocking;
 
 import java.util.ArrayList;
 
+import org.genshin.spree.RepetitiveScanner;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse.ResultCodes;
@@ -22,17 +23,15 @@ public class StockingMenuActivity extends Activity {
 	private EditText orderNumberText;
 	private ImageButton stockingScanButton;
 	private SpreeConnector spree;
-	
-	private void initViewElements() {
-		supplierText = (EditText) findViewById(R.id.supplier_text);
-		orderNumberText = (EditText) findViewById(R.id.order_number_text);
-		stockingScanButton = (ImageButton) findViewById(R.id.scan_stocking_button);
-	}
 
 	private void hookupInterface() {
+		supplierText = (EditText) findViewById(R.id.supplier_text);
+		orderNumberText = (EditText) findViewById(R.id.order_number_text);
+		
+		stockingScanButton = (ImageButton) findViewById(R.id.scan_stocking_button);
 		stockingScanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                Intent intent = new Intent(v.getContext(), StockingRepetitiveScanner.class);
                 //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
                 startActivityForResult(intent, ResultCodes.SCAN.ordinal());
             }
@@ -46,6 +45,8 @@ public class StockingMenuActivity extends Activity {
         setContentView(R.layout.stocking);
 
         spree = new SpreeConnector(this);
+        
+        hookupInterface();
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
