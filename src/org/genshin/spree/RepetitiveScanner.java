@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 public abstract class RepetitiveScanner extends Activity {
 	public static enum RepetitiveScanCodes {ERROR, STANDBY, START, CONTINUE, FINISH};
-	private int status;
+	protected int status;
 	private Intent intent;
 	
 	@Override
