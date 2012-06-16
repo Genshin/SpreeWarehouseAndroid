@@ -3,14 +3,30 @@ package org.genshin.warehouse.racks;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Container {
+public class ContainerTaxon {
+	public int id;
 	public String name;
 	public String permalink;
 	public String updatedAt; //TODO make this a date
 	public String warehouse;
-	public Container parent; //TODO this isn't a good idea. Also fuck Java for not having a good pointer/reference concept to fit this.
+	public ContainerTaxon root;
 	
-	public Container(JSONObject json) {
+	public ContainerTaxon(JSONObject json) {
+		try {
+			id = json.getInt("id"); //TODO this will fail from QR code scans.
+		} catch (JSONException e) {
+			// TODO QR Code scans will NOT have IDs. 
+			// Cross reference/search with permalink and if that fails trace the tree.
+			
+		}
+		
+		try {
+			name = json.getString("name");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		try {
 			name = json.getString("name");
 		} catch (JSONException e) {

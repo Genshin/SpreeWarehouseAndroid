@@ -1,7 +1,7 @@
 package org.genshin.warehouse;
 
 import org.genshin.spree.SpreeConnector;
-import org.genshin.warehouse.racks.Container;
+import org.genshin.warehouse.racks.ContainerTaxon;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ public class Warehouse {
 	private static Context ctx;
 	private static SpreeConnector spree;
 	
-	private static Container container;
+	private static ContainerTaxon container;
 	
 	public Warehouse(Context homeContext) {
 		Warehouse.ctx = homeContext;
@@ -35,11 +35,11 @@ public class Warehouse {
 		return DateFormat.getDateFormat(ctx).format(date);
 	}
 	
-	public static void setContainer(Container container) {
+	public static void setContainer(ContainerTaxon container) {
 		Warehouse.container = container;
 	}
 	
-	public static Container getContainer() {
+	public static ContainerTaxon getContainer() {
 		return Warehouse.container;
 	}
 }

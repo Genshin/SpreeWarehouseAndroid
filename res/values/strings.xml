@@ -89,6 +89,7 @@
 	<string name="target_container">Target Container</string>
 	<string name="select">Select</string>
 	<string name="count">Count</string>
+	<string name="lock">Lock</string>
 
 	<!-- alert content -->
 	<string name="unregistered_barcode_title">Unregistered Barcode</string>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.genshin.spree.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
@@ -64,9 +65,7 @@ public class ProductsMenuActivity extends Activity {
         		clearImage();
         		orderSpinner.setSelection(0);
         		Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
-                startActivityForResult(intent, ResultCodes.SCAN.ordinal());
+                ScanSystem.initiateScan(v.getContext());
             }
 		});
 		

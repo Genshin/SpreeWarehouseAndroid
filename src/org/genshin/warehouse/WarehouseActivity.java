@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.genshin.gsa.Dialogs;
+import org.genshin.spree.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
@@ -80,11 +81,7 @@ public class WarehouseActivity extends Activity {
 		scanButton = (Button) findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		//Toast.makeText(v.getContext(), getString(R.string.scan), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.putExtra("DEFAULT_BYTE_MODE_ENCODING", "UTF-8");
-                //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                startActivityForResult(intent, ResultCodes.SCAN.ordinal());
+        		ScanSystem.initiateScan(v.getContext());
             }
 		});
         
@@ -152,11 +149,15 @@ public class WarehouseActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                //Toast.makeText(WarehouseActivity.this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
+
                 // Handle successful scan
-                //Toast.makeText(this, "[" + format + "]: " + contents, Toast.LENGTH_LONG).show();
-                //if it's a Barcode it's a product
-                if (format != "QR_CODE") {
+				if (ScanSystem.isQRCode(format)) {
+					//TODO if it's a QR code check if it's JSON
+
+					//TODO if it's JSON parse it by the header
+
+				}else if (ScanSystem.isProductCode(format)) {
+					// if it's a Barcode it's a product
                 	Products products = new Products(this, spree);
                 	
                 	ArrayList<Product> foundProducts = products.findByBarcode(contents);
@@ -168,10 +169,8 @@ public class WarehouseActivity extends Activity {
                 		products.unregisteredBarcode(contents);
                 	}
                 } else {
-                	
+                	// not a hadled code type
                 }
-                //TODO if it's a QR code check if it's JSON
-                //TODO if it's JSON parse it by the header
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             	Toast.makeText(WarehouseActivity.this, "Scan Cancelled", Toast.LENGTH_LONG).show();
