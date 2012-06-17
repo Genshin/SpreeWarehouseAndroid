@@ -4,19 +4,37 @@ import java.util.ArrayList;
 
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
 
 public class RacksMenuActivity extends Activity {
 	SpreeConnector spree;
-	ArrayList<ContainerTaxon> containerTaxons;
+	ArrayList<ContainerTaxonomy> taxonomies;
 	
-	private void loadContainers() {
-		JSONArray taxonsJSON = spree.connector.getJSONArray("api/containers.json");
+	public static ArrayList<ContainerTaxonomy> getContainers() {
+		JSONArray taxonomiesJSON = Warehouse.Spree().connector.getJSONArray("/api/container_taxonomies.json");
 		
+		ArrayList<ContainerTaxonomy> taxonomies = new ArrayList<ContainerTaxonomy>();
 		
+		for (int i = 0; i < taxonomiesJSON.length(); i++) {
+			JSONObject taxonomyJSON = null;
+			try {
+				taxonomyJSON = taxonomiesJSON.getJSONObject(i);
+			} catch (JSONException e) {
+				taxonomyJSON = null;
+				e.printStackTrace();
+			}
+			if (taxonomyJSON != null)
+				taxonomies.add(new ContainerTaxonomy(taxonomyJSON));
+			
+		}
+		
+		return taxonomies;
 	}
 	
 	@Override
@@ -24,9 +42,9 @@ public class RacksMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.racks);
 		
-        spree = new SpreeConnector(this);
+        Warehouse.ChangeActivityContext(this);
         
-        loadContainers();
+        taxonomies = RacksMenuActivity.getContainers();
 	}
 
 }

@@ -214,6 +214,10 @@ public class RESTConnector extends Activity {
 		JSONArray data = new JSONArray();
 		
 		HttpResponse response = getResponse(getGetter(targetURL));
+
+		if (response == null)
+			return null;
+
 		HttpEntity entity = response.getEntity();
 		String content;
 		try {

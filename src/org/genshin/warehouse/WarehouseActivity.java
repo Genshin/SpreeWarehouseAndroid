@@ -50,7 +50,7 @@ public class WarehouseActivity extends Activity {
 				new ThumbListItem(R.drawable.products, getString(R.string.products), "", ProductsMenuActivity.class),
 				new ThumbListItem(R.drawable.orders, getString(R.string.orders), "", OrdersMenuActivity.class),
 				new ThumbListItem(R.drawable.stocking, getString(R.string.stocking), "", StockingMenuActivity.class),
-				new ThumbListItem(R.drawable.racks, getString(R.string.racks), "", StockingMenuActivity.class),
+				new ThumbListItem(R.drawable.racks, getString(R.string.racks), "", RacksMenuActivity.class),
 				new ThumbListItem(R.drawable.picking, getString(R.string.picking), "", RacksMenuActivity.class),
 				new ThumbListItem(R.drawable.packing, getString(R.string.packing), "", PackingMenuActivity.class),
 				new ThumbListItem(R.drawable.shipping, getString(R.string.shipping), "", ShippingMenuActivity.class)
