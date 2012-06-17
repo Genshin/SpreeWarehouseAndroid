@@ -14,29 +14,8 @@ import android.os.Bundle;
 
 public class RacksMenuActivity extends Activity {
 	SpreeConnector spree;
-	ArrayList<ContainerTaxonomy> taxonomies;
-	
-	public static ArrayList<ContainerTaxonomy> getContainers() {
-		JSONArray taxonomiesJSON = Warehouse.Spree().connector.getJSONArray("/api/container_taxonomies.json");
+	ContainerTaxonomies containerTaxonomies;
 		
-		ArrayList<ContainerTaxonomy> taxonomies = new ArrayList<ContainerTaxonomy>();
-		
-		for (int i = 0; i < taxonomiesJSON.length(); i++) {
-			JSONObject taxonomyJSON = null;
-			try {
-				taxonomyJSON = taxonomiesJSON.getJSONObject(i);
-			} catch (JSONException e) {
-				taxonomyJSON = null;
-				e.printStackTrace();
-			}
-			if (taxonomyJSON != null)
-				taxonomies.add(new ContainerTaxonomy(taxonomyJSON));
-			
-		}
-		
-		return taxonomies;
-	}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +23,7 @@ public class RacksMenuActivity extends Activity {
 		
         Warehouse.ChangeActivityContext(this);
         
-        taxonomies = RacksMenuActivity.getContainers();
+        containerTaxonomies = new ContainerTaxonomies();
 	}
 
 }

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.genshin.spree.RepetitiveScanner;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
+import org.genshin.warehouse.racks.ContainerTaxonomies;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,13 +18,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class StockingMenuActivity extends Activity {
 	private EditText supplierText;
 	private EditText orderNumberText;
 	private ImageButton stockingScanButton;
-	private SpreeConnector spree;
+	private ContainerTaxonomies containerTaxonomies;
+	private Spinner targetContainerSpinner;
 
 	private void hookupInterface() {
 		supplierText = (EditText) findViewById(R.id.supplier_text);
@@ -36,6 +40,9 @@ public class StockingMenuActivity extends Activity {
                 startActivityForResult(intent, ResultCodes.SCAN.ordinal());
             }
 		});
+		
+		targetContainerSpinner = (Spinner) findViewById(R.id.target_container_spinner);
+		//TODO fill
 
 	}
 
@@ -44,7 +51,8 @@ public class StockingMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stocking);
 
-        spree = new SpreeConnector(this);
+        Warehouse.ChangeActivityContext(this);
+        containerTaxonomies = new ContainerTaxonomies();
         
         hookupInterface();
 	}
@@ -57,7 +65,7 @@ public class StockingMenuActivity extends Activity {
                 // Handle successful scan
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
-                	Products products = new Products(this, spree);
+                	Products products = new Products(this, Warehouse.Spree());
                 	ArrayList<Product> foundProducts = products.findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {

@@ -185,7 +185,6 @@ public class ProductsMenuActivity extends Activity {
 
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
 		int id = item.getItemId();
 
 		if (id == menuCodes.registerProduct.ordinal()) {

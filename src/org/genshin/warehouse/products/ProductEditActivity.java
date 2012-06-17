@@ -11,13 +11,18 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.genshin.spree.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.WarehouseActivity;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.Product;
 
 public class ProductEditActivity extends Activity {
@@ -29,6 +34,7 @@ public class ProductEditActivity extends Activity {
 	private EditText priceEdit;
 	private EditText permalinkEdit;
 	private EditText barcodeEdit;
+	private ImageButton barcodeScanButton;
 	private EditText descriptionEdit;
 
 	private ImageSwitcher imageSwitcher;
@@ -53,6 +59,12 @@ public class ProductEditActivity extends Activity {
 		
 		barcodeEdit = (EditText) findViewById(R.id.barcode_text);
 		barcodeEdit.setText(product.visualCode);
+		barcodeScanButton = (ImageButton) findViewById(R.id.barcode_scan_button);
+		barcodeScanButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		ScanSystem.initiateScan(v.getContext());
+            }
+		});
 		
 		descriptionEdit = (EditText) findViewById(R.id.product_description_edit);
 		descriptionEdit.setText(product.description);
@@ -106,8 +118,11 @@ public class ProductEditActivity extends Activity {
 			pairs.add(new BasicNameValuePair("product[price]", priceEdit.getText().toString()));
 		if (permalinkEdit.getText().toString() != "")
 			pairs.add(new BasicNameValuePair("product[permalink]", permalinkEdit.getText().toString()));
+		if (barcodeEdit.getText().toString() != "")
+			pairs.add(new BasicNameValuePair("product[visual_code]", barcodeEdit.getText().toString()));
 		if (descriptionEdit.getText().toString() != "")
 			pairs.add(new BasicNameValuePair("product[description]", descriptionEdit.getText().toString()));
+		
 		//TODO add SKU etc.
 		
 		if (isNew) {
@@ -118,4 +133,25 @@ public class ProductEditActivity extends Activity {
 
 		
 	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
+            if (resultCode == RESULT_OK) {
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+
+                // Handle successful scan
+				/*if (ScanSystem.isQRCode(format)) {
+					//TODO product details codes?
+				} else */
+                if (ScanSystem.isProductCode(format)) {
+					// put barcode in product barcode details
+                	this.barcodeEdit.setText(contents);
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle cancel
+            	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

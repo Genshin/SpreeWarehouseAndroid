@@ -156,7 +156,7 @@ public class WarehouseActivity extends Activity {
 
 					//TODO if it's JSON parse it by the header
 
-				}else if (ScanSystem.isProductCode(format)) {
+				} else if (ScanSystem.isProductCode(format)) {
 					// if it's a Barcode it's a product
                 	Products products = new Products(this, spree);
                 	
@@ -167,6 +167,8 @@ public class WarehouseActivity extends Activity {
                 	} else if (foundProducts.size() == 0) {
                 		//New product?
                 		products.unregisteredBarcode(contents);
+                	} else if (foundProducts.size() > 1) {
+                		//ProductsMenuActivity
                 	}
                 } else {
                 	// not a hadled code type
