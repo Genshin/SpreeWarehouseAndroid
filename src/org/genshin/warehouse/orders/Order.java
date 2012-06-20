@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.products.Variant;
 import org.json.JSONArray;
@@ -15,26 +16,28 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 public class Order {
-	public Date date;
 	public String number;
-	public String state;
-	public String paymentState;
-	public String shipmentState;
-	public String email;
+	public Date date;
+	public String name;
 	public int count;
-	public int price;
+	public double price;
+	public String division;
+	public String paymentMethod;
+	public String paymentState;
+	public String shippingMethod;
 	private int primaryVarientIndex;
 	public ArrayList<Variant> variants;
 	
-	public Order() {		
-		this.date = new Date();
+	public Order() {
 		this.number = "";
-		this.state = "";
-		this.paymentState = "";
-		this.shipmentState = "";
-		this.email = "";
+		this.date = new Date();
+		this.name = "";
 		this.count = 0;
 		this.price = 0;
+		this.division = "";
+		this.paymentMethod = "";
+		this.paymentState = "";
+		this.shippingMethod = "";
 	}
 	
 	public Variant variant() {
@@ -51,11 +54,11 @@ public class Order {
 	public Order(JSONObject orderJSON) {
 		
 		try {
-			String strDate = orderJSON.getString("completed_at");
+			this.number = orderJSON.getString("number");
+			String strDate = orderJSON.getString("created_at");
 			
 			if (strDate != null && strDate != "null" && strDate != "") {
 				Date date = null;
-				
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				
@@ -70,13 +73,12 @@ public class Order {
 			}
 			else
 				this.date = null;
-			this.number = orderJSON.getString("number");
-			this.state = orderJSON.getString("state");
+			
+			this.price = orderJSON.getDouble("total");
+			this.division = "";
+			
 			this.paymentState = orderJSON.getString("payment_state");
-			this.shipmentState = orderJSON.getString("shipment_state");
-			this.email = orderJSON.getString("email");
-			this.count = orderJSON.getInt("item_total");
-			this.price = orderJSON.getInt("total");
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,11 +124,32 @@ public class Order {
 			number = this.number;
 		}
 		
-		String state = this.state;
+		String name = this.name;
 		try {
-			state = v.getString("state");
+			name = v.getString("user_id");
 		} catch (JSONException e) {
-			state = this.state;
+			name = this.name;
+		}
+		
+		double count = this.count;
+		try {
+			count = v.getInt("total");
+		} catch (JSONException e) {
+			count = this.count;
+		}
+		
+		double price = this.price;
+		try {
+			price = v.getDouble("item_total");
+		} catch (JSONException e) {
+			price = this.price;
+		}
+		
+		String paymentMethod = this.paymentMethod;
+		try {
+			paymentMethod = v.getString("payment_state");
+		} catch (JSONException e) {
+			paymentMethod = this.paymentMethod;
 		}
 		
 		String paymentState = this.paymentState;
@@ -136,32 +159,11 @@ public class Order {
 			paymentState = this.paymentState;
 		}
 		
-		String shipmentState = this.shipmentState;
+		String shippingMethod = this.shippingMethod;
 		try {
-			shipmentState = v.getString("shipment_state");
+			shippingMethod = v.getString("shipment_state");
 		} catch (JSONException e) {
-			shipmentState = this.shipmentState;
-		}
-		
-		String email = this.email;
-		try {
-			email= v.getString("email");
-		} catch (JSONException e) {
-			email = this.email;
-		}
-		
-		double count = this.count;
-		try {
-			count = v.getInt("item_total");
-		} catch (JSONException e) {
-			count = this.count;
-		}
-		
-		double price = this.price;
-		try {
-			price = v.getInt("total");
-		} catch (JSONException e) {
-			price = this.price;
+			shippingMethod = this.shippingMethod;
 		}
 
 		//addVariant(date, number, state,

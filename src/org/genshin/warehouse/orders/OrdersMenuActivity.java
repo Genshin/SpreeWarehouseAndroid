@@ -14,6 +14,9 @@ import org.genshin.warehouse.orders.OrderListItem;
 import org.genshin.warehouse.orders.Orders;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.orders.OrdersMenuActivity.menuCodes;
+import org.genshin.warehouse.products.Product;
+import org.genshin.warehouse.products.ProductDetailsActivity;
+import org.genshin.warehouse.products.ProductsMenuActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +24,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -181,7 +185,8 @@ public class OrdersMenuActivity extends Activity {
 		
 		for (int i = 0; i < orders.list.size(); i++) {
 			Order p = orders.list.get(i);
-			orderListItems[i] = new OrderListItem(p.date, p.number, p.state, p.paymentState, p.shipmentState, p.email, p.count, p.price);
+			orderListItems[i] = new OrderListItem(p.number, p.date, p.name, p.count, p.price, 
+					p.division, p.paymentMethod, p.paymentState, p.shippingMethod);
 		}
 		
 		//statusText.setText(orders.count + this.getString(R.string.orders_counter) );
@@ -190,13 +195,12 @@ public class OrdersMenuActivity extends Activity {
 		orderList.setAdapter(ordersAdapter);
         orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	//orderListClickHandler(parent, view, position);
+            	orderListClickHandler(parent, view, position);
             }
         });
         
 	}
 	
-	/*
 	public static void showOrderDetails(Context ctx, Order order) {
 		OrdersMenuActivity.setSelectedOrder(order);
 		Intent orderDetailsIntent = new Intent(ctx, OrderDetailsActivity.class);
@@ -206,7 +210,7 @@ public class OrdersMenuActivity extends Activity {
 	private void orderListClickHandler(AdapterView<?> parent, View view, int position) {
 		OrdersMenuActivity.showOrderDetails(this, orders.list.get(position));				
 	}
-	*/
+
 
 	/*
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -240,8 +244,9 @@ public class OrdersMenuActivity extends Activity {
 	}
 
 	public static void setSelectedOrder(Order selectedOrder) {
-		if (selectedOrder == null)
-			selectedOrder = new Order();
+		if (selectedOrder == null) {
+			orders.getNewestOrders(10);
+		}
 		
 		OrdersMenuActivity.selectedOrder = selectedOrder;
 	}
