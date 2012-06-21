@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost 
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@android:id/tabhost"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    
+    <TextView 
+        android:id="@+id/order_details_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/lightblue"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+        
+        <TextView 
+            android:text="状況"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        <TextView 
+            android:id="@+id/order_details_main_statement"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp" />   
+        <TextView 
+            android:text="合計"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        <TextView 
+            android:id="@+id/order_details_main_total"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp" />
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp" >
+        
+        <TextView 
+            android:text="発送"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        <TextView 
+            android:id="@+id/order_details_main_shipment"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp" />   
+        <TextView 
+            android:text="支払い方法"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        <TextView 
+            android:id="@+id/order_details_main_payment"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp" />
+        
+    </LinearLayout>
+  
+    <TabWidget 
+        android:id="@android:id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </TabWidget>
+    
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" >
+		
+	    <FrameLayout 
+	        android:id="@android:id/tabcontent"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="10dp" >
+
+	        <include layout="@layout/order_details_main"
+	            android:id="@+id/order_details_main" >
+	        </include>
+	        <include layout="@layout/order_details_account"
+	            android:id="@+id/order_details_account" >
+	        </include>
+	        <include layout="@layout/order_details_adjustment"
+	            android:id="@+id/order_details_adjustment" >
+	        </include> 
+	        <include layout="@layout/order_details_payment"
+	            android:id="@+id/order_details_payment" >
+	        </include>
+	        <include layout="@layout/order_details_shipment"
+	            android:id="@+id/order_details_shipment" >
+	        </include>
+	        <include layout="@layout/order_details_return"
+	            android:id="@+id/order_details_return" >
+	        </include>
+
+	    </FrameLayout>
+
+	</ScrollView>
+
+</LinearLayout>
+
+</TabHost>

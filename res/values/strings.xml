@@ -6,6 +6,7 @@
     <string name="warehouse_title">Warehouse</string>
     <string name="products">Products</string>
     <string name="orders">Orders</string>
+    <string name="order_details">Order Details</string>
     <string name="shipping">Shipping</string>
     <string name="server_address_text">Server Address</string>
     <string name="username_text">User</string>

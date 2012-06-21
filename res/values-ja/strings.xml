@@ -6,6 +6,7 @@
     <string name="title">Warehouse</string>
     <string name="products">商品</string>
     <string name="orders">注文</string>
+    <string name="order_details">注文</string>
     <string name="stocking">入荷</string>
     <string name="racks">棚</string>
     <string name="shipping">発送</string>

@@ -64,6 +64,11 @@
             
         </activity>
         <activity 
+            android:name=".orders.OrderDetailsActivity"
+            android:label="@string/order_details" >
+            
+        </activity>
+        <activity 
             android:name=".stocking.StockingMenuActivity"
             android:label="@string/stocking" >
             

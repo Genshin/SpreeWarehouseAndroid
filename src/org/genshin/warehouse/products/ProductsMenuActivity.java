@@ -219,6 +219,7 @@ public class ProductsMenuActivity extends Activity {
 	public static void showProductDetails(Context ctx, Product product) {
 		ProductsMenuActivity.setSelectedProduct(product);
 		Intent productDetailsIntent = new Intent(ctx, ProductDetailsActivity.class);
+		Log.v("test", "ctx:" + ctx + "  in:" + productDetailsIntent);
     	ctx.startActivity(productDetailsIntent);
 	}
 	
