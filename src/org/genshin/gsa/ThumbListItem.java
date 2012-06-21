@@ -1,4 +1,4 @@
-package org.genshin.warehouse;
+package org.genshin.gsa;
 
 import android.app.Activity;
 

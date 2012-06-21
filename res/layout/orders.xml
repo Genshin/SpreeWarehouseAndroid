@@ -41,21 +41,33 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginTop="5dp" >
-   
-        <TextView 
-            android:text="完了日時"
-            android:layout_width="151dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:textColor="@color/white"
-            android:background="@color/gray" />
+
 		<TextView 
-            android:text="注文番号"
-            android:layout_width="150dp"
+            android:text="@string/order_number"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
 			android:textColor="@color/white"
-            android:background="@color/gray" />
+            android:background="@color/gray"
+            android:textSize="16sp" />
+		
+		<TextView 
+            android:text="注文日時"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:textColor="@color/white"
+            android:background="@color/gray"
+            android:textSize="16sp" />
+		
+		<TextView 
+            android:text="お客様名"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:textColor="@color/white"
+            android:background="@color/gray"
+            android:textSize="16sp" />
 		
 	</LinearLayout>
 	
@@ -65,26 +77,29 @@
         android:gravity="center_horizontal" >
 
 		<TextView 
-            android:text="状態"
+            android:text="合計点数"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
 			android:textColor="@color/white"
-            android:background="@color/gray" />
+            android:background="@color/gray"
+            android:textSize="16sp" />
 		<TextView 
-            android:text="支払い状態"
+            android:text="小計"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:textColor="@color/white"
-            android:background="@color/gray" />			
+            android:background="@color/gray"
+            android:textSize="16sp" />			
 		<TextView 
-            android:text="配送状態"
+            android:text="倉庫"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
 			android:textColor="@color/white"
-            android:background="@color/gray" />
+            android:background="@color/gray"
+            android:textSize="16sp" />
 		
 	</LinearLayout>	
 
@@ -95,33 +110,37 @@
         android:layout_marginBottom="5dp" >
 		
 		<TextView 
-			android:text="メールアドレス"
-			android:layout_width="125dp"
+			android:text="支払い方法"
+			android:layout_width="100dp"
 			android:layout_height="wrap_content"
 			android:layout_margin="1dp"
 			android:textColor="@color/white"
-			android:background="@color/gray" />
+			android:background="@color/gray"
+			android:textSize="16sp" />
 		<TextView 
-			android:text="合計"
-			android:layout_width="125dp"
+			android:text="支払い状況"
+			android:layout_width="100dp"
 			android:layout_height="wrap_content"
 			android:layout_margin="1dp"
 			android:textColor="@color/white"
-			android:background="@color/gray" />
+			android:background="@color/gray"
+			android:textSize="16sp" />
 		<TextView 
-			android:text="編集"
-			android:layout_width="50dp"
+			android:text="発送方法"
+			android:layout_width="100dp"
 			android:layout_height="wrap_content"
 			android:layout_margin="1dp"
 			android:textColor="@color/white"
-			android:background="@color/gray" />
-			
+			android:background="@color/gray"
+			android:textSize="16sp" />
+		
 	</LinearLayout>
-    
+
     <ListView
         android:id="@+id/order_menu_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:divider="@color/black" >
 
     </ListView>    
 

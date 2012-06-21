@@ -6,6 +6,7 @@
     <string name="warehouse_title">Warehouse</string>
     <string name="products">Products</string>
     <string name="orders">Orders</string>
+    <string name="order_details">Order Details</string>
     <string name="shipping">Shipping</string>
     <string name="server_address_text">Server Address</string>
     <string name="username_text">User</string>
@@ -83,8 +84,19 @@
 	<string name="icon_bases">Base Icon Images:</string>
 	<string name="pixture_hide">Hide of PIXTURE STUDIO</string>
 	<string name="pixture_url">http://pixture.com</string>
+	<string name="serverside_developer">Serverside Development</string>
+	<string name="camplight">CampLight Ltd.</string>
+	<string name="camplight_url">http://camplight.net</string>
+	<string name="target_container">Target Container</string>
+	<string name="select">Select</string>
+	<string name="count">Count</string>
+	<string name="lock">Lock</string>
+	<string name="saved">Saved</string>
+	<string name="scan_cancelled">Scan Cancelled</string>
+	<string name="select_a_product">Please Select A Product</string>
 
 	<!-- alert content -->
+	<string name="unregistered_barcode_title">Unregistered Barcode</string>
 	<string name="unregistered_barcode_new_product">This Barcode is not registered.\nRegister a new product?</string>
 
 	<!-- GSA Dialog Text -->
@@ -94,4 +106,8 @@
 	<string name="loading">Loading</string>
 	<string name="saving">Saving</string>
 	<string name="deleting">Deleting</string>
+	<string name="ordernumber_dummy">R000000000</string>
+	<string name="customer_name_dummy">Spree Customer</string>
+	
+	
 </resources>

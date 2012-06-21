@@ -5,9 +5,7 @@
     android:versionName="1.0" android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="10" />
-    <uses-permission android:name="android.permission.INTERNET">
-        
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
@@ -66,13 +64,28 @@
             
         </activity>
         <activity 
+            android:name=".orders.OrderDetailsActivity"
+            android:label="@string/order_details" >
+            
+        </activity>
+        <activity 
             android:name=".stocking.StockingMenuActivity"
+            android:label="@string/stocking" >
+            
+        </activity>
+        <activity 
+            android:name=".stocking.StockingRepetitiveScanner"
             android:label="@string/stocking" >
             
         </activity>
         <activity 
             android:name=".picking.PickingMenuActivity"
             android:label="@string/picking" >
+            
+        </activity>
+        <activity 
+            android:name=".racks.RacksMenuActivity"
+            android:label="@string/racks" >
             
         </activity>
         <activity 
