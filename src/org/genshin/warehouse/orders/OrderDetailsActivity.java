@@ -9,6 +9,8 @@ import org.genshin.warehouse.products.ProductListAdapter;
 import org.genshin.warehouse.products.ProductListItem;
 import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.TabActivity;
@@ -56,10 +58,21 @@ public class OrderDetailsActivity extends TabActivity {
 	private Button accountEditButton;
 	
 	Order order;
+	private JSONObject container;
 	
 	private static OrderDetails orderDetails;
 	private ListView listView;
 	private OrderDetailsAdapter adapter;
+	
+	private static OrderDetailsPayment orderDetailsPaymentItem;
+	private ListView paymentListView;
+	private OrderDetailsPaymentAdapter paymentAdapter;
+	private Button paymentNewButton;
+	
+	private static OrderDetailsShipment orderDetailsShipmentItem;
+	private ListView shipmentListView;
+	private OrderDetailsShipmentAdapter shipmentAdapter;
+	private Button shipmentNewButton;
 
 	
 	private void initViewElements() {
@@ -85,6 +98,12 @@ public class OrderDetailsActivity extends TabActivity {
 				(R.id.order_details_account).findViewById(R.id.order_details_shipment_address);
 		email = (TextView) findViewById
 				(R.id.order_details_account).findViewById(R.id.order_details_email);
+		
+		paymentListView = (ListView) findViewById
+				(R.id.order_details_payment).findViewById(R.id.order_details_payment_list);
+		shipmentListView = (ListView) findViewById
+				(R.id.order_details_shipment).findViewById(R.id.order_details_shipment_list);
+		
 	}
 	
 	private void getOrderInfo() {
@@ -94,8 +113,8 @@ public class OrderDetailsActivity extends TabActivity {
 	private void setViewFields() {
 		number.setText(order.number);
 		orderDetails = new OrderDetails(this, spree);
-		orderDetails.processOLIContainer(order.number);
-		orderDetails.putOrderDetails(order.number);
+		orderDetails.processOLIContainer(container);
+		orderDetails.putOrderDetails(container);
 		
 		statement.setText(orderDetails.statement);
 		mainTotal.setText("" + orderDetails.mainTotal);
@@ -103,19 +122,42 @@ public class OrderDetailsActivity extends TabActivity {
 		shipmentAddress.setText(orderDetails.shipmentAddress);
 		email.setText(orderDetails.email);
 
-		OrderLineItem[] orderLineItem = new OrderLineItem[orderDetails.list.size()];
-		
+		OrderLineItem[] orderLineItem = new OrderLineItem[orderDetails.list.size()];		
 		for (int i = 0; i < orderDetails.list.size(); i++) {
 			OrderLineItem p = orderDetails.list.get(i);
 			
 			orderLineItem[i] = new OrderLineItem(p.name, p.price, p.quantity, p.total);
 		}
-
 		adapter = new OrderDetailsAdapter(this, orderLineItem);
 		listView.setAdapter(adapter);
 		setListViewHeightBasedOnChildren(listView);
 		
-		orderDetails.totalCalc(orderDetails.list.size(), orderDetails);
+		orderDetails.getPayment(container);
+		OrderDetailsPayment[] orderDetailsPayment = 
+				new OrderDetailsPayment[orderDetails.paymentList.size()];		
+		for (int i = 0; i < orderDetails.paymentList.size(); i++) {
+			OrderDetailsPayment p = orderDetails.paymentList.get(i);
+			
+			orderDetailsPayment[i] = new OrderDetailsPayment(p.date, 
+					p.amount, p.paymentMethod, p.paymentState, p.action);
+		}
+		paymentAdapter = new OrderDetailsPaymentAdapter(this, orderDetailsPayment);
+		paymentListView.setAdapter(paymentAdapter);
+		setListViewHeightBasedOnChildren2(paymentListView);
+		
+		orderDetails.getShipment(container);
+		OrderDetailsShipment[] orderDetailsShipment = 
+				new OrderDetailsShipment[orderDetails.shipmentList.size()];		
+		for (int i = 0; i < orderDetails.shipmentList.size(); i++) {
+			OrderDetailsShipment p = orderDetails.shipmentList.get(i);
+			
+			orderDetailsShipment[i] = new OrderDetailsShipment
+					(p.number, p.shippingMethod, p.tracking, p.cost, p.state, p.date, p.action);
+		}
+		shipmentAdapter = new OrderDetailsShipmentAdapter(this, orderDetailsShipment);
+		shipmentListView.setAdapter(shipmentAdapter);
+		setListViewHeightBasedOnChildren3(shipmentListView);
+		
 		itemTotal.setText("" + orderDetails.itemTotal);
 		cost.setText("" + orderDetails.cost);
 		lastTotal.setText("" + orderDetails.lastTotal);
@@ -130,6 +172,10 @@ public class OrderDetailsActivity extends TabActivity {
 				(R.id.order_details_main).findViewById(R.id.order_details_edit_button);
 		accountEditButton = (Button) findViewById
 				(R.id.order_details_account).findViewById(R.id.order_details_accountedit_button);
+		paymentNewButton = (Button) findViewById
+				(R.id.order_details_payment).findViewById(R.id.order_details_payment_new_button);
+		shipmentNewButton = (Button) findViewById
+				(R.id.order_details_shipment).findViewById(R.id.order_details_shipment_new_button);
 	}
 
 	@Override
@@ -175,6 +221,7 @@ public class OrderDetailsActivity extends TabActivity {
         spree = new SpreeConnector(this);
 
 		getOrderInfo();
+		getOrderJson(order.number);
 		initViewElements();
 		setViewFields();
 		hookupInterface();
@@ -239,10 +286,66 @@ public class OrderDetailsActivity extends TabActivity {
     }
     */
 	
+	public void getOrderJson(String number) {		
+		try {
+			JSONObject tmp = spree.connector.getJSONObject("api/orders/" + number + ".json");
+			container = tmp.getJSONObject("order");
+		} catch (JSONException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+	}
+	
 	// ListViewの高さを動的に取得
 	public void setListViewHeightBasedOnChildren(ListView listView) {
 		// 設定するListViewからアダプタを取得する
 		OrderDetailsAdapter adapter = (OrderDetailsAdapter) listView.getAdapter();
+
+		int height = 0;
+		int width = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
+
+		// アダプタのデータ分ループして、高さなどを設定
+		for (int i = 0; i < adapter.getCount(); i++) {
+			View view = adapter.getView(i, null, listView);
+			view.measure(width, MeasureSpec.UNSPECIFIED);
+			height += view.getMeasuredHeight();
+		}
+
+		// 実際のListViewに反映する
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = height + (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	//
+	//　　↓　解決策が思い浮かばないのでとりあえず流用・・・
+	//
+	////////////////////////////////////////////////////////////////////////////
+	public void setListViewHeightBasedOnChildren2(ListView listView) {
+		// 設定するListViewからアダプタを取得する
+		OrderDetailsPaymentAdapter adapter = (OrderDetailsPaymentAdapter) listView.getAdapter();
+
+		int height = 0;
+		int width = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
+
+		// アダプタのデータ分ループして、高さなどを設定
+		for (int i = 0; i < adapter.getCount(); i++) {
+			View view = adapter.getView(i, null, listView);
+			view.measure(width, MeasureSpec.UNSPECIFIED);
+			height += view.getMeasuredHeight();
+		}
+
+		// 実際のListViewに反映する
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = height + (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
+	}
+	public void setListViewHeightBasedOnChildren3(ListView listView) {
+		// 設定するListViewからアダプタを取得する
+		OrderDetailsShipmentAdapter adapter = (OrderDetailsShipmentAdapter) listView.getAdapter();
 
 		int height = 0;
 		int width = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);

@@ -31,26 +31,29 @@ public class OrderDetails {
 	Context ctx;
 	SpreeConnector spree;
 	public int count;
+	
 	ArrayList<OrderLineItem> list;
+	ArrayList<OrderDetailsPayment> paymentList;
+	ArrayList<OrderDetailsShipment> shipmentList;
 	
 	public OrderDetails(Context ctx, SpreeConnector spree) {
 		this.ctx = ctx;
 		this.list = new ArrayList<OrderLineItem>();
 		this.spree = spree;
-
-		count = 0;
 	}
 	
-	public void putOrderDetails(String number) {
-		JSONObject container = spree.connector.getJSONObject("api/orders/" + number + ".json");
-		this.number = number;
+	public void putOrderDetails(JSONObject container) {
+		
+		JSONObject str = container;
 
 		try {
-			JSONObject str = container.getJSONObject("order");
-
 			this.statement = str.getString("state");
 			this.mainTotal = str.getDouble("total");
 			this.email = str.getString("email");
+			
+			this.itemTotal = str.getDouble("item_total");
+			this.cost = str.getDouble("adjustment_total");
+			this.lastTotal = str.getDouble("total");
 
 			str = str.getJSONObject("bill_address");
 			StringBuilder sb = new StringBuilder();
@@ -77,7 +80,7 @@ public class OrderDetails {
 
 			this.paymentAddress = new String(sb);
 			
-			str = container.getJSONObject("order");
+			str = container;
 			str = str.getJSONObject("ship_address");
 			sb = new StringBuilder();
 			
@@ -109,18 +112,16 @@ public class OrderDetails {
 
 	}
 	
-	public ArrayList<OrderLineItem> processOLIContainer(String number) {
+	public void processOLIContainer(JSONObject container) {
 		ArrayList<OrderLineItem> collection = new ArrayList<OrderLineItem>();
-		JSONObject container = spree.connector.getJSONObject("api/orders/" + number + ".json");
 
 		try {
-			JSONObject str = container.getJSONObject("order");
-			JSONArray items = str.getJSONArray("line_items");
+			JSONArray items = container.getJSONArray("line_items");
 			
 			for (int i = 0; i < items.length(); i++) {
-				JSONObject itemJSON = items.getJSONObject(i).getJSONObject("line_item");
-				OrderLineItem item = new OrderLineItem(itemJSON);	
-				collection.add(item);
+				JSONObject item = items.getJSONObject(i).getJSONObject("line_item");
+				OrderLineItem lineItem = new OrderLineItem(item);	
+				collection.add(lineItem);
 			}
 
 		} catch (JSONException e) {
@@ -128,15 +129,43 @@ public class OrderDetails {
 		}
 				
 		list = collection;
-		return collection;
 	}
 	
-	public void totalCalc (int num, OrderDetails order) {
+	public void getPayment(JSONObject container) {
+		ArrayList<OrderDetailsPayment> collection = new ArrayList<OrderDetailsPayment>();
 
-		for (int i = 0; i < num; i++) {
-			itemTotal += order.list.get(i).total;
-			cost = 0;
+		try {
+			JSONArray items = container.getJSONArray("payments");
+			
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject item = items.getJSONObject(i).getJSONObject("payment");
+				OrderDetailsPayment lineItem = new OrderDetailsPayment(item);	
+				collection.add(lineItem);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-		lastTotal = itemTotal + cost;
+				
+		paymentList = collection;
+	}
+	
+	public void getShipment(JSONObject container) {
+		ArrayList<OrderDetailsShipment> collection = new ArrayList<OrderDetailsShipment>();
+
+		try {
+			JSONArray items = container.getJSONArray("shipments");
+			
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject item = items.getJSONObject(i).getJSONObject("shipment");
+				OrderDetailsShipment lineItem = new OrderDetailsShipment(item);	
+				collection.add(lineItem);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+				
+		shipmentList = collection;
 	}
 }
