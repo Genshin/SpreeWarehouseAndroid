@@ -89,6 +89,7 @@
 	<string name="select">選択</string>
 	<string name="count">数</string>
 	<string name="lock">固定</string>
+	<string name="saved">保存しました</string>
 	
 	<!-- alert content -->
 	<string name="unregistered_barcode_title">未登録バーコード</string>

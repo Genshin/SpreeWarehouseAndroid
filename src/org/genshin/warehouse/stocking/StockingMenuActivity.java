@@ -65,8 +65,7 @@ public class StockingMenuActivity extends Activity {
                 // Handle successful scan
                 //if it's a Barcode it's a product
                 if (format != "QR_CODE") {
-                	Products products = new Products(this, Warehouse.Spree());
-                	ArrayList<Product> foundProducts = products.findByBarcode(contents);
+                	ArrayList<Product> foundProducts = Warehouse.Products().findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
 						//found exact product, stock it

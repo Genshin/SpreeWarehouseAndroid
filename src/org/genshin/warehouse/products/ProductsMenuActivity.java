@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,9 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProductsMenuActivity extends Activity {
-	private static Products products;
-	private static Product selectedProduct;
-	private SpreeConnector spree;
 	
 	private ProductListAdapter productsAdapter;
 	
@@ -73,7 +69,7 @@ public class ProductsMenuActivity extends Activity {
 		searchButton = (Button) findViewById(R.id.products_menu_search_button);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				products.textSearch(searchBar.getText().toString());
+				Warehouse.Products().textSearch(searchBar.getText().toString());
 				refreshProductMenu();
 				clearImage();
 				orderSpinner.setSelection(0);
@@ -85,7 +81,7 @@ public class ProductsMenuActivity extends Activity {
 		clearButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				searchBar.setText("");
-				products.clear();
+				Warehouse.Products().clear();
 				refreshProductMenu();
 				clearImage();
 				orderSpinner.setSelection(0);
@@ -114,7 +110,7 @@ public class ProductsMenuActivity extends Activity {
                 	case 0:		// 未選択
                 		break;
                 	case 1:		// 初期値に戻す
-                		products.textSearch(searchBar.getText().toString());
+                		Warehouse.Products().textSearch(searchBar.getText().toString());
         				refreshProductMenu();
                 		clearImage();
                 		break;
@@ -164,10 +160,8 @@ public class ProductsMenuActivity extends Activity {
         hookupInterface();
         
         spree = new SpreeConnector(this);
-        if (products == null) {
-        	products = new Products(this, spree);
-        	products.getNewestProducts(10);
-        }
+        if (Warehouse.Products().list.size() == 0)
+        	Warehouse.Products().getNewestProducts(10);
         
         refreshProductMenu();
         
@@ -199,10 +193,10 @@ public class ProductsMenuActivity extends Activity {
     }
 	
 	private void refreshProductMenu() {		
-		ProductListItem[] productListItems = new ProductListItem[products.list.size()];
+		ProductListItem[] productListItems = new ProductListItem[Warehouse.Products().list.size()];
 		
-		for (int i = 0; i < products.list.size(); i++) {
-			Product p = products.list.get(i);
+		for (int i = 0; i < Warehouse.Products().list.size(); i++) {
+			Product p = Warehouse.Products().list.get(i);
 			Drawable thumb = null;
 			if (p.thumbnail != null)
 				thumb = p.thumbnail.data;
@@ -210,7 +204,7 @@ public class ProductsMenuActivity extends Activity {
 			productListItems[i] = new ProductListItem(thumb, p.name, p.sku, p.countOnHand, p.permalink, p.price, p.id);
 		}
 		
-		statusText.setText(products.count + this.getString(R.string.products_counter) );
+		statusText.setText(Warehouse.Products().count + this.getString(R.string.products_counter) );
 		
 		productsAdapter = new ProductListAdapter(this, productListItems);
 		productList.setAdapter(productsAdapter);
@@ -229,7 +223,7 @@ public class ProductsMenuActivity extends Activity {
 	}
 	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
-		ProductsMenuActivity.showProductDetails(this, products.list.get(position));				
+		ProductsMenuActivity.showProductDetails(this, Warehouse.Products().list.get(position));				
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -241,11 +235,11 @@ public class ProductsMenuActivity extends Activity {
                 if (format != "QR_CODE") {
                 	//Assume barcode, and barcodes correlate to products
                 	//Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
-                	products.findByBarcode(contents);
+                	Warehouse.Products().findByBarcode(contents);
                 	//if we have one hit that's the product we want, so go to it
                 	refreshProductMenu();
-                	if (products.list.size() == 1)
-                		showProductDetails(this, products.list.get(0));
+                	if (Warehouse.Products().list.size() == 1)
+                		showProductDetails(this, Warehouse.Products().list.get(0));
                     
                 	//Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
                 }
@@ -258,14 +252,14 @@ public class ProductsMenuActivity extends Activity {
     }
 
 	public static Product getSelectedProduct() {
-		return selectedProduct;
+		return Warehouse.Products().selected();
 	}
 
 	public static void setSelectedProduct(Product selectedProduct) {
 		if (selectedProduct == null)
 			selectedProduct = new Product(0, "", "", 0, 0, "", "");
 		
-		ProductsMenuActivity.selectedProduct = selectedProduct;
+		Warehouse.Products().select(selectedProduct);
 	}
 	
 	
@@ -288,11 +282,11 @@ public class ProductsMenuActivity extends Activity {
 	public void switchOrder() {
 		ArrayList<Product> sortedList = new ArrayList<Product>();
 		
-		for (int i = products.list.size() - 1; i >= 0; i--) {
-			sortedList.add(products.list.get(i));
+		for (int i = Warehouse.Products().list.size() - 1; i >= 0; i--) {
+			sortedList.add(Warehouse.Products().list.get(i));
 		}
 		
-		products.list = sortedList;
+		Warehouse.Products().list = sortedList;
 		refreshProductMenu();
 	}
 	
@@ -300,17 +294,17 @@ public class ProductsMenuActivity extends Activity {
 	public void sortPrice() {
 		Product temp;
 
-		for (int i = 0; i < products.list.size() - 1; i++) {
-			for (int j = i + 1; j < products.list.size(); j++) {
-				if (products.list.get(i).price < products.list.get(j).price) {
-					temp = products.list.get(i);
-					products.list.set(i, products.list.get(j));
-					products.list.set(j, temp);
-				} else if (products.list.get(i).price == products.list.get(j).price) {
-					if (products.list.get(i).id > products.list.get(j).id) {
-						temp = products.list.get(i);
-						products.list.set(i, products.list.get(j));
-						products.list.set(j, temp);
+		for (int i = 0; i < Warehouse.Products().list.size() - 1; i++) {
+			for (int j = i + 1; j < Warehouse.Products().list.size(); j++) {
+				if (Warehouse.Products().list.get(i).price < Warehouse.Products().list.get(j).price) {
+					temp = Warehouse.Products().list.get(i);
+					Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+					Warehouse.Products().list.set(j, temp);
+				} else if (Warehouse.Products().list.get(i).price == Warehouse.Products().list.get(j).price) {
+					if (Warehouse.Products().list.get(i).id > Warehouse.Products().list.get(j).id) {
+						temp = Warehouse.Products().list.get(i);
+						Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+						Warehouse.Products().list.set(j, temp);
 					}
 				}
 			}
@@ -323,17 +317,17 @@ public class ProductsMenuActivity extends Activity {
 	public void sortCountOnHand() {
 		Product temp;
 		
-		for (int i = 0; i < products.list.size() - 1; i++) {
-			for (int j = i + 1; j < products.list.size(); j++) {
-				if (products.list.get(i).countOnHand < products.list.get(j).countOnHand) {
-					temp = products.list.get(i);
-					products.list.set(i, products.list.get(j));
-					products.list.set(j, temp);
-				} else if (products.list.get(i).countOnHand == products.list.get(j).countOnHand) {
-					if (products.list.get(i).id > products.list.get(j).id) {
-						temp = products.list.get(i);
-						products.list.set(i, products.list.get(j));
-						products.list.set(j, temp);
+		for (int i = 0; i < Warehouse.Products().list.size() - 1; i++) {
+			for (int j = i + 1; j < Warehouse.Products().list.size(); j++) {
+				if (Warehouse.Products().list.get(i).countOnHand < Warehouse.Products().list.get(j).countOnHand) {
+					temp = Warehouse.Products().list.get(i);
+					Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+					Warehouse.Products().list.set(j, temp);
+				} else if (Warehouse.Products().list.get(i).countOnHand == Warehouse.Products().list.get(j).countOnHand) {
+					if (Warehouse.Products().list.get(i).id > Warehouse.Products().list.get(j).id) {
+						temp = Warehouse.Products().list.get(i);
+						Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+						Warehouse.Products().list.set(j, temp);
 					}
 				}
 			}
@@ -346,17 +340,17 @@ public class ProductsMenuActivity extends Activity {
 	public void sortName(){
 		Product temp;
 		
-		for (int i = 0; i < products.list.size() - 1; i++) {
-			for (int j = i + 1; j < products.list.size(); j++) {
-				if (products.list.get(i).name.compareTo(products.list.get(j).name) > 0) {
-					temp = products.list.get(i);
-					products.list.set(i, products.list.get(j));
-					products.list.set(j, temp);
-				} else if (products.list.get(i).name.compareTo(products.list.get(j).name) == 0) {
-					if (products.list.get(i).id > products.list.get(j).id) {
-						temp = products.list.get(i);
-						products.list.set(i, products.list.get(j));
-						products.list.set(j, temp);
+		for (int i = 0; i < Warehouse.Products().list.size() - 1; i++) {
+			for (int j = i + 1; j < Warehouse.Products().list.size(); j++) {
+				if (Warehouse.Products().list.get(i).name.compareTo(Warehouse.Products().list.get(j).name) > 0) {
+					temp = Warehouse.Products().list.get(i);
+					Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+					Warehouse.Products().list.set(j, temp);
+				} else if (Warehouse.Products().list.get(i).name.compareTo(Warehouse.Products().list.get(j).name) == 0) {
+					if (Warehouse.Products().list.get(i).id > Warehouse.Products().list.get(j).id) {
+						temp = Warehouse.Products().list.get(i);
+						Warehouse.Products().list.set(i, Warehouse.Products().list.get(j));
+						Warehouse.Products().list.set(j, temp);
 					}
 				}
 			}

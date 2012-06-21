@@ -39,9 +39,7 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stocking_history);
-
-        spree = new SpreeConnector(this);
-        products = new Products(this, spree);
+        Warehouse.ChangeActivityContext(this);
         
         hookupInterface();
 	}
@@ -86,6 +84,7 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 			} else if (found.size() > 1) {
 				// found multiple - select
 			} else { 
+				status = RepetitiveScanCodes.FINISH.ordinal();
 				// not found, register new?
 				products.unregisteredBarcode(contents);
 			}
@@ -100,7 +99,8 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 		Toast.makeText(this, "Registering" , Toast.LENGTH_LONG).show();
 		pairs.add(new BasicNameValuePair("stock_record[variant_id]", "" + product.id));
 		pairs.add(new BasicNameValuePair("stock_record[quantity]", "1"));
-		pairs.add(new BasicNameValuePair("stock_record[container_taxon_id]", "" + container.id));
+		if (container != null)
+			pairs.add(new BasicNameValuePair("stock_record[container_taxon_id]", "" + container.id));
 		pairs.add(new BasicNameValuePair("stock_record[direction]", "in"));
 		
 		spree.connector.postWithArgs("api/stock.json", pairs);

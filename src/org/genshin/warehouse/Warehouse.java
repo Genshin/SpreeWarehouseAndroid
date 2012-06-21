@@ -3,6 +3,7 @@ package org.genshin.warehouse;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.spree.VisualCode;
 import org.genshin.warehouse.products.Product;
+import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.racks.ContainerTaxon;
 
 import android.app.ProgressDialog;
@@ -18,16 +19,23 @@ public class Warehouse {
 	private static SpreeConnector spree;
 	
 	private static ContainerTaxon container;
-	private static Product product;
 	private static VisualCode code;
+
+	private static Products products;
 	
 	public Warehouse(Context homeContext) {
 		Warehouse.ctx = homeContext;
+		Warehouse.container = null;
 		spree = new SpreeConnector(Warehouse.ctx);
+		products = new Products(homeContext);
 	}
 	
 	public static SpreeConnector Spree() {
 		return spree;
+	}
+	
+	public static Products Products() {
+		return Warehouse.products;
 	}
 	
 	public static void ChangeActivityContext(Context newContext) {

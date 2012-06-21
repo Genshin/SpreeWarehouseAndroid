@@ -1,17 +1,12 @@
 package org.genshin.warehouse.products;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import org.apache.http.client.methods.HttpGet;
 import org.genshin.gsa.Dialogs;
-import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
+import org.genshin.warehouse.Warehouse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,24 +16,26 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.widget.Toast;
 
 public class Products {
-	Context ctx;
-	SpreeConnector spree;
+	private Context ctx;
+	private Product selected;
 	ArrayList<Product> list;
 	public int count;
 	
-	public Products(Context ctx, SpreeConnector spree) {
+	public Products(Context ctx) {
 		this.ctx = ctx;
-		
+		this.selected = null;
 		this.list = new ArrayList<Product>();
-		
-		this.spree = spree;
-
 		count = 0;
+	}
+	
+	public void select(Product product) {
+		selected = product;
+	}
+	
+	public Product selected() {
+		return selected;
 	}
 	
 	private ArrayList<Product> processProductContainer(JSONObject productContainer) {
@@ -87,7 +84,7 @@ public class Products {
 		Dialogs.showLoading(ctx);
 		
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products.json?page=1");
+		JSONObject productContainer = Warehouse.Spree().connector.getJSONObject("api/products.json?page=1");
 		collection = processProductContainer(productContainer);
 		
 		Dialogs.dismiss();
@@ -99,7 +96,7 @@ public class Products {
 		//Dialogs.showSearching(ctx);
 		
 		ArrayList<Product> collection = new ArrayList<Product>();
-		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + code);
+		JSONObject productContainer = Warehouse.Spree().connector.getJSONObject("api/products/search.json?q[variants_including_master_visual_code_eq]=" + code);
 		collection = processProductContainer(productContainer);
 		
 		//Dialogs.dismiss();
@@ -118,7 +115,7 @@ public class Products {
 			// WTF unsupported encoding? fine, just take it raw
 			escapedQuery = query;
 		}
-		JSONObject productContainer = spree.connector.getJSONObject("api/products/search.json?q[name_cont]=" + escapedQuery);
+		JSONObject productContainer = Warehouse.Spree().connector.getJSONObject("api/products/search.json?q[name_cont]=" + escapedQuery);
 		collection = processProductContainer(productContainer);
 		
 		Dialogs.dismiss();

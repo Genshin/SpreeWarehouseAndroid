@@ -132,6 +132,7 @@ public class ProductEditActivity extends Activity {
 			spree.connector.putWithArgs("api/products/" + product.id + ".json", pairs);
 
 		
+        Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_LONG).show();
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {

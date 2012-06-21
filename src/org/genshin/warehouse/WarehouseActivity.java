@@ -2,14 +2,11 @@ package org.genshin.warehouse;
 
 import java.util.ArrayList;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -17,13 +14,10 @@ import android.widget.Toast;
 
 import org.genshin.gsa.Dialogs;
 import org.genshin.spree.ScanSystem;
-import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
-import org.genshin.warehouse.picking.PickingMenuActivity;
 import org.genshin.warehouse.products.Product;
-import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.products.ProductsMenuActivity;
 import org.genshin.warehouse.profiles.Profiles;
 import org.genshin.warehouse.racks.RacksMenuActivity;
@@ -34,13 +28,14 @@ import org.genshin.warehouse.stocking.StockingMenuActivity;
 
 
 public class WarehouseActivity extends Activity {
+	Warehouse warehouse;
+	
 	//Interface objects
 	private Button scanButton;
 	private ListView menuList;
 	private ImageView connectionStatusIcon;
 	private Spinner profileSpinner; 
 	private Profiles profiles;
-	private SpreeConnector spree;
 
 	ThumbListItem[] menuListItems;
 	
@@ -106,7 +101,7 @@ public class WarehouseActivity extends Activity {
 	
 	private void checkConnection() {
 		Dialogs.showConnecting(this);
-		String check = spree.connector.test();
+		String check = Warehouse.Spree().connector.test();
 		Dialogs.dismiss();
 		
 		if (check == "OK") {
@@ -123,7 +118,7 @@ public class WarehouseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
         
-        spree = new SpreeConnector(this);
+        warehouse = new Warehouse(this); 
         
         createMainMenu();
         hookupInterface();
@@ -145,6 +140,8 @@ public class WarehouseActivity extends Activity {
     }
     
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		Warehouse.ChangeActivityContext(this);
+		
         if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
@@ -158,15 +155,14 @@ public class WarehouseActivity extends Activity {
 
 				} else if (ScanSystem.isProductCode(format)) {
 					// if it's a Barcode it's a product
-                	Products products = new Products(this, spree);
                 	
-                	ArrayList<Product> foundProducts = products.findByBarcode(contents);
+                	ArrayList<Product> foundProducts = Warehouse.Products().findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
                 		ProductsMenuActivity.showProductDetails(this, foundProducts.get(0));
                 	} else if (foundProducts.size() == 0) {
                 		//New product?
-                		products.unregisteredBarcode(contents);
+                		Warehouse.Products().unregisteredBarcode(contents);
                 	} else if (foundProducts.size() > 1) {
                 		//ProductsMenuActivity
                 	}
