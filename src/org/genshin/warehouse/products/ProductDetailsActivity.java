@@ -1,5 +1,6 @@
 package org.genshin.warehouse.products;
 
+import org.genshin.gsa.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse.ResultCodes;
@@ -121,9 +122,7 @@ public class ProductDetailsActivity extends Activity {
 		int id = item.getItemId();
 
 		if (id == menuCodes.registerVisualCode.ordinal()) {
-			Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-            //intent.putExtra("SCAN_MODE", "BARCODE_MODE");
-            startActivityForResult(intent, ResultCodes.SCAN.ordinal());
+			ScanSystem.initiateScan(this);
         	
 			return true;
 		} else if (id == menuCodes.editProductDetails.ordinal()) {
@@ -140,13 +139,9 @@ public class ProductDetailsActivity extends Activity {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 //TODO limit this to bar code types?
-                if (format != "QR_CODE") {
-                	//Assume barcode, and barcodes correlate to products
-                	//Toast.makeText(this, "[" + format + "]: " + contents + "\nSearching!", Toast.LENGTH_LONG).show();
+                if (ScanSystem.isProductCode(format)) {
                 	spree.connector.genericPut("api/products/" + product.permalink + "?product[visual_code]=" + contents);
-                	//Toast.makeText(this, "Results:" + products.count, Toast.LENGTH_LONG).show();
                 }
-                // Handle successful scan
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();

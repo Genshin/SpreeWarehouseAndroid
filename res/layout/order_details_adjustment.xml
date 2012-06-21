@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+        
+	    <TextView 
+	        android:text="日付/時間"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+	        android:background="@color/lightblue"
+	        android:layout_marginRight="1dp" />	   	
+	   	<TextView 
+	        android:text="説明"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+	        android:background="@color/lightblue"
+	        android:layout_marginRight="1dp" />	   	
+	   	<TextView 
+	        android:text="金額"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+	        android:background="@color/lightblue" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp" >
+        
+        <Button
+            android:id="@+id/order_details_adjustment_new_button"
+            android:text="new"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/order_details_adjustment_edit_button"
+            android:text="@string/edit"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/order_details_adjustment_delete_button"
+            android:text="@string/delete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

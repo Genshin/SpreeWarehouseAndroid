@@ -1,6 +1,10 @@
 package org.genshin.warehouse;
 
+import org.genshin.gsa.VisualCode;
 import org.genshin.spree.SpreeConnector;
+import org.genshin.warehouse.products.Product;
+import org.genshin.warehouse.products.Products;
+import org.genshin.warehouse.racks.ContainerTaxon;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,18 +13,29 @@ import java.util.Date;
 
 public class Warehouse {
 	//Result codes from other Activities
-	public static enum ResultCodes { SCAN, SETTINGS };
+	public static enum ResultCodes { SCAN, SETTINGS, PRODUCT_SELECT };
 	
 	private static Context ctx;
 	private static SpreeConnector spree;
 	
+	private static ContainerTaxon container;
+	private static VisualCode code;
+
+	private static Products products;
+	
 	public Warehouse(Context homeContext) {
 		Warehouse.ctx = homeContext;
+		Warehouse.container = null;
 		spree = new SpreeConnector(Warehouse.ctx);
+		products = new Products(homeContext);
 	}
 	
 	public static SpreeConnector Spree() {
 		return spree;
+	}
+	
+	public static Products Products() {
+		return Warehouse.products;
 	}
 	
 	public static void ChangeActivityContext(Context newContext) {
@@ -30,5 +45,21 @@ public class Warehouse {
 	
 	public static String getLocalDateString(Date date) {
 		return DateFormat.getDateFormat(ctx).format(date);
+	}
+	
+	public static void setContainer(ContainerTaxon container) {
+		Warehouse.container = container;
+	}
+	
+	public static ContainerTaxon getContainer() {
+		return Warehouse.container;
+	}
+	
+	public static void setVisualCode(VisualCode code) {
+		Warehouse.code = code;
+	}
+	
+	public static VisualCode getVisualCode() {
+		return Warehouse.code;
 	}
 }

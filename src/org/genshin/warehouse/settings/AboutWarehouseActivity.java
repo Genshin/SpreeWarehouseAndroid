@@ -13,6 +13,7 @@ public class AboutWarehouseActivity extends Activity {
 	private Button genshinButton;
 	private Button freeStyleButton;
 	private Button pixtureButton;
+	private Button camplightButton;
 	
 	
 	 @Override
@@ -38,6 +39,13 @@ public class AboutWarehouseActivity extends Activity {
         pixtureButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		openLink("http://pixture.com");
+        	}
+        });
+        
+        camplightButton = (Button) findViewById(R.id.camplight_link_button);
+        camplightButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		openLink("http://camplight.net");
         	}
         });
         

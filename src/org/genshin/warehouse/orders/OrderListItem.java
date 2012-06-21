@@ -6,28 +6,32 @@ import java.util.Date;
 import org.genshin.warehouse.products.Variant;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class OrderListItem {
-	public Date date;
 	public String number;
-	public String state;
-	public String paymentState;
-	public String shipmentState;
-	public String email;
+	public Date date;
+	public String name;
 	public int count;
-	public int price;
+	public double price;
+	public String division;
+	public String paymentMethod;
+	public String paymentState;
+	public String shippingMethod;
+
 	
-	public OrderListItem(Date date, String number, String state, String paymentState,
-			String shipmentState, String email, int count, int price) {
+	public OrderListItem(String number, Date date, String name, int count, double price,
+			String division, String paymentMethod, String paymentState, String shippingMethod) {
 		super();
-		this.date = date;
 		this.number = number;
-		this.state = state;
-		this.paymentState = paymentState;
-		this.shipmentState = shipmentState;
-		this.email = email;
+		this.date = date;
+		this.name = name;
 		this.count = count;
 		this.price = price;
+		this.division = division;
+		this.paymentMethod = paymentMethod;
+		this.paymentState = paymentState;
+		this.shippingMethod = shippingMethod;
 	}
 
 }

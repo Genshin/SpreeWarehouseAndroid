@@ -6,6 +6,7 @@
     <string name="title">Warehouse</string>
     <string name="products">商品</string>
     <string name="orders">注文</string>
+    <string name="order_details">注文</string>
     <string name="stocking">入荷</string>
     <string name="racks">棚</string>
     <string name="shipping">発送</string>
@@ -82,10 +83,19 @@
 	<string name="icon_bases">アイコンの元:</string>
 	<string name="pixture_hide">PIXTURE STUDIO社のHideさん</string>
 	<string name="pixture_url">http://pixture.com</string>
-	
-	
+	<string name="serverside_developer">サーバ側開発</string>
+	<string name="camplight">CampLight Ltd.</string>
+	<string name="camplight_url">http://camplight.net</string>
+	<string name="target_container">入荷先コンテナ</string>
+	<string name="select">選択</string>
+	<string name="count">数</string>
+	<string name="lock">固定</string>
+	<string name="saved">保存しました</string>
+	<string name="scan_cancelled">スキャンが中止されました</string>
+	<string name="select_a_product">目的商品を選択して下さい</string>
 	
 	<!-- alert content -->
+	<string name="unregistered_barcode_title">未登録バーコード</string>
 	<string name="unregistered_barcode_new_product">バーコードが未登録です。\n新規商品登録を行いますか?</string>
 
 	<!-- GSA Dialog Text -->

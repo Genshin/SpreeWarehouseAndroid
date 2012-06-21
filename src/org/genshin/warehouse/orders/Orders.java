@@ -23,6 +23,10 @@ public class Orders {
 	ArrayList<Order> list;
 	public int count;
 	
+	ArrayList tmpList;
+	
+	public final static int DATACOUNT = 4;
+	
 	public Orders(Context ctx, SpreeConnector spree) {
 		
 		this.ctx = ctx;		
@@ -41,6 +45,20 @@ public class Orders {
 			for (int i = 0; i < orders.length(); i++) {
 				JSONObject orderJSON = orders.getJSONObject(i).getJSONObject("order");
 				Order order = new Order(orderJSON);
+				
+				/*
+				order.count = putCount(order.number);
+				order.paymentMethod = putPaymentMethod(order.number);
+				order.shippingMethod = putShippingMethod(order.number);
+				*/
+				
+				tmpList = new ArrayList();
+				tmpList = putData(order.number);
+				
+				order.count = (Integer) tmpList.get(0);
+				order.name = (String) tmpList.get(1);
+				order.paymentMethod = (String) tmpList.get(2);
+				order.shippingMethod = (String) tmpList.get(3);
 				
 				collection.add(order);			
 				
@@ -81,5 +99,69 @@ public class Orders {
 		
 		return collection;
 	}
+	
+	public ArrayList putData(String number) {
+		tmpList = new ArrayList(DATACOUNT);
+		String tmp = "";
+		int cnt = 0;
+		
+		JSONObject container = spree.connector.getJSONObject("api/orders/" + number + ".json");
+		int num = 0;
 
+		try {
+			JSONObject orderStr = container.getJSONObject("order");
+
+			JSONArray items = orderStr.getJSONArray("line_items");
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject itemJSON = items.getJSONObject(i).getJSONObject("line_item");
+				tmp = itemJSON.getString("quantity");
+				num += Integer.parseInt(tmp);
+			}
+			tmpList.add(num);
+			cnt++;
+			
+			JSONObject tmpStr = orderStr.getJSONObject("bill_address");
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(tmpStr.getString("firstname"));
+			sb.append(" ");
+			sb.append(tmpStr.getString("lastname"));	
+			tmp = new String(sb);
+			tmpList.add(tmp);
+			cnt++;
+			
+			items = orderStr.getJSONArray("payments");			
+			tmpStr = items.getJSONObject(0).getJSONObject("payment");
+			tmpStr = tmpStr.getJSONObject("payment_method");		
+			
+			sb = new StringBuilder();			
+			sb.append(tmpStr.getString("name"));
+			tmp = new String(sb);
+			tmpList.add(tmp);
+			cnt++;
+			
+			items = orderStr.getJSONArray("shipments");			
+			tmpStr = items.getJSONObject(0).getJSONObject("shipment");
+			tmpStr = tmpStr.getJSONObject("shipping_method");			
+			
+			sb = new StringBuilder();			
+			sb.append(tmpStr.getString("name"));
+			tmp = new String(sb);
+			
+			tmpList.add(tmp);
+			cnt++;
+			
+		} catch (JSONException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		if (cnt == DATACOUNT)
+			return tmpList;
+		else {
+			for (int i = cnt; i < DATACOUNT; i++) {
+				tmpList.add(null);
+			}
+			return tmpList;
+		}
+	}
 }

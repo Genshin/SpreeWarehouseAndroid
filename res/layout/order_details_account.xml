@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    
+    <TextView 
+        android:text="請求先住所"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/lightblue"
+        android:gravity="center" />
+    <TextView 
+        android:id="@+id/order_details_payment_address"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_marginBottom="10dp" />
+    
+    <TextView 
+        android:text="配送先住所"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/lightblue"
+        android:gravity="center" />
+    <TextView 
+        android:id="@+id/order_details_shipment_address"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_marginBottom="10dp" />
+        
+	<TextView 
+        android:text="E-mail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/lightblue"
+        android:gravity="center" />
+   	<TextView 
+        android:id="@+id/order_details_email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_marginBottom="10dp" />
+   	
+   	<TextView 
+        android:text="ゲスト注文"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/lightblue"
+        android:gravity="center" />
+   	<TextView 
+        android:id="@+id/order_details_guest"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_marginBottom="10dp" />
+   	
+   	<Button
+        android:id="@+id/order_details_accountedit_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/edit" />
+
+</LinearLayout>

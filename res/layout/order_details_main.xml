@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    
+    <Button
+        android:id="@+id/order_details_picking_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/picking"
+        android:layout_marginBottom="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+        
+        <TextView 
+            android:text="@string/product_name"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        
+        <TextView 
+            android:text="価格"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        
+        <TextView 
+            android:text="個数"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+        
+        <TextView 
+            android:text="合計"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@color/lightblue"
+            android:layout_marginBottom="1dp" />
+
+	</LinearLayout>
+
+	<ListView
+	    android:id="@+id/order_details_menu_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:divider="@color/black" >
+
+	</ListView>  
+	
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:gravity="center_horizontal"
+	    android:orientation="vertical" >
+            
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal" >
+	
+	        <TextView
+	            android:layout_width="242dp"
+	            android:layout_height="match_parent"
+	            android:layout_marginRight="1dp"
+	            android:background="@color/lightblue"
+	            android:text="合計："
+	            android:textColor="@color/black"
+	            android:layout_marginBottom="1dp" />
+	
+	        <TextView
+	            android:id="@+id/order_details_item_total"
+	            android:layout_width="60dp"
+	            android:layout_height="match_parent"
+	            android:background="@color/lightblue"
+	            android:textColor="@color/black"
+	            android:layout_marginBottom="1dp" />
+	            
+		</LinearLayout>
+        
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal" >
+	            
+	        <TextView
+	            android:layout_width="242dp"
+	            android:layout_height="match_parent"
+	            android:layout_marginRight="1dp"
+	            android:background="@color/lightblue"
+	            android:text="送料："
+	            android:textColor="@color/black"
+	            android:layout_marginBottom="1dp" />
+	
+	        <TextView
+	            android:id="@+id/order_details_cost"
+	            android:layout_width="60dp"
+	            android:layout_height="match_parent"
+	            android:background="@color/lightblue"
+	            android:textColor="@color/black"
+	            android:layout_marginBottom="1dp" />
+	            
+		</LinearLayout>
+
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal"
+	        android:layout_marginBottom="10dp" >
+	            
+			<TextView
+			    android:layout_width="242dp"
+			    android:layout_height="match_parent"
+			    android:layout_marginRight="1dp"
+			    android:background="@color/lightblue"
+			    android:text="合計："
+			    android:textColor="@color/black" />
+	
+			<TextView
+			    android:id="@+id/order_details_last_total"
+			    android:layout_width="60dp"
+			    android:layout_height="match_parent"
+			    android:background="@color/lightblue"
+			    android:textColor="@color/black" />
+	            
+		</LinearLayout>
+		
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal"
+	        android:layout_marginBottom="30dp" >
+	        
+	        <Button
+	            android:id="@+id/order_details_cansel_button"
+	            android:text="@string/cancel"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content" />
+	        <Button
+	            android:id="@+id/order_details_edit_button"
+	            android:text="@string/edit"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content" />
+
+		</LinearLayout>
+    
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,7 +2,12 @@ package org.genshin.spree;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -121,7 +126,7 @@ public class RESTConnector extends Activity {
 
 	// Set up the Getter with the API token and proper URL
 	private HttpGet getGetter(String targetURL) {
-		HttpGet getter = new HttpGet(baseURL() + targetURL);
+		HttpGet getter = new HttpGet(baseURL() + targetURL);	
 		getter.addHeader("X-Spree-Token", this.apiKey);
 		
 		return getter;
@@ -129,6 +134,8 @@ public class RESTConnector extends Activity {
 	
 	// Process the Getter and handle response exceptions
 	public HttpResponse getResponse(HttpGet getter) {
+		if (getter == null)
+			return null;
 		
 		try {
 			HttpResponse response = client.execute(getter);
@@ -183,6 +190,9 @@ public class RESTConnector extends Activity {
 		JSONObject data = new JSONObject();
 		
 		HttpResponse response = this.getResponse(getGetter(targetURL));
+		
+		if (response == null)
+			return null;
 
 		HttpEntity entity = response.getEntity();
 		String content;
@@ -204,6 +214,10 @@ public class RESTConnector extends Activity {
 		JSONArray data = new JSONArray();
 		
 		HttpResponse response = getResponse(getGetter(targetURL));
+
+		if (response == null)
+			return null;
+
 		HttpEntity entity = response.getEntity();
 		String content;
 		try {
