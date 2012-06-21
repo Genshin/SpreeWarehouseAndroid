@@ -1,11 +1,8 @@
 package org.genshin.warehouse.products;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import org.genshin.spree.ScanSystem;
-import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.Warehouse.ResultCodes;
@@ -159,7 +156,6 @@ public class ProductsMenuActivity extends Activity {
         
         hookupInterface();
         
-        spree = new SpreeConnector(this);
         if (Warehouse.Products().list.size() == 0)
         	Warehouse.Products().getNewestProducts(10);
         
@@ -219,7 +215,6 @@ public class ProductsMenuActivity extends Activity {
 	public static void showProductDetails(Context ctx, Product product) {
 		ProductsMenuActivity.setSelectedProduct(product);
 		Intent productDetailsIntent = new Intent(ctx, ProductDetailsActivity.class);
-		Log.v("test", "ctx:" + ctx + "  in:" + productDetailsIntent);
     	ctx.startActivity(productDetailsIntent);
 	}
 	

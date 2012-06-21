@@ -49,9 +49,10 @@ public class OrderListAdapter extends ArrayAdapter<OrderListItem> {
 		TextView paymentMethod = 
 				(TextView) rowView.findViewById(R.id.orders_list_item_payment_method);
 		paymentMethod.setText(data[position].paymentMethod);
-		TextView paymentState = 
-				(TextView) rowView.findViewById(R.id.orders_list_item_payment_state);
-		paymentState.setText(data[position].paymentState);
+		// TODO アイコンで表示 
+		//TextView paymentState = 
+			//	(TextView) rowView.findViewById(R.id.orders_list_item_payment_state);
+		//paymentState.setText(data[position].paymentState);
 		TextView shippingMethod = 
 				(TextView) rowView.findViewById(R.id.orders_list_item_shipping_method);
 		shippingMethod.setText(data[position].shippingMethod);
