@@ -1,4 +1,4 @@
-package org.genshin.warehouse;
+package org.genshin.gsa;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
-import org.genshin.warehouse.ThumbListItem;
+
+import org.genshin.warehouse.R;
+import org.genshin.warehouse.R.id;
+import org.genshin.warehouse.R.layout;
 
 
 

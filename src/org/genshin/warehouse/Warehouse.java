@@ -1,7 +1,7 @@
 package org.genshin.warehouse;
 
+import org.genshin.gsa.VisualCode;
 import org.genshin.spree.SpreeConnector;
-import org.genshin.spree.VisualCode;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
 import org.genshin.warehouse.racks.ContainerTaxon;
@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class Warehouse {
 	//Result codes from other Activities
-	public static enum ResultCodes { SCAN, SETTINGS };
+	public static enum ResultCodes { SCAN, SETTINGS, PRODUCT_SELECT };
 	
 	private static Context ctx;
 	private static SpreeConnector spree;

@@ -2,7 +2,7 @@ package org.genshin.warehouse.products;
 
 import java.util.ArrayList;
 
-import org.genshin.spree.ScanSystem;
+import org.genshin.gsa.ScanSystem;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
 import org.genshin.warehouse.Warehouse.ResultCodes;
@@ -32,6 +32,9 @@ public class ProductsMenuActivity extends Activity {
 	
 	private ProductListAdapter productsAdapter;
 	
+	public static enum ProductsMenuModeCodes { NORMAL, PRODUCT_SELECT };
+	private int mode;
+
 	private ListView productList;
 	private TextView statusText;
 	private MultiAutoCompleteTextView searchBar;
@@ -156,6 +159,16 @@ public class ProductsMenuActivity extends Activity {
         
         hookupInterface();
         
+		Intent intent = getIntent();
+
+		mode = ProductsMenuModeCodes.NORMAL.ordinal();
+		String modeString = intent.getStringExtra("MODE");
+		if (modeString.equals("PRODUCT_SELECT")) {
+			mode = ProductsMenuModeCodes.PRODUCT_SELECT.ordinal();
+            Toast.makeText(this, getString(R.string.select_a_product), Toast.LENGTH_LONG).show();
+		}
+
+
         if (Warehouse.Products().list.size() == 0)
         	Warehouse.Products().getNewestProducts(10);
         
@@ -204,11 +217,11 @@ public class ProductsMenuActivity extends Activity {
 		
 		productsAdapter = new ProductListAdapter(this, productListItems);
 		productList.setAdapter(productsAdapter);
-        productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	productListClickHandler(parent, view, position);
-            }
-        });
+		productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				productListClickHandler(parent, view, position);
+			}
+		});
         
 	}
 	
@@ -218,8 +231,22 @@ public class ProductsMenuActivity extends Activity {
     	ctx.startActivity(productDetailsIntent);
 	}
 	
+	public static void selectProductActivity(Context ctx, String format, String contents) {
+		Intent selectOneProduct = new Intent(ctx, ProductsMenuActivity.class);
+		selectOneProduct.putExtra("MODE", "PRODUCT_SELECT");
+		selectOneProduct.putExtra("FORMAT", format);
+		selectOneProduct.putExtra("CONTENTS", contents);
+		((Activity)ctx).startActivityForResult(selectOneProduct, ResultCodes.PRODUCT_SELECT.ordinal());
+	}
+	
 	private void productListClickHandler(AdapterView<?> parent, View view, int position) {
-		ProductsMenuActivity.showProductDetails(this, Warehouse.Products().list.get(position));				
+		if (mode == ProductsMenuModeCodes.PRODUCT_SELECT.ordinal()) {
+			Warehouse.Products().select(Warehouse.Products().list.get(position));
+			setResult(ResultCodes.PRODUCT_SELECT.ordinal());
+			finish();
+		} else {
+			ProductsMenuActivity.showProductDetails(this, Warehouse.Products().list.get(position));
+		}
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -242,7 +269,7 @@ public class ProductsMenuActivity extends Activity {
                 // Handle successful scan
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
-            	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, getString(R.string.scan_cancelled), Toast.LENGTH_LONG).show();
             }
         }
     }

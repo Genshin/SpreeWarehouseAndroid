@@ -1,6 +1,6 @@
 package org.genshin.warehouse.products;
 
-import org.genshin.spree.ScanSystem;
+import org.genshin.gsa.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse.ResultCodes;

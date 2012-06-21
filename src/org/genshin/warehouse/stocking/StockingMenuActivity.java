@@ -2,7 +2,8 @@ package org.genshin.warehouse.stocking;
 
 import java.util.ArrayList;
 
-import org.genshin.spree.RepetitiveScanner;
+import org.genshin.gsa.RepetitiveScanner;
+import org.genshin.gsa.ScanSystem;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
@@ -58,13 +59,13 @@ public class StockingMenuActivity extends Activity {
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == ResultCodes.SCAN.ordinal()) {
+        /*if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 // Handle successful scan
                 //if it's a Barcode it's a product
-                if (format != "QR_CODE") {
+                if (ScanSystem.isProductCode(format)) {
                 	ArrayList<Product> foundProducts = Warehouse.Products().findByBarcode(contents);
                 	//one result means forward to that product
                 	if (foundProducts.size() == 1) {
@@ -81,7 +82,7 @@ public class StockingMenuActivity extends Activity {
                 // Handle cancel
             	Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             }
-        }
+        }*/
 	}
 	
 }

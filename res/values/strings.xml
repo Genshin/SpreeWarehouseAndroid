@@ -92,6 +92,8 @@
 	<string name="count">Count</string>
 	<string name="lock">Lock</string>
 	<string name="saved">Saved</string>
+	<string name="scan_cancelled">Scan Cancelled</string>
+	<string name="select_a_product">Please Select A Product</string>
 
 	<!-- alert content -->
 	<string name="unregistered_barcode_title">Unregistered Barcode</string>

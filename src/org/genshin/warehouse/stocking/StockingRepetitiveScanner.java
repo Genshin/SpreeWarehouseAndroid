@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.genshin.spree.RepetitiveScanner;
-import org.genshin.spree.ScanSystem;
-import org.genshin.spree.RepetitiveScanner.RepetitiveScanCodes;
+import org.genshin.gsa.RepetitiveScanner;
+import org.genshin.gsa.ScanSystem;
+import org.genshin.gsa.RepetitiveScanner.RepetitiveScanCodes;
 import org.genshin.spree.SpreeConnector;
 import org.genshin.warehouse.R;
 import org.genshin.warehouse.Warehouse;
+import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.products.Product;
 import org.genshin.warehouse.products.Products;
+import org.genshin.warehouse.products.ProductsMenuActivity;
 import org.genshin.warehouse.racks.ContainerTaxon;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +24,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 public class StockingRepetitiveScanner extends RepetitiveScanner {
-	SpreeConnector spree;
-	Products products;
-
-
 	@Override
 	public void beforeScanning() {
 		// TODO Auto-generated method stub
@@ -77,21 +75,30 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 			
 			
 		} else if (ScanSystem.isProductCode(format)) {
-			ArrayList<Product> found = products.findByBarcode(contents);
+			ArrayList<Product> found = Warehouse.Products().findByBarcode(contents);
 			
 			if (found.size() == 1) {
-				stockProductToContainer(found.get(0), 1, Warehouse.getContainer());
+				Warehouse.Products().select(found.get(0));
+				stockProductToContainer(Warehouse.Products().selected(), 1, Warehouse.getContainer());
 			} else if (found.size() > 1) {
 				// found multiple - select
+				ProductsMenuActivity.selectProductActivity(this, format, contents);
 			} else { 
 				status = RepetitiveScanCodes.FINISH.ordinal();
 				// not found, register new?
-				products.unregisteredBarcode(contents);
+				Warehouse.Products().unregisteredBarcode(contents);
 			}
 			
 			
 		}
 		
+	}
+	
+	@Override
+	public void onResultCode(int requestCode, int resultCode, Intent intent) {
+		if (requestCode == ResultCodes.PRODUCT_SELECT.ordinal()) {
+			stockProductToContainer(Warehouse.Products().selected(), 1, Warehouse.getContainer());
+		}
 	}
 	
 	public void stockProductToContainer(Product product, int quantity, ContainerTaxon container) {
@@ -103,7 +110,7 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 			pairs.add(new BasicNameValuePair("stock_record[container_taxon_id]", "" + container.id));
 		pairs.add(new BasicNameValuePair("stock_record[direction]", "in"));
 		
-		spree.connector.postWithArgs("api/stock.json", pairs);
+		Warehouse.Spree().connector.postWithArgs("api/stock.json", pairs);
 		status = RepetitiveScanCodes.FINISH.ordinal();
 	}
 
@@ -112,5 +119,4 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

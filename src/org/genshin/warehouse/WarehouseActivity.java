@@ -13,7 +13,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.genshin.gsa.Dialogs;
-import org.genshin.spree.ScanSystem;
+import org.genshin.gsa.ScanSystem;
+import org.genshin.gsa.ThumbListAdapter;
+import org.genshin.gsa.ThumbListItem;
 import org.genshin.warehouse.Warehouse.ResultCodes;
 import org.genshin.warehouse.orders.OrdersMenuActivity;
 import org.genshin.warehouse.packing.PackingMenuActivity;
@@ -164,15 +166,17 @@ public class WarehouseActivity extends Activity {
                 		//New product?
                 		Warehouse.Products().unregisteredBarcode(contents);
                 	} else if (foundProducts.size() > 1) {
-                		//ProductsMenuActivity
+						ProductsMenuActivity.selectProductActivity(this, format, contents);
                 	}
                 } else {
                 	// not a hadled code type
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
-            	Toast.makeText(WarehouseActivity.this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            	Toast.makeText(WarehouseActivity.this, getString(R.string.scan_cancelled), Toast.LENGTH_LONG).show();
             }
+		} else if (resultCode == ResultCodes.PRODUCT_SELECT.ordinal()) {
+			ProductsMenuActivity.showProductDetails(this, Warehouse.Products().selected());
         } else if (resultCode == ResultCodes.SETTINGS.ordinal()) {
         	loadProfiles();
         }

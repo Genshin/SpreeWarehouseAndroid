@@ -1,4 +1,4 @@
-package org.genshin.spree;
+package org.genshin.gsa;
 
 import java.util.Arrays;
 import java.util.Collection;

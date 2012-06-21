@@ -1,4 +1,4 @@
-package org.genshin.spree;
+package org.genshin.gsa;
 
 public class VisualCode {
 	public String type;

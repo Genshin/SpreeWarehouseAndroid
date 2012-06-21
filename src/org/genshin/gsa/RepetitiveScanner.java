@@ -1,4 +1,4 @@
-package org.genshin.spree;
+package org.genshin.gsa;
 
 import org.genshin.warehouse.Warehouse.ResultCodes;
 
@@ -26,6 +26,7 @@ public abstract class RepetitiveScanner extends Activity {
 	public abstract void beforeScanning();
 	
 	public abstract void onScanResult(Intent intent, String format, String contents);
+	public abstract void onResultCode(int requestCode, int resultCode, Intent intent);
 	
 	protected abstract void finishScanning();
 	
@@ -41,7 +42,7 @@ public abstract class RepetitiveScanner extends Activity {
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
+        if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {
             	onScanResult(intent, intent.getStringExtra("SCAN_RESULT_FORMAT"), intent.getStringExtra("SCAN_RESULT"));
                 if (status == RepetitiveScanCodes.CONTINUE.ordinal()) {
@@ -52,6 +53,8 @@ public abstract class RepetitiveScanner extends Activity {
             } else if (resultCode == RESULT_CANCELED) {
                 finishScanning();
             }
+        } else {
+        	onResultCode(requestCode, resultCode, intent);
         }
     }
 }
