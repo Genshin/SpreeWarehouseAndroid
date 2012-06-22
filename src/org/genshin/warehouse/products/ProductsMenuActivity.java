@@ -163,13 +163,10 @@ public class ProductsMenuActivity extends Activity {
 
 		mode = ProductsMenuModeCodes.NORMAL.ordinal();
 		String modeString = intent.getStringExtra("MODE");
-		if (modeString.equals("PRODUCT_SELECT")) {
+		if (modeString != null && modeString.equals("PRODUCT_SELECT")) {
 			mode = ProductsMenuModeCodes.PRODUCT_SELECT.ordinal();
             Toast.makeText(this, getString(R.string.select_a_product), Toast.LENGTH_LONG).show();
-		}
-
-
-        if (Warehouse.Products().list.size() == 0)
+		} else if (Warehouse.Products().list.size() == 0)
         	Warehouse.Products().getNewestProducts(10);
         
         refreshProductMenu();
