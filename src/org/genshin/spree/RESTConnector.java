@@ -248,7 +248,7 @@ public class RESTConnector extends Activity {
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
+			if (statusCode == 200 || statusCode == 201 || statusCode == 202) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
 			} else {
@@ -281,7 +281,7 @@ public class RESTConnector extends Activity {
 			HttpResponse response = client.execute(post);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
+			if (statusCode == 200 || statusCode == 201 || statusCode == 202) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
 			} else {
