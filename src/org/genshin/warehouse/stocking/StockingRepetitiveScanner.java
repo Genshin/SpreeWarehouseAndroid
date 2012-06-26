@@ -37,7 +37,7 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stocking_history);
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         
         hookupInterface();
 	}

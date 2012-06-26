@@ -155,7 +155,7 @@ public class ProductsMenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products);
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         
         hookupInterface();
         

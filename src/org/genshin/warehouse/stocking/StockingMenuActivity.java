@@ -52,7 +52,7 @@ public class StockingMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stocking);
 
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         containerTaxonomies = new ContainerTaxonomies();
         
         hookupInterface();

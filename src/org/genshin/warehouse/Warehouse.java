@@ -38,9 +38,13 @@ public class Warehouse {
 		return Warehouse.products;
 	}
 	
-	public static void ChangeActivityContext(Context newContext) {
+	public static void setContext(Context newContext) {
 		Warehouse.ctx = newContext;
 		spree = new SpreeConnector(Warehouse.ctx);
+	}
+	
+	public static Context getContext() {
+		return Warehouse.ctx;
 	}
 	
 	public static String getLocalDateString(Date date) {

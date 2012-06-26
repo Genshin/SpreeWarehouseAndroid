@@ -93,6 +93,7 @@
 	<string name="saved">保存しました</string>
 	<string name="scan_cancelled">スキャンが中止されました</string>
 	<string name="select_a_product">目的商品を選択して下さい</string>
+	<string name="build">ビルド</string>
 	
 	<!-- alert content -->
 	<string name="unregistered_barcode_title">未登録バーコード</string>
