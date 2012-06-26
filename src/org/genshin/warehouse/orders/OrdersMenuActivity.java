@@ -138,7 +138,7 @@ public class OrdersMenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.orders);
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         
         hookupInterface();
         

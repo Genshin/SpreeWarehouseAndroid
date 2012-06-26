@@ -37,7 +37,7 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stocking_history);
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         
         hookupInterface();
 	}
@@ -105,13 +105,14 @@ public class StockingRepetitiveScanner extends RepetitiveScanner {
 		ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>();
 		Toast.makeText(this, "Registering" , Toast.LENGTH_LONG).show();
 		pairs.add(new BasicNameValuePair("stock_record[variant_id]", "" + product.id));
-		pairs.add(new BasicNameValuePair("stock_record[quantity]", "1"));
+		pairs.add(new BasicNameValuePair("stock_record[quantity]", "" + quantity));
 		if (container != null)
 			pairs.add(new BasicNameValuePair("stock_record[container_taxon_id]", "" + container.id));
 		pairs.add(new BasicNameValuePair("stock_record[direction]", "in"));
-		
+		  
 		Warehouse.Spree().connector.postWithArgs("api/stock.json", pairs);
-		status = RepetitiveScanCodes.FINISH.ordinal();
+		
+	/*	Warehouse.Products().find(product)*/product.refresh();
 	}
 
 	@Override

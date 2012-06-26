@@ -60,6 +60,14 @@ public class Product {
 	public Product(JSONObject productJSON) {
 		init();
 		
+		parseProductJSON(productJSON);
+		
+		obtainImagesInfo(productJSON);
+		obtainVariants(productJSON);
+		obtainThumbnail();
+	}
+	
+	private void parseProductJSON(JSONObject productJSON) {
 		try {
 			this.id = productJSON.getInt("id");
 			this.name = productJSON.getString("name");
@@ -78,10 +86,6 @@ public class Product {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		obtainImagesInfo(productJSON);
-		obtainVariants(productJSON);
-		obtainThumbnail();
 	}
 	
 	public Product(int id, String name, String sku, double price, int countOnHand, String description, String permalink) {
@@ -324,5 +328,10 @@ public class Product {
 			}
 		}*/
 		
+	}
+	
+	public void refresh() {
+		JSONObject productJSON = Warehouse.Spree().connector.getJSONObject("api/products/" + permalink + ".json");
+		parseProductJSON(productJSON);
 	}
 }
