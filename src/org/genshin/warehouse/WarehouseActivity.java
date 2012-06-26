@@ -142,7 +142,7 @@ public class WarehouseActivity extends Activity {
     }
     
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		Warehouse.ChangeActivityContext(this);
+		Warehouse.setContext(this);
 		
         if (requestCode == ResultCodes.SCAN.ordinal()) {
             if (resultCode == RESULT_OK) {

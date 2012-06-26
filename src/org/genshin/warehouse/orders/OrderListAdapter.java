@@ -26,38 +26,45 @@ public class OrderListAdapter extends ArrayAdapter<OrderListItem> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.order_list_item, parent, false);
+		LayoutInflater inflater;
+		if (convertView == null) {
+			inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(R.layout.order_list_item, parent, false);
+		}
 		
-	    TextView number = (TextView) rowView.findViewById(R.id.orders_list_item_number);
+	    TextView number = (TextView) convertView.findViewById(R.id.orders_list_item_number);
 		number.setText(data[position].number);
-		TextView date = (TextView) rowView.findViewById(R.id.orders_list_item_date);
+		TextView date = (TextView) convertView.findViewById(R.id.orders_list_item_date);
 		if (data[position].date != null)
 			date.setText(Warehouse.getLocalDateString(data[position].date));
 		else 
 			date.setText("");
-		TextView name = (TextView) rowView.findViewById(R.id.orders_list_item_name);
+		TextView name = (TextView) convertView.findViewById(R.id.orders_list_item_name);
 		name.setText(data[position].name);
 		
-		TextView count = (TextView) rowView.findViewById(R.id.orders_list_item_count);
-		count.setText("" + data[position].count);
-		TextView price = (TextView) rowView.findViewById(R.id.orders_list_item_price);
-		price.setText("" + data[position].price);
-		TextView division = (TextView) rowView.findViewById(R.id.orders_list_item_division);
+		TextView count = (TextView) convertView.findViewById(R.id.orders_list_item_count);
+		count.setText(data[position].count + " 個");
+		TextView price = (TextView) convertView.findViewById(R.id.orders_list_item_price);
+		price.setText(data[position].price + " 円");
+		TextView division = (TextView) convertView.findViewById(R.id.orders_list_item_division);
 		division.setText(data[position].division);
 		
 		TextView paymentMethod = 
-				(TextView) rowView.findViewById(R.id.orders_list_item_payment_method);
+				(TextView) convertView.findViewById(R.id.orders_list_item_payment_method);
 		paymentMethod.setText(data[position].paymentMethod);
 		// TODO アイコンで表示 
-		//TextView paymentState = 
-			//	(TextView) rowView.findViewById(R.id.orders_list_item_payment_state);
-		//paymentState.setText(data[position].paymentState);
+		ImageView paymentState = 
+			(ImageView) convertView.findViewById(R.id.payment_status_icon);
+		if (data[position].paymentState == "completed")
+			paymentState.setImageResource(android.R.drawable.presence_online);
+		else
+			paymentState.setImageResource(android.R.drawable.presence_busy);
+		
 		TextView shippingMethod = 
-				(TextView) rowView.findViewById(R.id.orders_list_item_shipping_method);
+				(TextView) convertView.findViewById(R.id.orders_list_item_shipping_method);
 		shippingMethod.setText(data[position].shippingMethod);
 
-		return rowView;
+		return convertView;
 	}
 
 }

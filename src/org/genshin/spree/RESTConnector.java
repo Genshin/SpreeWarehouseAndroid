@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.helpers.DefaultHandler;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -48,6 +52,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -133,7 +139,7 @@ public class RESTConnector extends Activity {
 	}
 	
 	// Process the Getter and handle response exceptions
-	public HttpResponse getResponse(HttpGet getter) {
+	private HttpResponse getResponse(HttpGet getter) {
 		if (getter == null)
 			return null;
 		
@@ -234,6 +240,54 @@ public class RESTConnector extends Activity {
 		return data;
 	}
 	
+	//TODO this may not work!
+	public XMLReader getXML(String targetURL) {
+		HttpResponse response = getResponse(getGetter(targetURL));
+
+		if (response == null)
+			return null;
+
+		HttpEntity entity = response.getEntity();
+		String content = null;
+		
+		try {
+			content = EntityUtils.toString(entity);
+		} catch (ParseException e) {
+			Toast.makeText(ctx, "ParseException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		} catch (IOException e) {
+			Toast.makeText(ctx, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+		
+		if (content == null) {
+			return null;
+		}
+		
+		XMLReader xr = null;
+		
+		try { 
+			SAXParserFactory spf = SAXParserFactory.newInstance(); 
+			SAXParser sp = spf.newSAXParser(); 
+		 
+			xr = sp.getXMLReader(); 
+		 
+			DefaultHandler dataHandler = new DefaultHandler(); 
+			xr.setContentHandler(dataHandler); 
+		 
+			xr.parse(content); 
+	 
+		} catch(ParserConfigurationException pce) { 
+			Log.e("SAX XML", "sax parse error", pce); 
+		} catch(SAXException se) { 
+			Log.e("SAX XML", "sax error", se); 
+		} catch(IOException ioe) { 
+			Log.e("SAX XML", "sax parse io error", ioe); 
+		} 
+		
+		return xr;
+	}
+	
 	public int putWithArgs(String targetURL, ArrayList<NameValuePair> pairs) {
 		int statusCode = 0;
 		
@@ -248,7 +302,7 @@ public class RESTConnector extends Activity {
 			HttpResponse response = client.execute(put);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
+			if (statusCode == 200 || statusCode == 201 || statusCode == 202) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
 			} else {
@@ -281,7 +335,7 @@ public class RESTConnector extends Activity {
 			HttpResponse response = client.execute(post);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
+			if (statusCode == 200 || statusCode == 201 || statusCode == 202) {
 				HttpEntity entity = response.getEntity();
 				String content = EntityUtils.toString(entity);
 			} else {

@@ -21,7 +21,7 @@ public class RacksMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.racks);
 		
-        Warehouse.ChangeActivityContext(this);
+        Warehouse.setContext(this);
         
         containerTaxonomies = new ContainerTaxonomies();
 	}

@@ -10,25 +10,12 @@
             android:gravity="center_horizontal" >
         
 	    <TextView 
-	        android:text="日付/時間"
-	        android:layout_width="100dp"
+	        android:text="注文詳細の送料にも使われるっぽいけど、データの場所が不明なので保留"
+	        android:layout_width="300dp"
 	        android:layout_height="wrap_content"
 	        android:textColor="@color/black"
 	        android:background="@color/lightblue"
 	        android:layout_marginRight="1dp" />	   	
-	   	<TextView 
-	        android:text="説明"
-	        android:layout_width="100dp"
-	        android:layout_height="wrap_content"
-	        android:textColor="@color/black"
-	        android:background="@color/lightblue"
-	        android:layout_marginRight="1dp" />	   	
-	   	<TextView 
-	        android:text="金額"
-	        android:layout_width="100dp"
-	        android:layout_height="wrap_content"
-	        android:textColor="@color/black"
-	        android:background="@color/lightblue" />
 
     </LinearLayout>
     
