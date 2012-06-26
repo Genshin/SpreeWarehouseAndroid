@@ -4,5 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    	<ListView
+	    android:id="@+id/order_details_shipment_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:divider="@color/black" >
+
+	</ListView> 
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp" >
+	   	
+	    <Button
+			android:id="@+id/order_details_shipment_new_button"
+			android:text="new"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content" />
+	   	
+    </LinearLayout>
 
 </LinearLayout>

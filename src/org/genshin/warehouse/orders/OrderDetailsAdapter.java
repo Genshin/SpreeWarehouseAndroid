@@ -21,19 +21,22 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderLineItem>{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.order_details_list_item, parent, false);
+		LayoutInflater inflater;
+		if (convertView == null) {
+			inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(R.layout.order_details_list_item, parent, false);
+		}
 
-		TextView name = (TextView) rowView.findViewById(R.id.order_details_name);
+		TextView name = (TextView) convertView.findViewById(R.id.order_details_name);
 		name.setText(data[position].name);
-		TextView price = (TextView) rowView.findViewById(R.id.order_details_price);
+		TextView price = (TextView) convertView.findViewById(R.id.order_details_price);
 		price.setText("" + data[position].price);
-		TextView quantity = (TextView) rowView.findViewById(R.id.order_details_quantity);
+		TextView quantity = (TextView) convertView.findViewById(R.id.order_details_quantity);
 		quantity.setText("" + data[position].quantity);
-		TextView total = (TextView) rowView.findViewById(R.id.order_details_total);
+		TextView total = (TextView) convertView.findViewById(R.id.order_details_total);
 		total.setText("" + data[position].total );
 	
-		return rowView;
+		return convertView;
 	}
 
 }

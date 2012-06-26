@@ -12,21 +12,21 @@
 
         <TextView
             android:id="@+id/orders_list_item_number"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:layout_weight="0.44"
+            android:layout_weight="0.65"
             android:background="@color/gray"
-            android:clickable="true"
             android:text="@string/ordernumber_dummy"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/orders_list_item_date"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
+            android:layout_weight="0.35"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -38,10 +38,10 @@
 
         <TextView
             android:id="@+id/orders_list_item_name"
-            android:layout_width="85dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:layout_weight="0.59"
+            android:layout_weight="1"
             android:background="@color/gray"
             android:text="@string/customer_name_dummy"
             android:textColor="@color/white"
@@ -55,29 +55,30 @@
 
         <TextView
             android:id="@+id/orders_list_item_division"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            android:autoLink="all"
+            android:layout_weight="0.35"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/orders_list_item_count"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            android:layout_weight="0.66"
+            android:layout_weight="0.3"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/orders_list_item_price"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
+            android:layout_weight="0.35"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -91,10 +92,10 @@
 
         <TextView
             android:id="@+id/orders_list_item_payment_method"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            android:layout_weight="0.32"
+            android:layout_weight="0.4"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -102,14 +103,14 @@
         <ImageView
             android:id="@+id/payment_status_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_busy" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/orders_list_item_shipping_method"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
+            android:layout_weight="0.4"
             android:background="@color/gray"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -117,7 +118,7 @@
         <ImageView
             android:id="@+id/shipping_status_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@android:drawable/presence_away" />
     </LinearLayout>
 

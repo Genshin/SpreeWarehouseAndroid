@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+        
+	    <TextView 
+	        android:id="@+id/order_adjustment_date"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.35"
+	        android:textColor="@color/black"
+	        android:background="@color/white"
+	        android:layout_marginRight="1dp" />	   	
+	   	<TextView 
+	        android:id="@+id/order_adjestment_text"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.30"
+	        android:textColor="@color/black"
+	        android:background="@color/white"
+	        android:layout_marginRight="1dp" />	   	
+	   	<TextView 
+	        android:id="@+id/order_adjustment_amount"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.35"
+	        android:textColor="@color/black"
+	        android:background="@color/white" />
+
+    </LinearLayout>
+    
+
+</LinearLayout>
