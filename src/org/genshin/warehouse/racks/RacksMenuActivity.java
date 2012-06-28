@@ -38,10 +38,10 @@ public class RacksMenuActivity extends Activity {
 			warehouseDivisionMap.put("warehouse", warehouses.divisions.get(i).name);
 
 			ArrayList<HashMap<String, String>> taxonomyNodeList = new ArrayList<HashMap<String,String>>();
-			for (int j = 0; j < warehouses.divisions.get(i).containers.taxonomies.size(); j++) {
+			for (int j = 0; j < warehouses.divisions.get(i).containers.size(); j++) {
 				HashMap<String, String> taxonomyNode = new HashMap<String, String>();
 				taxonomyNode.put("warehouse", warehouses.divisions.get(i).name);
-				taxonomyNode.put("taxonomyName", warehouses.divisions.get(i).containers.taxonomies.get(j).name);
+				taxonomyNode.put("taxonomyName", warehouses.divisions.get(i).containers.get(j).name);
 				taxonomyNodeList.add(taxonomyNode);
 				containerTaxonomyNodes.add(taxonomyNodeList);
 			}

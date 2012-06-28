@@ -20,7 +20,7 @@ public class WarehouseDivisions {
 	}
 	
 	private void getWarehouses() {
-		JSONObject warehousesJSONContainer = Warehouse.Spree().connector.getJSONObject("/api/container_taxonomies.json");
+		JSONObject warehousesJSONContainer = Warehouse.Spree().connector.getJSONObject("/api/warehouses.json");
 		
 		try {
 			this.count = warehousesJSONContainer.getInt("count");

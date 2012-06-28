@@ -11,6 +11,14 @@ public class ContainerTaxonomies {
 
 	public static ArrayList<ContainerTaxonomy> taxonomies;
 	
+	public ContainerTaxonomy get(int index) {
+		return taxonomies.get(index);
+	}
+	
+	public int size() {
+		return taxonomies.size();
+	}
+	
 	public ContainerTaxonomies() {
 		if (taxonomies == null) {
 			taxonomies = new ArrayList<ContainerTaxonomy>();
