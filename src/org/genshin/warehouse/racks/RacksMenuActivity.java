@@ -43,8 +43,8 @@ public class RacksMenuActivity extends Activity {
 				taxonomyNode.put("warehouse", warehouses.divisions.get(i).name);
 				taxonomyNode.put("taxonomyName", warehouses.divisions.get(i).containers.get(j).name);
 				taxonomyNodeList.add(taxonomyNode);
-				containerTaxonomyNodes.add(taxonomyNodeList);
 			}
+			containerTaxonomyNodes.add(taxonomyNodeList);
 			warehouseRoots.add(warehouseDivisionMap);
 		}
  

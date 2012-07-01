@@ -7,9 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ContainerTaxonomies {
 
-	public static ArrayList<ContainerTaxonomy> taxonomies;
+	public ArrayList<ContainerTaxonomy> taxonomies;
 	
 	public ContainerTaxonomy get(int index) {
 		return taxonomies.get(index);
@@ -54,6 +56,8 @@ public class ContainerTaxonomies {
 				
 				if (taxonomyJSONData != null) 
 					taxonomies.add(new ContainerTaxonomy(taxonomyJSONData));
+				
+				Log.d("ContainerTaxonomies", "Added container taxonomy " + taxonomies.get(taxonomies.size() - 1).name);
 			}
 		}
 	}

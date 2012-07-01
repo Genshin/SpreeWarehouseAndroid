@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class WarehouseDivision {
 	public int id;
 	public String name;
@@ -54,6 +56,7 @@ public class WarehouseDivision {
 		}
 		
 		if (taxonomiesJSON != null) {
+			Log.d("WarehouseDivision", "Registering taxonomies to " + name);
 			containers = new ContainerTaxonomies(taxonomiesJSON);
 		} else {
 			containers = new ContainerTaxonomies();

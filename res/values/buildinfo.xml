@@ -2,6 +2,6 @@
 <resources>
     <integer name="version_major">0</integer>
     <integer name="version_minor">6</integer>
-    <integer name="last_build">117</integer><!-- NOTE: Latest is this number + 1! -->
+    <integer name="last_build">118</integer><!-- NOTE: Latest is this number + 1! -->
     <string name="version_code">alpha</string>
 </resources>
