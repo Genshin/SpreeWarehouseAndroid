@@ -7,20 +7,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ContainerTaxonomies {
 
-	public static ArrayList<ContainerTaxonomy> taxonomies;
+	public ArrayList<ContainerTaxonomy> taxonomies;
+	
+	public ContainerTaxonomy get(int index) {
+		return taxonomies.get(index);
+	}
+	
+	public int size() {
+		return taxonomies.size();
+	}
 	
 	public ContainerTaxonomies() {
 		if (taxonomies == null) {
 			taxonomies = new ArrayList<ContainerTaxonomy>();
-			updateTaxonomies();
 		}
 	}
 	
-	public void updateTaxonomies() {
-		JSONArray taxonomiesJSON = Warehouse.Spree().connector.getJSONArray("/api/container_taxonomies.json");
+	public ContainerTaxonomies(JSONArray taxonomiesJSON) {
+		if (taxonomies == null) {
+			taxonomies = new ArrayList<ContainerTaxonomy>();
+		}
 		
+		getTaxonomies(taxonomiesJSON);
+	}
+	
+	public void getTaxonomies(JSONArray taxonomiesJSON) {		
 		for (int i = 0; i < taxonomiesJSON.length(); i++) {
 			JSONObject taxonomyJSON = null;
 			try {
@@ -39,8 +54,10 @@ public class ContainerTaxonomies {
 					taxonomyJSONData = null;
 				}
 				
-				if (taxonomyJSONData != null)
+				if (taxonomyJSONData != null) 
 					taxonomies.add(new ContainerTaxonomy(taxonomyJSONData));
+				
+				Log.d("ContainerTaxonomies", "Added container taxonomy " + taxonomies.get(taxonomies.size() - 1).name);
 			}
 		}
 	}
