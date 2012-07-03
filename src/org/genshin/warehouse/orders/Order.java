@@ -22,9 +22,10 @@ public class Order {
 	public int count;
 	public double price;
 	public String division;
-	public String paymentMethod;
 	public String paymentState;
-	public String shippingMethod;
+	public String pickingState;
+	public String packingState;
+	public String shipmentState;
 	private int primaryVarientIndex;
 	public ArrayList<Variant> variants;
 	
@@ -35,9 +36,10 @@ public class Order {
 		this.count = 0;
 		this.price = 0;
 		this.division = "";
-		this.paymentMethod = "";
 		this.paymentState = "";
-		this.shippingMethod = "";
+		this.pickingState = "";
+		this.packingState = "";
+		this.shipmentState = "";
 	}
 	
 	public Variant variant() {
@@ -55,20 +57,17 @@ public class Order {
 		
 		try {
 			this.number = orderJSON.getString("number");
-			String strDate = orderJSON.getString("created_at");
 			
+			String strDate = orderJSON.getString("created_at");		
 			if (strDate != null && strDate != "null" && strDate != "") {
 				Date date = null;
 
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");			
 				try {
 					date = format.parse(strDate);
 				} catch (ParseException e) {
-					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
-				}
-				
+				}			
 				this.date = date;
 			}
 			else
@@ -76,17 +75,15 @@ public class Order {
 			
 			this.price = orderJSON.getDouble("total");
 			this.division = "";
-			
-			this.paymentState = orderJSON.getString("payment_state");
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		obtainVariants(orderJSON);
+		//obtainVariants(orderJSON);
 	}
 	
+	/*
 	public void addVariant(int id, String name, int countOnHand, // basics
 			String visualCode, String sku, double price, // extended identifying information
 			double weight, double height, double width, double depth, //physical specifications
@@ -97,7 +94,9 @@ public class Order {
 			this.primaryVarientIndex = variants.size() - 1; // set as last added variant
 		}
 	}
+	*/
 	
+	/*
 	private void processVariantJSON(JSONObject v) {
 		//pre-build object
 		boolean isMaster = false;
@@ -107,7 +106,6 @@ public class Order {
 			isMaster = false;
 		}
 		
-		/*
 		Date date = this.date;
 		try {
 			date = v.getInt("id");
@@ -115,7 +113,6 @@ public class Order {
 			//no unique ID, so set to product ID
 			date = this.date;
 		}
-		*/
 		
 		String number = this.number;
 		try {
@@ -170,7 +167,9 @@ public class Order {
 		//			paymentState, shipmentState, mail, count, price);
 		
 	}
+	/*
 	
+	/*
 	private void obtainVariants(JSONObject orderJSON) {
 		JSONArray variantArray = new JSONArray();
 		
@@ -204,4 +203,5 @@ public class Order {
 			} 
 		}		
 	}
+	*/
 }
