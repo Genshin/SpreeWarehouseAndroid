@@ -57,12 +57,14 @@ public class OrderListAdapter extends ArrayAdapter<OrderListItem> {
 		
 		ImageView paymentState = 
 					(ImageView) convertView.findViewById(R.id.payment_status_icon);
-		if (data[position].paymentState == "paid")
+		if (data[position].paymentState.equals("paid"))
 			paymentState.setImageResource(android.R.drawable.presence_online);
-		else if (data[position].paymentState == "balance_due")
+		else if (data[position].paymentState.equals("balance_due"))
 			paymentState.setImageResource(android.R.drawable.presence_busy);
+		//else if (data[position].paymentState.equals("balance_due"))
+		//	paymentState.setImageResource(android.R.drawable.presence_away);
 		else
-			paymentState.setImageResource(android.R.drawable.presence_away);
+			paymentState.setImageResource(android.R.drawable.presence_invisible);
 		Log.v("test", "" + data[position].paymentState);
 			
 		ImageView pickingState = 
