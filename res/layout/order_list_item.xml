@@ -15,21 +15,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:layout_weight="0.65"
+            android:layout_weight="1"
             android:background="@color/gray"
+            android:gravity="center"
             android:text="@string/ordernumber_dummy"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/orders_list_item_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="0.35"
-            android:background="@color/gray"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,11 +29,20 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/orders_list_item_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="0.5"
+            android:background="@color/gray"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        <TextView
             android:id="@+id/orders_list_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:background="@color/gray"
             android:text="@string/customer_name_dummy"
             android:textColor="@color/white"
@@ -51,7 +52,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="5dp" >
 
         <TextView
             android:id="@+id/orders_list_item_division"
@@ -87,39 +89,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center_horizontal" >
 
-        <TextView
-            android:id="@+id/orders_list_item_payment_method"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="0.4"
-            android:background="@color/gray"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/coin"
+            android:contentDescription="" />
         <ImageView
             android:id="@+id/payment_status_icon"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/orders_list_item_shipping_method"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="0.4"
-            android:background="@color/gray"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:contentDescription=""
+            android:layout_marginRight="15dp" />
 
-        <ImageView
-            android:id="@+id/shipping_status_icon"
+		<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/picking"
+            android:contentDescription="" />		
+		<ImageView
+            android:id="@+id/picking_status_icon"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@android:drawable/presence_away" />
+            android:contentDescription=""
+            android:layout_marginRight="15dp" />
+		
+		<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/packing"
+            android:contentDescription="" />
+		<ImageView
+            android:id="@+id/packing_status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription=""
+            android:layout_marginRight="15dp" />
+
+		<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shipping"
+            android:contentDescription="" />
+        <ImageView
+            android:id="@+id/shipment_status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="" />
     </LinearLayout>
 
 </LinearLayout>

@@ -49,20 +49,44 @@ public class OrderListAdapter extends ArrayAdapter<OrderListItem> {
 		TextView division = (TextView) convertView.findViewById(R.id.orders_list_item_division);
 		division.setText(data[position].division);
 		
+		/*
 		TextView paymentMethod = 
 				(TextView) convertView.findViewById(R.id.orders_list_item_payment_method);
 		paymentMethod.setText(data[position].paymentMethod);
-		// TODO アイコンで表示 
-		ImageView paymentState = 
-			(ImageView) convertView.findViewById(R.id.payment_status_icon);
-		if (data[position].paymentState == "completed")
-			paymentState.setImageResource(android.R.drawable.presence_online);
-		else
-			paymentState.setImageResource(android.R.drawable.presence_busy);
+		*/
 		
-		TextView shippingMethod = 
-				(TextView) convertView.findViewById(R.id.orders_list_item_shipping_method);
-		shippingMethod.setText(data[position].shippingMethod);
+		ImageView paymentState = 
+					(ImageView) convertView.findViewById(R.id.payment_status_icon);
+		if (data[position].paymentState.equals("paid"))
+			paymentState.setImageResource(android.R.drawable.presence_online);
+		else if (data[position].paymentState.equals("balance_due"))
+			paymentState.setImageResource(android.R.drawable.presence_busy);
+		//else if (data[position].paymentState.equals("balance_due"))
+		//	paymentState.setImageResource(android.R.drawable.presence_away);
+		else
+			paymentState.setImageResource(android.R.drawable.presence_invisible);
+		Log.v("test", "" + data[position].paymentState);
+			
+		ImageView pickingState = 
+					(ImageView) convertView.findViewById(R.id.picking_status_icon);
+		//if (data[position].pickingState == "completed")
+		//	pickingSState.setImageResource(android.R.drawable.presence_online);
+		//else
+			pickingState.setImageResource(android.R.drawable.presence_invisible);
+				
+		ImageView packingState = 
+					(ImageView) convertView.findViewById(R.id.packing_status_icon);
+		//if (data[position].packingState == "completed")
+		//	packingState.setImageResource(android.R.drawable.presence_online);
+		//else
+			packingState.setImageResource(android.R.drawable.presence_invisible);
+
+		ImageView shipmentState = 
+					(ImageView) convertView.findViewById(R.id.shipment_status_icon);
+		if (data[position].shipmentState == "completed")
+			shipmentState.setImageResource(android.R.drawable.presence_online);
+		else
+			shipmentState.setImageResource(android.R.drawable.presence_busy);
 
 		return convertView;
 	}

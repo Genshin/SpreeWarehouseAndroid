@@ -186,7 +186,7 @@ public class OrdersMenuActivity extends Activity {
 		for (int i = 0; i < orders.list.size(); i++) {
 			Order p = orders.list.get(i);
 			orderListItems[i] = new OrderListItem(p.number, p.date, p.name, p.count, p.price, 
-					p.division, p.paymentMethod, p.paymentState, p.shippingMethod);
+					p.division, p.paymentState, p.pickingState, p.packingState, p.shipmentState);
 		}
 		
 		//statusText.setText(orders.count + this.getString(R.string.orders_counter) );

@@ -10,8 +10,9 @@
         android:gravity="center_horizontal" >	
 	    <MultiAutoCompleteTextView
 	        android:id="@+id/order_menu_searchbox"
-	        android:layout_width="250dp"
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
 	        android:hint="@string/search_conditions" />
 	    <Button
 	        android:id="@+id/order_menu_search_button"
@@ -27,7 +28,8 @@
         android:gravity="center_horizontal" >
         <Spinner
             android:id="@+id/order_spinner"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent" />
         <ImageButton
             android:id="@+id/order_menu_backward_button"

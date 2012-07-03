@@ -14,11 +14,12 @@ import android.util.Log;
 public class ContainerTaxonomy {
 	public int id;
 	public String name;
+	public String permalink;
 	public ContainerTaxon root;
 	
 	public ContainerTaxonomy(JSONObject taxonomyJSON) {
 		getTaxonomyInfo(taxonomyJSON);
-		getRoot(taxonomyJSON);
+		//getRoot(taxonomyJSON);
 	}
 	
 	private void getTaxonomyInfo(JSONObject taxonomyJSON) {
@@ -28,6 +29,11 @@ public class ContainerTaxonomy {
 			// No ID, but it could contain permalink etc. 
 			Log.d("ContainerTaxonomy.getTaxonomyInfo", "Taxonomy did not have a proper ID, setting to -1");
 			this.id = -1;
+		}
+		try {
+			this.name = taxonomyJSON.getString("name");
+		} catch (JSONException e) { 
+			this.name = "";
 		}
 	}
 	

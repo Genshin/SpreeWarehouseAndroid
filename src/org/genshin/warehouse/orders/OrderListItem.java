@@ -15,13 +15,15 @@ public class OrderListItem {
 	public int count;
 	public double price;
 	public String division;
-	public String paymentMethod;
 	public String paymentState;
-	public String shippingMethod;
+	public String pickingState;
+	public String packingState;
+	public String shipmentState;
 
 	
 	public OrderListItem(String number, Date date, String name, int count, double price,
-			String division, String paymentMethod, String paymentState, String shippingMethod) {
+			String division, String paymentState, String pickingState, 
+			String packingState, String shipmentState) {
 		super();
 		this.number = number;
 		this.date = date;
@@ -29,9 +31,10 @@ public class OrderListItem {
 		this.count = count;
 		this.price = price;
 		this.division = division;
-		this.paymentMethod = paymentMethod;
 		this.paymentState = paymentState;
-		this.shippingMethod = shippingMethod;
+		this.pickingState = pickingState;
+		this.packingState = packingState;
+		this.shipmentState = shipmentState;
 	}
 
 }

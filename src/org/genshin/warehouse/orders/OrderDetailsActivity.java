@@ -102,8 +102,7 @@ public class OrderDetailsActivity extends TabActivity {
 		paymentListView = (ListView) findViewById
 				(R.id.order_details_payment).findViewById(R.id.order_details_payment_list);
 		shipmentListView = (ListView) findViewById
-				(R.id.order_details_shipment).findViewById(R.id.order_details_shipment_list);
-		
+				(R.id.order_details_shipment).findViewById(R.id.order_details_shipment_list);		
 	}
 	
 	private void getOrderInfo() {

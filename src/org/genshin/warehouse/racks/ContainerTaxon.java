@@ -3,6 +3,8 @@ package org.genshin.warehouse.racks;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ContainerTaxon {
 	public int id;
 	public String name;
@@ -49,5 +51,6 @@ public class ContainerTaxon {
 			e.printStackTrace();
 		}
 	
+		Log.d("container", "container added!");
 	}
 }
