@@ -74,6 +74,7 @@ public class Order {
 				this.date = null;
 			
 			this.price = orderJSON.getDouble("total");
+			this.paymentState = orderJSON.getString("payment_state");
 			this.division = "";
 
 		} catch (JSONException e) {
