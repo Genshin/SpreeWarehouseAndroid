@@ -19,8 +19,10 @@ import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.TextView;
 
 public class RacksMenuActivity extends Activity {
+	private TextView racksRoot;
 	private ExpandableListView racksRootList;
 
     private ExpandableListAdapter adapter;
