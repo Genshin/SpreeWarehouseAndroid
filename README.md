@@ -1,7 +1,8 @@
 Spree Warehouse App for Android
 ===============================
 
-THIS APP IS NOT YET COMPLETED
+THIS PROJECT HAS BEEN TEMPORARILY DISCONTINUED AND NO LONGER WORKS.
+A separate project will be put up in the future to provide similar functionality.
 
 This is the Android App for the Spree Warehouse extension.
 
